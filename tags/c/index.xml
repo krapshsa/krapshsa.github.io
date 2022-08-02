@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>C on KRAPSHSA'S BLOG</title><link>https://krapshsa.github.io/tags/c/</link><description>Recent content in C on KRAPSHSA'S BLOG</description><generator>Hugo -- gohugo.io</generator><language>zh-tw</language><copyright>© 2007 - 2022 krapshsa</copyright><lastBuildDate>Sun, 31 Jul 2022 22:58:00 +0800</lastBuildDate><atom:link href="https://krapshsa.github.io/tags/c/index.xml" rel="self" type="application/rss+xml"/><item><title>Windows 上的類 Unix 環境 - Cygwin、MinGW、MSYS</title><link>https://krapshsa.github.io/posts/windows-unix-cygwin-mingw-msys-05707f1a-cacd-4484-9457-7aa26c7cace8/</link><pubDate>Sun, 31 Jul 2022 22:58:00 +0800</pubDate><guid>https://krapshsa.github.io/posts/windows-unix-cygwin-mingw-msys-05707f1a-cacd-4484-9457-7aa26c7cace8/</guid><description>起因 裝了 CLion，想在 Windows 底下為了在 Windows 上使用 gcc ，沒有想到竟然如此困難。
+JetBrains IDE 會自動偵測有沒有 Git ，在 Windows 上如果沒有先裝好的話，他就會安裝 Git for Windows。
+Git for Windows 自帶了一個很像 Linux 的環境，但是卻很難用它開始進行 C 的開發。
+古早味做法 Dev-C++ - 维基百科，自由的百科全书
+Code::Blocks
+Code::Blocks 跟 Dev-C++ 是 Windows 上的 C/C++ IDE，
+剛入門的時候都是用這兩套，裝好就會順便幫你裝 MinGW。
+反正會動，可以交作業就好，所以當時也沒有很在意到底不同的方案差在哪裡，只知道可能有些東西會編不過。
+Best way to get around fork() with MingW 64?
+從 Wiki 上我們可以大概知道這是什麼東西：
+MinGW（Minimalist GNU for Windows），又稱mingw32，是將 GCC 編譯器和 GNU Binutils 移植到Win32平台下的產物，包括一系列標頭檔（Win32API）、函式庫和可執行檔。
+2005年, OneVision Software遵照淨室設計原則，開始開發Mingw-w64，因為最初的MinGW項目更新太慢，遲遲不支持64位環境開發
+其他科系的程式設計課用的都是 Visual Studio，用的編譯器是 Visual C++，我沒用過不清楚，</description></item></channel></rss>

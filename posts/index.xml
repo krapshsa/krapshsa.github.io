@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on KRAPSHSA'S BLOG</title><link>https://krapshsa.github.io/posts/</link><description>Recent content in Posts on KRAPSHSA'S BLOG</description><generator>Hugo -- gohugo.io</generator><language>zh-tw</language><copyright>© 2007 - 2022 krapshsa</copyright><lastBuildDate>Sun, 31 Jul 2022 22:58:00 +0800</lastBuildDate><atom:link href="https://krapshsa.github.io/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Windows 上的類 Unix 環境 - Cygwin、MinGW、MSYS</title><link>https://krapshsa.github.io/posts/windows-unix-cygwin-mingw-msys-05707f1a-cacd-4484-9457-7aa26c7cace8/</link><pubDate>Sun, 31 Jul 2022 22:58:00 +0800</pubDate><guid>https://krapshsa.github.io/posts/windows-unix-cygwin-mingw-msys-05707f1a-cacd-4484-9457-7aa26c7cace8/</guid><description>起因 裝了 CLion，想在 Windows 底下為了在 Windows 上使用 gcc ，沒有想到竟然如此困難。
+JetBrains IDE 會自動偵測有沒有 Git ，在 Windows 上如果沒有先裝好的話，他就會安裝 Git for Windows。
+Git for Windows 自帶了一個很像 Linux 的環境，但是卻很難用它開始進行 C 的開發。
+古早味做法 Dev-C++ - 维基百科，自由的百科全书
+Code::Blocks
+Code::Blocks 跟 Dev-C++ 是 Windows 上的 C/C++ IDE，
+剛入門的時候都是用這兩套，裝好就會順便幫你裝 MinGW。
+反正會動，可以交作業就好，所以當時也沒有很在意到底不同的方案差在哪裡，只知道可能有些東西會編不過。
+Best way to get around fork() with MingW 64?
+從 Wiki 上我們可以大概知道這是什麼東西：
+MinGW（Minimalist GNU for Windows），又稱mingw32，是將 GCC 編譯器和 GNU Binutils 移植到Win32平台下的產物，包括一系列標頭檔（Win32API）、函式庫和可執行檔。
+2005年, OneVision Software遵照淨室設計原則，開始開發Mingw-w64，因為最初的MinGW項目更新太慢，遲遲不支持64位環境開發
+其他科系的程式設計課用的都是 Visual Studio，用的編譯器是 Visual C++，我沒用過不清楚，</description></item><item><title>docker stack rm 在有 fluentd 的時候總有服務關不掉</title><link>https://krapshsa.github.io/posts/docker-stack-rm-fluentd-3c0047b9-a458-4700-a6f2-b41dcd7da96d/</link><pubDate>Thu, 28 Jul 2022 16:19:00 +0800</pubDate><guid>https://krapshsa.github.io/posts/docker-stack-rm-fluentd-3c0047b9-a458-4700-a6f2-b41dcd7da96d/</guid><description>最近把 fluentd 加入到 docker swarm 中當作 Log Driver 的時候，
+移除 docker stack 時，關閉得比較慢的 service 有機會沒辦法完整移除。
+此時 docker inspect ， docker rm 等指令都會卡住。
+唯一的解法就是重啟 docker daemon。
+猜測因為沒辦法保證 fluentd 在最後一個關閉導致出錯了。
+移除 docker stack docker stack rm mystack 檢查 service 都移除掉了 docker service ls ID NAME MODE REPLICAS IMAGE PORTS 發現還有 container 沒有正常關閉，且永遠卡在這個狀態 docker stack ps mystack --no-trunc ID NAME IMAGE NODE DESIRED STATE CURRENT STATE ERROR PORTS 5fllkwthpur60gzgeqq4cow48 i1i65yn2b35jqsfqk7gb9y7l8.1 my-clamav:2022-0406-145048 localhost.localdomain Remove Running about a minute ago 檢查系統的 Log，有出現如下訊息 (我是 CentOS)：</description></item><item><title>OwnCloud MariaDB mysqldump 失敗</title><link>https://krapshsa.github.io/posts/owncloud-mariadb-mysqldump-84758a8c-6502-4c2d-b878-3a97ea0e36a7/</link><pubDate>Wed, 27 Jul 2022 14:58:00 +0800</pubDate><guid>https://krapshsa.github.io/posts/owncloud-mariadb-mysqldump-84758a8c-6502-4c2d-b878-3a97ea0e36a7/</guid><description>徵狀 近期遭遇 mysqldump 備份 OwnCloud 的 DB 結果 crash 的問題
+google 了一下發現 NextCloud 也有人發生類似的問題
+Table oc_filecache_extended corrupt?
+摘錄連結內的錯誤訊息：
+Thread pointer: 0x8548068d8 Attempting backtrace. You can use the following information to find out where mysqld died. If you see no messages after this, something went terribly wrong... stack_bottom = 0x7fffdf76cf38 thread_stack 0x3c000 0x12fcbfc &amp;lt;my_print_stacktrace+0x3c&amp;gt; at /usr/local/libexec/mariadbd 0xc6330f &amp;lt;handle_fatal_signal+0x28f&amp;gt; at /usr/local/libexec/mariadbd 0x8018f7de0 &amp;lt;pthread_sigmask+0x530&amp;gt; at /lib/libthr.so.3 Trying to get some variables. Some pointers may be invalid and cause the dump to abort.</description></item><item><title>在 template literal 中使用函數</title><link>https://krapshsa.github.io/posts/template-literal-bea4efe5-2565-42f7-832f-580089f7807d/</link><pubDate>Tue, 21 Jun 2022 16:18:00 +0800</pubDate><guid>https://krapshsa.github.io/posts/template-literal-bea4efe5-2565-42f7-832f-580089f7807d/</guid><description>在 Code Review 的時候，同事原本是使用多次字串相接
+const object1 = { a: &amp;#39;somestring&amp;#39;, b: 42 }; let html = `&amp;lt;ul&amp;gt;`; for (const [key, value] of Object.entries(object1)) { html += `&amp;lt;li&amp;gt;${key}: ${value}&amp;lt;/li&amp;gt;`; } html += `&amp;lt;/ul&amp;gt;`; `; 後來想要表達出 html 的階層結構，想用使用巢狀的方式使用 template literal，
+要用 function 來做的話可以使用 IIFE
+const object1 = { a: &amp;#39;somestring&amp;#39;, b: 42 }; let html = ` &amp;lt;ul&amp;gt; ${ (function(){ let list = &amp;#39;&amp;#39;; for (const [key, value] of Object.entries(object1)) { list += `&amp;lt;li&amp;gt;${key}: ${value}&amp;lt;/li&amp;gt;`; } return list; })() } &amp;lt;/ul&amp;gt; `; 以我簡化的例子來說，使用 IIFE 看起來變得更複雜了，</description></item></channel></rss>
