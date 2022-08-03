@@ -45,7 +45,7 @@ Code::Blocks 跟 Dev-C++ 是 Windows 上的 C/C++ IDE，
 
 ## 裝 git on windows 跑出來的 MinGW
 
-![](images\gw1-fef1084f-cd1b-44fc-aae8-ffbf6efd0094.png)
+![](gw1-fef1084f-cd1b-44fc-aae8-ffbf6efd0094.png)
 
 現在裝完 git for windows 2.x 之後，就會有一個 git bash 可以用，上面寫著 `MINGW64`
 
@@ -93,7 +93,7 @@ MSYS2 可以用 `pacman` 作為套件管理工具，但是 Git for Windows 上�
 
 ## 更像 Unix 的環境 - Cygwin
 
-![](images\512px-Cygwin_logo-8cee2851-62bc-4926-a7ac-9b61b81091dc.svg.png)
+![](512px-Cygwin_logo-8cee2851-62bc-4926-a7ac-9b61b81091dc.svg.png)
 
 ### What is it?
 
@@ -125,13 +125,13 @@ MSYS2 可以用 `pacman` 作為套件管理工具，但是 Git for Windows 上�
 
 到之後的高等程式設計，大家就直接在 Unix 環境底下作業了。
 
-![](images\81Ywze2ijaL-a9de5dc3-85a0-4348-99b0-6e26fe4b45e3.jpg)
+![](81Ywze2ijaL-a9de5dc3-85a0-4348-99b0-6e26fe4b45e3.jpg)
 
 ## 關係圖
 
 Stack Overflow 上大神整理好的關係圖，我覺得很清楚
 
-![](images\apNVx-5bde4d7b-cfe8-403f-b9ba-f1a06680519a.png)
+![](apNVx-5bde4d7b-cfe8-403f-b9ba-f1a06680519a.png)
 
 ## 也許是更好的方案：WSL2
 
