@@ -20,7 +20,7 @@
 &lt;p>其他科系的程式設計課用的都是 Visual Studio，用的編譯器是 Visual C++，我沒用過不清楚，&lt;/p>
 &lt;p>不過概念應該是相同的，有些東西 Windows API 不支援就不能用，例如 &lt;code>fork()&lt;/code> 。&lt;/p>
 &lt;h2 id="裝-git-on-windows-跑出來的-mingw">裝 git on windows 跑出來的 MinGW&lt;/h2>
-&lt;p>&lt;img src="images%5Cgw1-fef1084f-cd1b-44fc-aae8-ffbf6efd0094.png" alt="">&lt;/p>
+&lt;p>&lt;img src="gw1-fef1084f-cd1b-44fc-aae8-ffbf6efd0094.png" alt="">&lt;/p>
 &lt;p>現在裝完 git for windows 2.x 之後，就會有一個 git bash 可以用，上面寫著 &lt;code>MINGW64&lt;/code>&lt;/p>
 &lt;p>這就是一開始提到的，裝 code::block 或 dev-c++ 可以順便裝的編譯環境。&lt;/p>
 &lt;p>既然裝 git 就有，就想要拿來試著開發看看。&lt;/p>
@@ -58,7 +58,7 @@ Some effort is made to have the programs work well with native Windows programs,
 &lt;p>最後我自己裝了 MSYS2 ，跟 Git 分開來，就可以順利的編譯了。&lt;/p>
 &lt;p>不過好像還有另外一個選擇，以前在學校有看老師用過，就是剛剛提到的 Cygwin。&lt;/p>
 &lt;h2 id="更像-unix-的環境---cygwin">更像 Unix 的環境 - Cygwin&lt;/h2>
-&lt;p>&lt;img src="images%5C512px-Cygwin_logo-8cee2851-62bc-4926-a7ac-9b61b81091dc.svg.png" alt="">&lt;/p>
+&lt;p>&lt;img src="512px-Cygwin_logo-8cee2851-62bc-4926-a7ac-9b61b81091dc.svg.png" alt="">&lt;/p>
 &lt;h3 id="what-is-it">What is it?&lt;/h3>
 &lt;p>摘自官網&lt;/p>
 &lt;blockquote>
@@ -96,10 +96,10 @@ Some effort is made to have the programs work well with native Windows programs,
 &lt;/blockquote>
 &lt;p>據說有一些效能問題，而且也不確定是不是 100% 模擬。但是拿來通過大一的程式設計課是綽綽有餘的。&lt;/p>
 &lt;p>到之後的高等程式設計，大家就直接在 Unix 環境底下作業了。&lt;/p>
-&lt;p>&lt;img src="images%5C81Ywze2ijaL-a9de5dc3-85a0-4348-99b0-6e26fe4b45e3.jpg" alt="">&lt;/p>
+&lt;p>&lt;img src="81Ywze2ijaL-a9de5dc3-85a0-4348-99b0-6e26fe4b45e3.jpg" alt="">&lt;/p>
 &lt;h2 id="關係圖">關係圖&lt;/h2>
 &lt;p>Stack Overflow 上大神整理好的關係圖，我覺得很清楚&lt;/p>
-&lt;p>&lt;img src="images%5CapNVx-5bde4d7b-cfe8-403f-b9ba-f1a06680519a.png" alt="">&lt;/p>
+&lt;p>&lt;img src="apNVx-5bde4d7b-cfe8-403f-b9ba-f1a06680519a.png" alt="">&lt;/p>
 &lt;h2 id="也許是更好的方案wsl2">也許是更好的方案：WSL2&lt;/h2>
 &lt;p>&lt;a href="https://www.v2ex.com/t/793055">某些场景下 wsl2 的文件系统简直蛋疼的不行 - V2EX&lt;/a>&lt;/p>
 &lt;p>&lt;a href="https://docs.microsoft.com/zh-tw/windows/wsl/tutorials/gui-apps">使用 WSL 執行 Linux GUI 應用程式&lt;/a>&lt;/p>
