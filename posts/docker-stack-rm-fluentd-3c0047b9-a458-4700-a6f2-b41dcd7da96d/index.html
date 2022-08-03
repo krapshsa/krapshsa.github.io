@@ -27,13 +27,13 @@
 <i class=material-icons id=darkModeToggleIcon2>dark_mode</i></button></div></nav><div class=single-column-header-container id=pageHead v-bind:style="{ transform: 'translateZ(0px) translateY('+.3*scrollY+'px)', opacity: 1-navOpacity }"><a href=https://krapshsa.github.io/><div class=single-column-header-title>KRAPSHSA'S BLOG</div><div class=single-column-header-subtitle>Themed by Diary.</div></a></div><div id=content><div id=streamContainer class=stream-container><div class="post-list-container post-list-container-shadow"><div class=post><div class=post-head-wrapper-text-only><div class=post-title>docker stack rm 在有 fluentd 的時候總有服務關不掉<div class=post-meta><time itemprop=datePublished>2022-07-28 16:19</time>
 <i class=material-icons>label</i>
 <a href=/tags/docker>docker</a>
-&nbsp;</div></div></div><div class=post-body-wrapper><div class=post-body v-pre><p>最近把 <code>fluentd</code> 加入到 docker swarm 中當作 Log Driver 的時候，</p><p>移除 docker stack 時，關閉得比較慢的 service 有機會沒辦法完整移除。</p><p>此時 <code>docker inspect</code> ， <code>docker rm</code> 等指令都會卡住。</p><p>唯一的解法就是重啟 docker daemon。</p><p>猜測因為沒辦法保證 <code>fluentd</code> 在最後一個關閉導致出錯了。</p><ol><li>移除 docker stack</li></ol><pre tabindex=0><code>docker stack rm mystack
+&nbsp;</div></div></div><div class=post-body-wrapper><div class=post-body v-pre><p>最近把 <code>fluentd</code> 加入到 docker swarm 中當作 Log Driver 的時候，</p><p>移除 docker stack 時，關閉得比較慢的 service 有機會沒辦法完整移除。</p><p>此時 <code>docker inspect</code> ， <code>docker rm</code> 等指令都會卡住。</p><p>唯一的解法就是重啟 docker daemon。</p><p>猜測因為沒辦法保證 <code>fluentd</code> 在最後一個關閉導致出錯了。</p><p></p><ol><li>移除 docker stack</li></ol><pre tabindex=0><code>docker stack rm mystack
 </code></pre><ol start=2><li>檢查 service 都移除掉了</li></ol><pre tabindex=0><code>docker service ls
 ID        NAME      MODE      REPLICAS   IMAGE     PORTS
 </code></pre><ol start=3><li>發現還有 container 沒有正常關閉，且永遠卡在這個狀態</li></ol><pre tabindex=0><code>docker stack ps mystack --no-trunc
 ID                          NAME                          IMAGE                        NODE                    DESIRED STATE   CURRENT STATE                ERROR     PORTS
 5fllkwthpur60gzgeqq4cow48   i1i65yn2b35jqsfqk7gb9y7l8.1   my-clamav:2022-0406-145048   localhost.localdomain   Remove          Running about a minute ago
-</code></pre><p>檢查系統的 Log，有出現如下訊息 (我是 CentOS)：</p><pre tabindex=0><code>sudo cat /var/log/messages | grep 3c902d2962f7
+</code></pre><p></p><p>檢查系統的 Log，有出現如下訊息 (我是 CentOS)：</p><pre tabindex=0><code>sudo cat /var/log/messages | grep 3c902d2962f7
 Jul 28 10:48:49 localhost dockerd[1265564]: time=&#34;2022-07-28T10:48:49.917640954+08:00&#34; level=info msg=&#34;Configured log driver does not support reads, enabling local file cache for container logs&#34; container=3c902d2962f7fb6af8ce5a16a965bd2707383dbb18fed9b6942e1687f6419c4b driver=fluentd
 Jul 28 10:48:49 localhost containerd[1161]: time=&#34;2022-07-28T10:48:49.936470840+08:00&#34; level=info msg=&#34;starting signal loop&#34; namespace=moby path=/run/containerd/io.containerd.runtime.v2.task/moby/3c902d2962f7fb6af8ce5a16a965bd2707383dbb18fed9b6942e1687f6419c4b pid=1269465 runtime=io.containerd.runc.v2
 Jul 28 10:53:00 localhost dockerd[1265564]: time=&#34;2022-07-28T10:53:00.719182463+08:00&#34; level=info msg=&#34;ignoring event&#34; container=3c902d2962f7fb6af8ce5a16a965bd2707383dbb18fed9b6942e1687f6419c4b module=libcontainerd namespace=moby topic=/tasks/delete type=&#34;*events.TaskDelete&#34;
@@ -44,7 +44,7 @@ Jul 28 10:57:07 localhost dockerd[1271313]: time=&#34;2022-07-28T10:57:07.971173
 Jul 28 11:12:19 localhost dockerd[1271313]: time=&#34;2022-07-28T11:12:19.902248293+08:00&#34; level=error msg=&#34;Error getting service 3c902d2962f7: service 3c902d2962f7 not found&#34;
 Jul 28 11:12:19 localhost dockerd[1271313]: time=&#34;2022-07-28T11:12:19.905022331+08:00&#34; level=error msg=&#34;Error getting task 3c902d2962f7: task 3c902d2962f7 not found&#34;
 Jul 28 11:12:19 localhost dockerd[1271313]: time=&#34;2022-07-28T11:12:19.906474336+08:00&#34; level=error msg=&#34;Error getting node 3c902d2962f7: node 3c902d2962f7 not found&#34;
-</code></pre><p>一開始懷疑是沒有辦法關掉 process，可能在卡在寫 Log 了。
+</code></pre><p></p><p>一開始懷疑是沒有辦法關掉 process，可能在卡在寫 Log 了。
 照著這個思路，先去查詢查詢 container 相對應的 pid：</p><pre tabindex=0><code>docker inspect -f &#39;{{.State.Pid}}&#39; 3c902d2962f7
 1269485
 </code></pre><pre tabindex=0><code>sudo pstree -a -p
@@ -62,7 +62,7 @@ Jul 28 11:12:19 localhost dockerd[1271313]: time=&#34;2022-07-28T11:12:19.906474
 |   |       `-gunicorn,1269562 /usr/bin/gunicorn --workers=2 --threads=2 --bind 0.0.0.0:8000 --daemon wsgi:app
 
 ...
-</code></pre><p>接著移除掉整個 stack。</p><p>但是發現儘管 docker ps 看到 container 還在，但 pid 已經找不到了。</p><p>看起來這個 container 沒有施力點，只好試試看手動調整關閉 Service 的順序</p><p>最後寫成腳本：</p><pre tabindex=0><code>function get_services() {
+</code></pre><p>接著移除掉整個 stack。</p><p>但是發現儘管 docker ps 看到 container 還在，但 pid 已經找不到了。</p><p></p><p>看起來這個 container 沒有施力點，只好試試看手動調整關閉 Service 的順序</p><p>最後寫成腳本：</p><pre tabindex=0><code>function get_services() {
   services=$(docker service ls --format &#34;{{.Name}}&#34; | sed -E &#39;s/mystack_//&#39;)
   echo &#34;$services&#34;
 }
@@ -108,6 +108,6 @@ function down() {
 }
 
 down
-</code></pre><hr width=100% id=EOF><p style=color:#777>Last modified on 2022-07-28</p></div></div><nav class=post-pagination><a class=newer-posts href=/posts/windows-unix-cygwin-mingw-msys-05707f1a-cacd-4484-9457-7aa26c7cace8/>Next<br>Windows 上的類 Unix 環境 - Cygwin、MinGW、MSYS</a>
+</code></pre><p></p><hr width=100% id=EOF><p style=color:#777>Last modified on 2022-07-28</p></div></div><nav class=post-pagination><a class=newer-posts href=/posts/windows-unix-cygwin-mingw-msys-05707f1a-cacd-4484-9457-7aa26c7cace8/>Next<br>Windows 上的類 Unix 環境 - Cygwin、MinGW、MSYS</a>
 <a class=older-posts href=/posts/owncloud-mariadb-mysqldump-84758a8c-6502-4c2d-b878-3a97ea0e36a7/>Previous<br>OwnCloud MariaDB mysqldump 失敗</a></nav><div class=post-comment-wrapper><div id=gitalk-container></div></div></div></div></div></div><div id=single-column-footer>Hugo Theme <a href=https://github.com/amazingrise/hugo-theme-diary>Diary</a> by <a href=https://risehere.net/>Rise</a><br>Ported from <a href=https://mak1t0.cc/ target=_blank rel="noreferrer noopener">Makito</a>'s <a href=https://github.com/SumiMakito/hexo-theme-journal/ target=_blank rel="noreferrer noopener">Journal.</a><br><br>&copy;
 © 2007 - 2022 krapshsa</div></div><script src=/js/journal.js></script></body></html>
