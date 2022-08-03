@@ -19,6 +19,7 @@ tags: [docker]
 
 猜測因為沒辦法保證 `fluentd` 在最後一個關閉導致出錯了。
 
+<br></br>
 1. 移除 docker stack
 ```
 docker stack rm mystack
@@ -34,6 +35,7 @@ docker stack ps mystack --no-trunc
 ID                          NAME                          IMAGE                        NODE                    DESIRED STATE   CURRENT STATE                ERROR     PORTS
 5fllkwthpur60gzgeqq4cow48   i1i65yn2b35jqsfqk7gb9y7l8.1   my-clamav:2022-0406-145048   localhost.localdomain   Remove          Running about a minute ago
 ```
+<br></br>
 
 檢查系統的 Log，有出現如下訊息 (我是 CentOS)：
 
@@ -50,6 +52,7 @@ Jul 28 11:12:19 localhost dockerd[1271313]: time="2022-07-28T11:12:19.902248293+
 Jul 28 11:12:19 localhost dockerd[1271313]: time="2022-07-28T11:12:19.905022331+08:00" level=error msg="Error getting task 3c902d2962f7: task 3c902d2962f7 not found"
 Jul 28 11:12:19 localhost dockerd[1271313]: time="2022-07-28T11:12:19.906474336+08:00" level=error msg="Error getting node 3c902d2962f7: node 3c902d2962f7 not found"
 ```
+<br></br>
 
 一開始懷疑是沒有辦法關掉 process，可能在卡在寫 Log 了。
 照著這個思路，先去查詢查詢 container 相對應的 pid：
@@ -79,6 +82,8 @@ sudo pstree -a -p
 接著移除掉整個 stack。
 
 但是發現儘管 docker ps 看到 container 還在，但 pid 已經找不到了。
+
+<br></br>
 
 看起來這個 container 沒有施力點，只好試試看手動調整關閉 Service 的順序
 
@@ -132,3 +137,4 @@ function down() {
 
 down
 ```
+<br></br>
