@@ -1,9 +1,83 @@
-<?xml-stylesheet href="/rss.xsl" type="text/xsl"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>KRAPSHSA'S BLOG</title><link>https://krapshsa.github.io/</link><description>Recent content on KRAPSHSA'S BLOG</description><generator>Hugo -- gohugo.io</generator><language>zh-tw</language><copyright>© 2007 - 2022 krapshsa</copyright><lastBuildDate>Sun, 31 Jul 2022 22:58:00 +0800</lastBuildDate><atom:link href="https://krapshsa.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>Windows 上的類 Unix 環境 - Cygwin、MinGW、MSYS</title><link>https://krapshsa.github.io/posts/windows-unix-cygwin-mingw-msys-05707f1a-cacd-4484-9457-7aa26c7cace8/</link><pubDate>Sun, 31 Jul 2022 22:58:00 +0800</pubDate><guid>https://krapshsa.github.io/posts/windows-unix-cygwin-mingw-msys-05707f1a-cacd-4484-9457-7aa26c7cace8/</guid><description>KRAPSHSA'S BLOG https://krapshsa.github.io/posts/windows-unix-cygwin-mingw-msys-05707f1a-cacd-4484-9457-7aa26c7cace8/ -&lt;hr>
+<?xml-stylesheet href="/rss.xsl" type="text/xsl"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>KRAPSHSA'S BLOG</title><link>https://krapshsa.github.io/</link><description>Recent content on KRAPSHSA'S BLOG</description><generator>Hugo -- gohugo.io</generator><language>zh-tw</language><copyright>© 2007 - 2022 krapshsa</copyright><lastBuildDate>Thu, 04 Aug 2022 18:46:00 +0800</lastBuildDate><atom:link href="https://krapshsa.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>記一次 MariaDB CPU Loading 滿載查修過程</title><link>https://krapshsa.github.io/posts/mariadb-cpu-loading-e49af856-cc1f-45bf-9e40-f97a0718d89f/</link><pubDate>Thu, 04 Aug 2022 18:46:00 +0800</pubDate><guid>https://krapshsa.github.io/posts/mariadb-cpu-loading-e49af856-cc1f-45bf-9e40-f97a0718d89f/</guid><description>KRAPSHSA'S BLOG https://krapshsa.github.io/posts/mariadb-cpu-loading-e49af856-cc1f-45bf-9e40-f97a0718d89f/ -&lt;h2 id="起因">起因&lt;/h2>
+&lt;p>客戶環境的 MariaDB 把 CPU Resource 都吃滿了，&lt;/p>
+&lt;p>用 &lt;code>SHOW PROCESSLIST&lt;/code> 查詢有看到好幾條慢的查詢，亂槍打鳥調整了前幾筆都不見改善。&lt;/p>
+&lt;p>為了要可以比較精準地改善問題，做了一些研 (goo) 究 (gle)。&lt;/p>
+&lt;br>
+&lt;h2 id="症狀">症狀&lt;/h2>
+&lt;ol>
+&lt;li>用 TOP 只看得到 CPU 吃滿，但是記憶體的狀況是 OK 的
+&lt;img src="Screen_Shot_2022-08-04_at_6-933c0ea7-374b-425e-a8c0-48a7b22d5b20.52.53_PM.png" alt="">&lt;/li>
+&lt;li>ATOP 看起來硬碟也不忙，由於服務跟 DB 建在同一台，應該也不是網路問題
+&lt;img src="Screen_Shot_2022-08-04_at_6-4c435945-644d-404e-81b1-f95682c8e20e.54.25_PM.png" alt="">&lt;/li>
+&lt;li>約好停服務之後，不管三七二十一先 &lt;code>OPTIMIZE TABLE&lt;/code> 也沒有用&lt;/li>
+&lt;li>卡住的前幾名都是 UPDATE，一度懷疑是寫入的問題，但是實際找一個測試資料 Insert / Update 都很快，把這個 UPDATE 相關的 Code 拔掉也沒有用。&lt;/li>
+&lt;/ol>
+&lt;br>
+&lt;h2 id="修復流程">修復流程&lt;/h2>
+&lt;h3 id="值得參考的流程">值得參考的流程&lt;/h3>
+&lt;p>&lt;a href="https://www.percona.com/blog/2020/04/23/a-simple-approach-to-troubleshooting-high-cpu-in-mysql/">A Simple Approach to Troubleshooting High CPU in MySQL - Percona Database Performance Blog&lt;/a>&lt;/p>
+&lt;p>參考了 Percona 給出的流程，寫得挺不錯的 👍&lt;/p>
+&lt;p>雖然我的 DB 版本太舊了沒有用 (必須要 MariaDB 10.5 以上才有 &lt;code>THREAD_OS_ID&lt;/code> )。&lt;/p>
+&lt;p>不過還是講一下，思路是：&lt;/p>
+&lt;ol>
+&lt;li>單從 pid 只會看到 process 很忙，看不出是哪個 command 很忙，因為是 multi-thread。&lt;/li>
+&lt;li>想辦法找到 thread id ，看看是哪個 thread 在忙。&lt;/li>
+&lt;li>有 thread id 之後就可以用， &lt;code>performance_schema.threads&lt;/code> 找到 &lt;code>THREAD_OS_ID&lt;/code> 對應的 Command。&lt;/li>
+&lt;/ol>
+&lt;br>
+&lt;h3 id="我的流程">我的流程&lt;/h3>
+&lt;p>因為我的 MariaDB 還沒有升級到 10.5，所以我是去看 process list 中比較慢的 query。&lt;/p>
+&lt;p>對這些 Query 查看 query plan，最後找到一筆 &lt;code>SELECT&lt;/code> ，在把服務切斷的狀態下就要四秒。&lt;/p>
+&lt;pre tabindex="0">&lt;code>describe SELECT * FROM problem_table WHERE id=100 AND `path` LIKE &amp;#39;某個關鍵字%&amp;#39;;
++------+-------------+---------------+------+-------------------------------------------------------+-----------------+---------+-------+---------+-------------+
+| id | select_type | table | type | possible_keys | key | key_len | ref | rows | Extra |
++------+-------------+---------------+------+-------------------------------------------------------+-----------------+---------+-------+---------+-------------+
+| 1 | SIMPLE | problem_table | ref | index_1,index_2,index_3 | index_3 | 4 | const | 4213770 | Using where |
++------+-------------+---------------+------+-------------------------------------------------------+-----------------+---------+-------+---------+-------------+
+&lt;/code>&lt;/pre>&lt;p>看到 &lt;code>index_3&lt;/code> (被我碼掉了) 是 &lt;code>fid&lt;/code>+ &lt;code>extra&lt;/code> 的聯合索引，對 &lt;code>path&lt;/code> 沒有幫助&lt;/p>
+&lt;p>覺得應該是沒有適合的 Index，才會這麼久。&lt;/p>
+&lt;p>針對 &lt;code>fid&lt;/code> + &lt;code>path&lt;/code> 去建 Index，最後就解決問題了：&lt;/p>
+&lt;pre tabindex="0">&lt;code>create index index_4 on problem_table(field_1,field_2(768));
+Query OK, 0 rows affected (1 min 29.487 sec)
+describe SELECT * FROM problem_table WHERE fid=100 AND `path` LIKE &amp;#39;某個關鍵字%&amp;#39;;
++------+-------------+---------------+-------+-------------------------------------------------------+-----------------+---------+-------+---------+------------------------------------+
+| id | select_type | table | type | possible_keys | key | key_len | ref | rows | Extra |
++------+-------------+---------------+-------+-------------------------------------------------------+-----------------+---------+-------+---------+------------------------------------+
+| 1 | SIMPLE | problem_table | range | index_1,index_2,index_3,index_4 | index_4 | 2311 | NULL | 1 | Using index condition; Using where |
++------+-------------+---------------+-------+-------------------------------------------------------+-----------------+---------+-------+---------+------------------------------------+
+MariaDB [owncloud]&amp;gt; ELECT * FROM problem_table WHERE fid=100 AND `path` LIKE &amp;#39;某個關鍵字%&amp;#39;;
+Empty set (0.000 sec)
+&lt;/code>&lt;/pre>&lt;p>SLA 未達承諾是要被罰的，當時這個方法有用就先頂著用了。&lt;/p>
+&lt;br>
+&lt;h2 id="事後諸葛">事後諸葛&lt;/h2>
+&lt;p>在現場時憑著一股直覺，覺得用到 &lt;code>fid&lt;/code> + &lt;code>path&lt;/code> 就去建構這兩個的聯合索引，&lt;/p>
+&lt;p>那到底這樣建 index 為什麼有用，要來事後諸葛一下：&lt;/p>
+&lt;ol>
+&lt;li>&lt;code>fid&lt;/code> 是外來鍵， &lt;code>fid&lt;/code> 為 100 的這個 case，在 DB 中有 400 多萬筆，佔全部的一半 → 基數很小 → 單獨拿來建索引可能沒啥用&lt;/li>
+&lt;li>&lt;code>path&lt;/code> 是拿來搜索路徑的，通常都是找該路徑之下的全部 → 用了 &lt;code>LIKE&lt;/code>，但是 &lt;code>%&lt;/code> 在右邊 → Prefix match 是可以用到索引的&lt;/li>
+&lt;li>&lt;code>path&lt;/code> 的基數很大 → 建 index 效果不錯&lt;/li>
+&lt;li>&lt;code>key_len&lt;/code> 顯示不是只有用到聯合索引中的第一個 (&lt;code>fid&lt;/code>)&lt;/li>
+&lt;li>&lt;code>rows&lt;/code> 是 &lt;code>1&lt;/code> 表示只需要掃一行就可以了 (越小越好)&lt;/li>
+&lt;li>&lt;code>Extra&lt;/code> 有 &lt;code>Using index&lt;/code> 表示在索引樹中就可以找到資訊，表示還不錯&lt;/li>
+&lt;/ol>
+&lt;p>有機會可以再做幾個嘗試：&lt;/p>
+&lt;ol>
+&lt;li>只建 &lt;code>path&lt;/code> 可不可以 → 基數算大，所以想嘗試&lt;/li>
+&lt;li>反過來建成 &lt;code>path&lt;/code> + &lt;code>fid&lt;/code> 會不會更好 → 基數大的放前面，想試試看&lt;/li>
+&lt;/ol>
+&lt;br>
+&lt;h2 id="參考資料">參考資料&lt;/h2>
+&lt;p>&lt;a href="https://www.percona.com/blog/2020/04/23/a-simple-approach-to-troubleshooting-high-cpu-in-mysql/">A Simple Approach to Troubleshooting High CPU in MySQL - Percona Database Performance Blog&lt;/a>&lt;/p>
+&lt;p>&lt;a href="https://ithelp.ithome.com.tw/articles/10221971">&lt;/a>&lt;/p>
+&lt;p>&lt;a href="https://segmentfault.com/a/1190000008131735">MySQL 性能优化神器 Explain 使用分析&lt;/a>&lt;/p>
+&lt;p>&lt;a href="https://www.jianshu.com/p/57a42f6a8746">&lt;/a>&lt;/p>
+&lt;p>&lt;a href="https://opensource.actionsky.com/20210407-mysql/">第25期：索引设计（索引的基数与可选择性） - 爱可生开源社区&lt;/a>&lt;/p>
+- https://krapshsa.github.io/posts/mariadb-cpu-loading-e49af856-cc1f-45bf-9e40-f97a0718d89f/ - © 2007 - 2022 krapshsa</description></item><item><title>Windows 上的類 Unix 環境 - Cygwin、MinGW、MSYS</title><link>https://krapshsa.github.io/posts/windows-unix-cygwin-mingw-msys-05707f1a-cacd-4484-9457-7aa26c7cace8/</link><pubDate>Sun, 31 Jul 2022 22:58:00 +0800</pubDate><guid>https://krapshsa.github.io/posts/windows-unix-cygwin-mingw-msys-05707f1a-cacd-4484-9457-7aa26c7cace8/</guid><description>KRAPSHSA'S BLOG https://krapshsa.github.io/posts/windows-unix-cygwin-mingw-msys-05707f1a-cacd-4484-9457-7aa26c7cace8/ -&lt;hr>
 &lt;h2 id="起因">起因&lt;/h2>
 &lt;p>裝了 CLion，想在 Windows 底下為了在 Windows 上使用 &lt;code>gcc&lt;/code> ，沒有想到竟然如此困難。&lt;/p>
 &lt;p>JetBrains IDE 會自動偵測有沒有 Git ，在 Windows 上如果沒有先裝好的話，他就會安裝 Git for Windows。&lt;/p>
 &lt;p>Git for Windows 自帶了一個很像 Linux 的環境，但是卻很難用它開始進行 C 的開發。&lt;/p>
-&lt;p>&lt;!-- raw HTML omitted -->&lt;!-- raw HTML omitted -->&lt;/p>
+&lt;br>
 &lt;h2 id="古早味做法">古早味做法&lt;/h2>
 &lt;p>&lt;a href="https://zh.wikipedia.org/zh-tw/Dev-C%2B%2B">Dev-C++ - 维基百科，自由的百科全书&lt;/a>&lt;/p>
 &lt;p>&lt;a href="https://www.codeblocks.org/">Code::Blocks&lt;/a>&lt;/p>
@@ -20,7 +94,7 @@
 &lt;/blockquote>
 &lt;p>其他科系的程式設計課用的都是 Visual Studio，用的編譯器是 Visual C++，我沒用過不清楚，&lt;/p>
 &lt;p>不過概念應該是相同的，有些東西 Windows API 不支援就不能用，例如 &lt;code>fork()&lt;/code> 。&lt;/p>
-&lt;p>&lt;!-- raw HTML omitted -->&lt;!-- raw HTML omitted -->&lt;/p>
+&lt;br>
 &lt;h2 id="裝-git-on-windows-跑出來的-mingw">裝 git on windows 跑出來的 MinGW&lt;/h2>
 &lt;p>&lt;img src="gw1-fef1084f-cd1b-44fc-aae8-ffbf6efd0094.png" alt="">&lt;/p>
 &lt;p>現在裝完 git for windows 2.x 之後，就會有一個 git bash 可以用，上面寫著 &lt;code>MINGW64&lt;/code>&lt;/p>
@@ -28,7 +102,7 @@
 &lt;p>既然裝 git 就有，就想要拿來試著開發看看。&lt;/p>
 &lt;p>但進到 bash 裡面卻發現沒有 make 可以用，於是就想要模仿 Linux 在上面用套件管理器裝一些套件。&lt;/p>
 &lt;p>但是在找資料的過程中發現，很多人都說，git for windows 是搭建在 MSYS / MSYS2 上面，那 MSYS 又是什麼？&lt;/p>
-&lt;p>&lt;!-- raw HTML omitted -->&lt;!-- raw HTML omitted -->&lt;/p>
+&lt;br>
 &lt;h2 id="msys2">MSYS2&lt;/h2>
 &lt;p>&lt;a href="https://www.msys2.org/wiki/MSYS2-introduction/">MSYS2 - MSYS2-Introduction&lt;/a>&lt;/p>
 &lt;p>&lt;a href="https://www.msys2.org/wiki/How-does-MSYS2-differ-from-Cygwin/">MSYS2 - How does MSYS2 differ from Cygwin?&lt;/a>&lt;/p>
@@ -54,14 +128,14 @@ Some effort is made to have the programs work well with native Windows programs,
 &lt;p>這邊寫 MSYS2 有兩大類的子系統：&lt;/p>
 &lt;ul>
 &lt;li>MinGW - 移植的 GCC 編譯器與工具鏈，屬於 Windows 原生。&lt;/li>
-&lt;li>MSYS2 - 基於 Cygwin 改寫，屬於模擬 POSIX
-&lt;!-- raw HTML omitted -->&lt;!-- raw HTML omitted -->&lt;/li>
+&lt;li>MSYS2 - 基於 Cygwin 改寫，屬於模擬 POSIX&lt;/li>
 &lt;/ul>
+&lt;br>
 &lt;p>MSYS2 可以用 &lt;code>pacman&lt;/code> 作為套件管理工具，但是 Git for Windows 上沒有。如果裝 Git for Windows SDK 的話就會有，但是很肥。&lt;/p>
 &lt;p>有嘗試著下載安裝包直接裝在系統上，不過卡了一個 zstd 很麻煩，但那就是另外一個故事了。&lt;/p>
 &lt;p>最後我自己裝了 MSYS2 ，跟 Git 分開來，就可以順利的編譯了。&lt;/p>
 &lt;p>不過好像還有另外一個選擇，以前在學校有看老師用過，就是剛剛提到的 Cygwin。&lt;/p>
-&lt;p>&lt;!-- raw HTML omitted -->&lt;!-- raw HTML omitted -->&lt;/p>
+&lt;br>
 &lt;h2 id="更像-unix-的環境---cygwin">更像 Unix 的環境 - Cygwin&lt;/h2>
 &lt;p>&lt;img src="512px-Cygwin_logo-8cee2851-62bc-4926-a7ac-9b61b81091dc.svg.png" alt="">&lt;/p>
 &lt;h3 id="what-is-it">What is it?&lt;/h3>
@@ -75,9 +149,9 @@ Some effort is made to have the programs work well with native Windows programs,
 &lt;/blockquote>
 &lt;ul>
 &lt;li>一個 GNU 和開源工具的大集合，在 Windows 上提供類似 Linux 發行版的功能&lt;/li>
-&lt;li>&lt;code>cygwin1.dll&lt;/code> 提供大量 POSIX API 的功能
-&lt;!-- raw HTML omitted -->&lt;!-- raw HTML omitted -->&lt;/li>
+&lt;li>&lt;code>cygwin1.dll&lt;/code> 提供大量 POSIX API 的功能&lt;/li>
 &lt;/ul>
+&lt;br>
 &lt;blockquote>
 &lt;p>Cygwin is not:&lt;/p>
 &lt;ul>
@@ -102,12 +176,12 @@ Some effort is made to have the programs work well with native Windows programs,
 &lt;/blockquote>
 &lt;p>據說有一些效能問題，而且也不確定是不是 100% 模擬。但是拿來通過大一的程式設計課是綽綽有餘的。&lt;/p>
 &lt;p>到之後的高等程式設計，大家就直接在 Unix 環境底下作業了。&lt;/p>
-&lt;p>&lt;img src="81Ywze2ijaL-a9de5dc3-85a0-4348-99b0-6e26fe4b45e3.jpg" alt="">
-&lt;!-- raw HTML omitted -->&lt;!-- raw HTML omitted -->&lt;/p>
+&lt;p>&lt;img src="81Ywze2ijaL-a9de5dc3-85a0-4348-99b0-6e26fe4b45e3.jpg" alt="">&lt;/p>
+&lt;br>
 &lt;h2 id="關係圖">關係圖&lt;/h2>
 &lt;p>Stack Overflow 上大神整理好的關係圖，我覺得很清楚&lt;/p>
-&lt;p>&lt;img src="apNVx-5bde4d7b-cfe8-403f-b9ba-f1a06680519a.png" alt="">
-&lt;!-- raw HTML omitted -->&lt;!-- raw HTML omitted -->&lt;/p>
+&lt;p>&lt;img src="apNVx-5bde4d7b-cfe8-403f-b9ba-f1a06680519a.png" alt="">&lt;/p>
+&lt;br>
 &lt;h2 id="也許是更好的方案wsl2">也許是更好的方案：WSL2&lt;/h2>
 &lt;p>&lt;a href="https://www.v2ex.com/t/793055">某些场景下 wsl2 的文件系统简直蛋疼的不行 - V2EX&lt;/a>&lt;/p>
 &lt;p>&lt;a href="https://docs.microsoft.com/zh-tw/windows/wsl/tutorials/gui-apps">使用 WSL 執行 Linux GUI 應用程式&lt;/a>&lt;/p>
@@ -123,7 +197,7 @@ Some effort is made to have the programs work well with native Windows programs,
 &lt;p>所幸 JetBrains IDE 是可以裝在 Linux 上的，可以利用 WSL 跑 Linux GUI，或者是跑 JetBrains Gateway 應該都會動。&lt;/p>
 &lt;p>正確的姿勢應該是連 IDE 都裝在 WSL 裡面，就可以解決很多 Windows 跟 WSL 溝通得困難。&lt;/p>
 &lt;p>如果 Server 不夠強，或是怕桌機太閒了可以試試看這個方法，應該可以解決掉很多問題 (例如：不能用 rsync ，權限不一樣，換行符號不一樣 …)&lt;/p>
-&lt;p>&lt;!-- raw HTML omitted -->&lt;!-- raw HTML omitted -->&lt;/p>
+&lt;br>
 &lt;h2 id="番外在-git-bash-上裝額外的東西是很麻煩的">番外：在 Git Bash 上裝額外的東西是很麻煩的&lt;/h2>
 &lt;p>以 &lt;code>rsync&lt;/code> 為例，想要在 Git Bash 上使用 &lt;code>rsync&lt;/code> ，可以直接把 binary 跟 dll 丟進去就好了&lt;/p>
 &lt;p>&lt;a href="https://packages.msys2.org/package/rsync?repo=msys&amp;amp;variant=x86_64">Package: rsync - MSYS2 Packages&lt;/a>&lt;/p>
@@ -140,10 +214,10 @@ Some effort is made to have the programs work well with native Windows programs,
 &lt;/li>
 &lt;li>
 &lt;p>libxxhash&lt;/p>
-&lt;p>&lt;a href="https://packages.msys2.org/package/libxxhash?repo=msys&amp;amp;variant=x86_64">Package: libxxhash - MSYS2 Packages&lt;/a>
-&lt;!-- raw HTML omitted -->&lt;!-- raw HTML omitted -->&lt;/p>
+&lt;p>&lt;a href="https://packages.msys2.org/package/libxxhash?repo=msys&amp;amp;variant=x86_64">Package: libxxhash - MSYS2 Packages&lt;/a>&lt;/p>
 &lt;/li>
 &lt;/ul>
+&lt;br>
 &lt;h2 id="參考資料">參考資料&lt;/h2>
 &lt;p>&lt;a href="https://stackoverflow.com/questions/25019057/how-are-msys-msys2-and-msysgit-related-to-each-other">How are msys, msys2, and msysgit related to each other?&lt;/a>&lt;/p>
 &lt;p>&lt;a href="https://zhuanlan.zhihu.com/p/360773277">Cygwin vs MinGW vs MSYS2&lt;/a>&lt;/p>
@@ -247,11 +321,111 @@ fi
 }
 down
 &lt;/code>&lt;/pre>&lt;p>&lt;!-- raw HTML omitted -->&lt;!-- raw HTML omitted -->&lt;/p>
-- https://krapshsa.github.io/posts/docker-stack-rm-fluentd-3c0047b9-a458-4700-a6f2-b41dcd7da96d/ - © 2007 - 2022 krapshsa</description></item><item><title>OwnCloud MariaDB mysqldump 失敗</title><link>https://krapshsa.github.io/posts/owncloud-mariadb-mysqldump-84758a8c-6502-4c2d-b878-3a97ea0e36a7/</link><pubDate>Wed, 27 Jul 2022 14:58:00 +0800</pubDate><guid>https://krapshsa.github.io/posts/owncloud-mariadb-mysqldump-84758a8c-6502-4c2d-b878-3a97ea0e36a7/</guid><description>KRAPSHSA'S BLOG https://krapshsa.github.io/posts/owncloud-mariadb-mysqldump-84758a8c-6502-4c2d-b878-3a97ea0e36a7/ -&lt;h3 id="徵狀">徵狀&lt;/h3>
+- https://krapshsa.github.io/posts/docker-stack-rm-fluentd-3c0047b9-a458-4700-a6f2-b41dcd7da96d/ - © 2007 - 2022 krapshsa</description></item><item><title>使用 container 在同一個 stack 部屬 log driver 時，docker stack rm 經常性失敗</title><link>https://krapshsa.github.io/posts/container-stack-log-driver-docker-stack-rm-3c0047b9-a458-4700-a6f2-b41dcd7da96d/</link><pubDate>Thu, 28 Jul 2022 16:19:00 +0800</pubDate><guid>https://krapshsa.github.io/posts/container-stack-log-driver-docker-stack-rm-3c0047b9-a458-4700-a6f2-b41dcd7da96d/</guid><description>KRAPSHSA'S BLOG https://krapshsa.github.io/posts/container-stack-log-driver-docker-stack-rm-3c0047b9-a458-4700-a6f2-b41dcd7da96d/ -&lt;h2 id="起因">起因&lt;/h2>
+&lt;p>最近把 &lt;code>fluentd&lt;/code> 加入到 docker swarm 中當作 Log Driver 的時候，&lt;/p>
+&lt;p>移除 docker stack 時，關閉得比較慢的 service 有機會沒辦法完整移除。&lt;/p>
+&lt;p>此時 &lt;code>docker inspect&lt;/code> ， &lt;code>docker rm&lt;/code> 等指令都會卡住。&lt;/p>
+&lt;p>唯一的解法就是重啟 docker daemon。&lt;/p>
+&lt;p>猜測因為沒辦法保證 &lt;code>fluentd&lt;/code> 在最後一個關閉導致出錯了。&lt;/p>
+&lt;br>
+&lt;h2 id="重製步驟">重製步驟&lt;/h2>
+&lt;ol>
+&lt;li>移除 docker stack&lt;/li>
+&lt;/ol>
+&lt;pre tabindex="0">&lt;code>docker stack rm mystack
+&lt;/code>&lt;/pre>&lt;ol start="2">
+&lt;li>檢查 service 都移除掉了&lt;/li>
+&lt;/ol>
+&lt;pre tabindex="0">&lt;code>docker service ls
+ID NAME MODE REPLICAS IMAGE PORTS
+&lt;/code>&lt;/pre>&lt;ol start="3">
+&lt;li>發現還有 container 沒有正常關閉，且永遠卡在這個狀態&lt;/li>
+&lt;/ol>
+&lt;pre tabindex="0">&lt;code>docker stack ps mystack --no-trunc
+ID NAME IMAGE NODE DESIRED STATE CURRENT STATE ERROR PORTS
+5fllkwthpur60gzgeqq4cow48 i1i65yn2b35jqsfqk7gb9y7l8.1 my-clamav:2022-0406-145048 localhost.localdomain Remove Running about a minute ago
+&lt;/code>&lt;/pre>&lt;br>
+&lt;p>檢查系統的 Log，有出現如下訊息 (我是 CentOS)：&lt;/p>
+&lt;pre tabindex="0">&lt;code>sudo cat /var/log/messages | grep 3c902d2962f7
+Jul 28 10:48:49 localhost dockerd[1265564]: time=&amp;#34;2022-07-28T10:48:49.917640954+08:00&amp;#34; level=info msg=&amp;#34;Configured log driver does not support reads, enabling local file cache for container logs&amp;#34; container=3c902d2962f7fb6af8ce5a16a965bd2707383dbb18fed9b6942e1687f6419c4b driver=fluentd
+Jul 28 10:48:49 localhost containerd[1161]: time=&amp;#34;2022-07-28T10:48:49.936470840+08:00&amp;#34; level=info msg=&amp;#34;starting signal loop&amp;#34; namespace=moby path=/run/containerd/io.containerd.runtime.v2.task/moby/3c902d2962f7fb6af8ce5a16a965bd2707383dbb18fed9b6942e1687f6419c4b pid=1269465 runtime=io.containerd.runc.v2
+Jul 28 10:53:00 localhost dockerd[1265564]: time=&amp;#34;2022-07-28T10:53:00.719182463+08:00&amp;#34; level=info msg=&amp;#34;ignoring event&amp;#34; container=3c902d2962f7fb6af8ce5a16a965bd2707383dbb18fed9b6942e1687f6419c4b module=libcontainerd namespace=moby topic=/tasks/delete type=&amp;#34;*events.TaskDelete&amp;#34;
+Jul 28 10:53:00 localhost containerd[1161]: time=&amp;#34;2022-07-28T10:53:00.719579189+08:00&amp;#34; level=info msg=&amp;#34;shim disconnected&amp;#34; id=3c902d2962f7fb6af8ce5a16a965bd2707383dbb18fed9b6942e1687f6419c4b
+Jul 28 10:53:00 localhost containerd[1161]: time=&amp;#34;2022-07-28T10:53:00.719667935+08:00&amp;#34; level=warning msg=&amp;#34;cleaning up after shim disconnected&amp;#34; id=3c902d2962f7fb6af8ce5a16a965bd2707383dbb18fed9b6942e1687f6419c4b namespace=moby
+Jul 28 10:53:07 localhost dockerd[1265564]: time=&amp;#34;2022-07-28T10:53:07.730207608+08:00&amp;#34; level=info msg=&amp;#34;Container failed to exit within 10s of signal 15 - using the force&amp;#34; container=3c902d2962f7fb6af8ce5a16a965bd2707383dbb18fed9b6942e1687f6419c4b
+Jul 28 10:57:07 localhost dockerd[1271313]: time=&amp;#34;2022-07-28T10:57:07.971173522+08:00&amp;#34; level=info msg=&amp;#34;Removing stale sandbox c540d42e6cba844695f8cb780f5c28a82a59500207ace2b6526d11eca5b54600 (3c902d2962f7fb6af8ce5a16a965bd2707383dbb18fed9b6942e1687f6419c4b)&amp;#34;
+Jul 28 11:12:19 localhost dockerd[1271313]: time=&amp;#34;2022-07-28T11:12:19.902248293+08:00&amp;#34; level=error msg=&amp;#34;Error getting service 3c902d2962f7: service 3c902d2962f7 not found&amp;#34;
+Jul 28 11:12:19 localhost dockerd[1271313]: time=&amp;#34;2022-07-28T11:12:19.905022331+08:00&amp;#34; level=error msg=&amp;#34;Error getting task 3c902d2962f7: task 3c902d2962f7 not found&amp;#34;
+Jul 28 11:12:19 localhost dockerd[1271313]: time=&amp;#34;2022-07-28T11:12:19.906474336+08:00&amp;#34; level=error msg=&amp;#34;Error getting node 3c902d2962f7: node 3c902d2962f7 not found&amp;#34;
+&lt;/code>&lt;/pre>&lt;br>
+&lt;h2 id="猜測">猜測&lt;/h2>
+&lt;p>一開始懷疑是沒有辦法關掉 process，可能在卡在寫 Log 了。
+照著這個思路，先去查詢查詢 container 相對應的 pid：&lt;/p>
+&lt;pre tabindex="0">&lt;code>docker inspect -f &amp;#39;{{.State.Pid}}&amp;#39; 3c902d2962f7
+1269485
+&lt;/code>&lt;/pre>&lt;pre tabindex="0">&lt;code>sudo pstree -a -p
+...
+|-containerd-shim,1269465 -namespace moby -id 3c902d2962f7fb6af8ce5a16a965bd2707383dbb18fed9b6942e1687f6419c4b -address/run/
+| |-docker-init,1269485 -- /bootstrap.sh
+| | |-clamd,1269536 -c /etc/clamav/clam.conf
+| | | `-{clamd},1269731
+| | |-freshclam,1269560 -d -c 6
+| | | `-{freshclam},1269732
+| | `-gunicorn,1269558 /usr/bin/gunicorn --workers=2 --threads=2 --bind 0.0.0.0:8000 --daemon wsgi:app
+| | |-gunicorn,1269561 /usr/bin/gunicorn --workers=2 --threads=2 --bind 0.0.0.0:8000 --daemon wsgi:app
+| | `-gunicorn,1269562 /usr/bin/gunicorn --workers=2 --threads=2 --bind 0.0.0.0:8000 --daemon wsgi:app
+...
+&lt;/code>&lt;/pre>&lt;p>接著移除掉整個 stack。&lt;/p>
+&lt;p>但是發現儘管 &lt;code>docker ps&lt;/code> 看到 container 還在，但 pid 已經找不到了。&lt;/p>
+&lt;br>
+&lt;h2 id="workaround">Workaround&lt;/h2>
+&lt;p>看起來這個 container 沒有施力點，只好試試看手動調整關閉 Service 的順序&lt;/p>
+&lt;p>最後寫成腳本：&lt;/p>
+&lt;pre tabindex="0">&lt;code>function get_services() {
+services=$(docker service ls --format &amp;#34;{{.Name}}&amp;#34; | sed -E &amp;#39;s/mystack_//&amp;#39;)
+echo &amp;#34;$services&amp;#34;
+}
+function down() {
+stack_prefix=&amp;#34;mystack_&amp;#34;
+last_service=&amp;#34;fluentd&amp;#34;
+services=$(get_services)
+services=${services[*]/$last_service}
+for service in $services
+do
+docker service rm &amp;#34;$stack_prefix$service&amp;#34; &amp;gt; /dev/null
+done
+# wait for all containers removed.
+for i in {1..60}
+do
+docker ps -a | grep -v &amp;#34;$stack_prefix$last_service&amp;#34; | grep -q &amp;#34;$stack_prefix&amp;#34;
+if [ $? -eq 1 ]; then
+docker service rm &amp;#34;$stack_prefix$last_service&amp;#34; &amp;gt; /dev/null
+break
+fi
+sleep 1
+done
+if [[ &amp;#34;60&amp;#34; -eq &amp;#34;$i&amp;#34; ]]; then
+exit 1
+fi
+for i in {1..60}
+do
+docker ps -a | grep -q &amp;#34;$stack_prefix&amp;#34;
+if [ $? -eq 1 ]; then
+break
+fi
+sleep 1
+done
+if [[ &amp;#34;60&amp;#34; -eq &amp;#34;$i&amp;#34; ]]; then
+exit 1
+fi
+}
+down
+&lt;/code>&lt;/pre>&lt;br>
+- https://krapshsa.github.io/posts/container-stack-log-driver-docker-stack-rm-3c0047b9-a458-4700-a6f2-b41dcd7da96d/ - © 2007 - 2022 krapshsa</description></item><item><title>OwnCloud MariaDB mysqldump 失敗</title><link>https://krapshsa.github.io/posts/owncloud-mariadb-mysqldump-84758a8c-6502-4c2d-b878-3a97ea0e36a7/</link><pubDate>Wed, 27 Jul 2022 14:58:00 +0800</pubDate><guid>https://krapshsa.github.io/posts/owncloud-mariadb-mysqldump-84758a8c-6502-4c2d-b878-3a97ea0e36a7/</guid><description>KRAPSHSA'S BLOG https://krapshsa.github.io/posts/owncloud-mariadb-mysqldump-84758a8c-6502-4c2d-b878-3a97ea0e36a7/ -&lt;h2 id="起因">起因&lt;/h2>
 &lt;p>近期遭遇 &lt;code>mysqldump&lt;/code> 備份 OwnCloud 的 DB 結果 crash 的問題&lt;/p>
 &lt;p>google 了一下發現 NextCloud 也有人發生類似的問題&lt;/p>
-&lt;p>&lt;a href="https://help.nextcloud.com/t/table-oc-filecache-extended-corrupt/123149">Table &lt;code>oc_filecache_extended&lt;/code> corrupt?&lt;/a>
-&lt;!-- raw HTML omitted -->&lt;!-- raw HTML omitted -->&lt;/p>
+&lt;p>&lt;a href="https://help.nextcloud.com/t/table-oc-filecache-extended-corrupt/123149">Table &lt;code>oc_filecache_extended&lt;/code> corrupt?&lt;/a>&lt;/p>
+&lt;br>
 &lt;p>摘錄連結內的錯誤訊息：&lt;/p>
 &lt;pre tabindex="0">&lt;code>Thread pointer: 0x8548068d8
 Attempting backtrace. You can use the following information to find out
@@ -266,14 +440,14 @@ Some pointers may be invalid and cause the dump to abort.
 Query (0x85484dab0): show fields from `oc_cards`
 Connection ID (thread ID): 4
 Status: NOT_KILLED
-&lt;/code>&lt;/pre>&lt;p>&lt;!-- raw HTML omitted -->&lt;!-- raw HTML omitted -->&lt;/p>
+&lt;/code>&lt;/pre>&lt;br>
 &lt;p>有問題的語句就是這條：&lt;/p>
 &lt;pre tabindex="0">&lt;code>show fields from &amp;lt;TABLE&amp;gt;
-&lt;/code>&lt;/pre>&lt;p>&lt;!-- raw HTML omitted -->&lt;!-- raw HTML omitted -->&lt;/p>
+&lt;/code>&lt;/pre>&lt;br>
 &lt;p>執行檢查，但是結果也全部都是 OK&lt;/p>
 &lt;pre tabindex="0">&lt;code>mysqlcheck --all-databases
-&lt;/code>&lt;/pre>&lt;p>&lt;!-- raw HTML omitted -->&lt;!-- raw HTML omitted -->&lt;/p>
-&lt;h3 id="急救">急救&lt;/h3>
+&lt;/code>&lt;/pre>&lt;br>
+&lt;h2 id="workaround">Workaround&lt;/h2>
 &lt;p>由於這台機器還有人在用，要想辦法趕快讓服務正常。&lt;/p>
 &lt;p>經過多方嘗試，目前有效的做法如下：&lt;/p>
 &lt;ol>
@@ -286,12 +460,12 @@ Status: NOT_KILLED
 &lt;pre tabindex="0">&lt;code>docker stop &amp;lt;db 的 id&amp;gt;
 &lt;/code>&lt;/pre>&lt;ol start="3">
 &lt;li>複製 DB 資料夾下， &lt;code>ibdata1&lt;/code> 與 &lt;code>owncloud&lt;/code> 的資料夾到新 DB 資料夾下&lt;/li>
-&lt;li>再次啟動新 DB
-&lt;!-- raw HTML omitted -->&lt;!-- raw HTML omitted -->&lt;/li>
+&lt;li>再次啟動新 DB&lt;/li>
 &lt;/ol>
+&lt;br>
 &lt;p>之後也試著去找出原因，但是連 core file 都沒辦法產生所以沒辦法 GDB。&lt;/p>
-&lt;p>&lt;!-- raw HTML omitted -->&lt;!-- raw HTML omitted -->&lt;/p>
-&lt;h3 id="參考資料">參考資料&lt;/h3>
+&lt;br>
+&lt;h2 id="參考資料">參考資料&lt;/h2>
 &lt;p>&lt;a href="https://blog.csdn.net/hawht/article/details/84246261">MariaDB Error：1932 Table doesn&amp;rsquo;t exist in engine 的解决方法_u014461454的博客-CSDN博客&lt;/a>&lt;/p>
 &lt;p>&lt;a href="https://blog.path8.net/archives/7608.html">MySQL/MariaDB已被锁表运行中热复制为副本/innodb表错误Table xx doesn&amp;rsquo;t exist in engine处理&lt;/a>&lt;/p>
 &lt;p>&lt;a href="https://dba.stackexchange.com/questions/62989/how-does-innodb-store-tables-in-ibdata-file">How does InnoDB store tables in ibdata file?&lt;/a>&lt;/p>
@@ -307,7 +481,7 @@ html += `&amp;lt;li&amp;gt;${key}: ${value}&amp;lt;/li&amp;gt;`;
 }
 html += `&amp;lt;/ul&amp;gt;`;
 &lt;/code>&lt;/pre>&lt;p>後來想要表達出 html 的階層結構，想用使用巢狀的方式使用 template literal&lt;/p>
-&lt;p>&lt;!-- raw HTML omitted -->&lt;!-- raw HTML omitted -->&lt;/p>
+&lt;br>
 &lt;h2 id="解方">解方&lt;/h2>
 &lt;p>要用 function 來做的話可以使用 IIFE&lt;/p>
 &lt;pre tabindex="0">&lt;code>const object1 = {
@@ -329,8 +503,8 @@ return list;
 `;
 &lt;/code>&lt;/pre>&lt;p>以我簡化的例子來說，使用 IIFE 看起來變得更複雜了，&lt;/p>
 &lt;p>但是用在比較長的 &lt;code>html&lt;/code> 來說比較能看出結構&lt;/p>
-&lt;p>&lt;a href="https://jsfiddle.net/4h2n9L8t/">JSFiddle&lt;/a>
-&lt;!-- raw HTML omitted -->&lt;!-- raw HTML omitted -->&lt;/p>
+&lt;p>&lt;a href="https://jsfiddle.net/4h2n9L8t/">JSFiddle&lt;/a>&lt;/p>
+&lt;br>
 &lt;h2 id="參考資料">參考資料&lt;/h2>
 &lt;p>&lt;a href="https://flaviocopes.com/javascript-iife/">JavaScript Immediately-invoked Function Expressions (IIFE)&lt;/a>&lt;/p>
 - https://krapshsa.github.io/posts/template-literal-bea4efe5-2565-42f7-832f-580089f7807d/ - © 2007 - 2022 krapshsa</description></item></channel></rss>
