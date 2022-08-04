@@ -31,7 +31,8 @@ html += `</ul>`;
 
 後來想要表達出 html 的階層結構，想用使用巢狀的方式使用 template literal
 
-<br></br>
+
+{{< br >}}
 
 ## 解方
 
@@ -64,7 +65,8 @@ let html = `
 但是用在比較長的 `html` 來說比較能看出結構
 
 [JSFiddle](https://jsfiddle.net/4h2n9L8t/)
-<br></br>
+
+{{< br >}}
 
 ## 參考資料
 

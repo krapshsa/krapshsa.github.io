@@ -9,14 +9,15 @@ categories: []
 tags: [mariadb]
 ---
 
-### 徵狀
+## 起因
 
 近期遭遇 `mysqldump` 備份 OwnCloud 的 DB 結果 crash 的問題
 
 google 了一下發現 NextCloud 也有人發生類似的問題
 
 [Table `oc_filecache_extended` corrupt?](https://help.nextcloud.com/t/table-oc-filecache-extended-corrupt/123149)
-<br></br>
+
+{{< br >}}
 
 摘錄連結內的錯誤訊息：
 
@@ -37,23 +38,26 @@ Query (0x85484dab0): show fields from `oc_cards`
 Connection ID (thread ID): 4
 Status: NOT_KILLED
 ```
-<br></br>
+
+{{< br >}}
 
 有問題的語句就是這條：
 
 ```
 show fields from <TABLE>
 ```
-<br></br>
+
+{{< br >}}
 
 執行檢查，但是結果也全部都是 OK
 
 ```
 mysqlcheck --all-databases
 ```
-<br></br>
 
-### 急救
+{{< br >}}
+
+## Workaround
 
 由於這台機器還有人在用，要想辦法趕快讓服務正常。
 
@@ -69,13 +73,15 @@ docker stop <db 的 id>
 ```
 3. 複製 DB 資料夾下， `ibdata1` 與 `owncloud` 的資料夾到新 DB 資料夾下
 4. 再次啟動新 DB
-<br></br>
+
+{{< br >}}
 
 之後也試著去找出原因，但是連 core file 都沒辦法產生所以沒辦法 GDB。
 
-<br></br>
 
-### 參考資料
+{{< br >}}
+
+## 參考資料
 
 [MariaDB Error：1932 Table doesn't exist in engine 的解决方法_u014461454的博客-CSDN博客](https://blog.csdn.net/hawht/article/details/84246261)
 
