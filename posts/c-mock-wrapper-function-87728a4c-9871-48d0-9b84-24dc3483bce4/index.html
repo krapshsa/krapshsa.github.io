@@ -1,0 +1,112 @@
+<!doctype html><html><head><title>簡易 C Mock — wrapper function</title><meta charset=utf-8><meta name=X-UA-Compatible content="IE=edge"><meta name=google-site-verification content><meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0" name=viewport><meta content="telephone=no" name=format-detection><meta name=description content><meta name=renderer content="webkit"><meta name=theme-color content="#ffffff"><meta property="og:title" content="簡易 C Mock — wrapper function"><meta property="og:description" content="起因 幫一個舊的 Lib 寫測試的時候會去讀 config，
+但是這個路徑在我的 CI 環境並不存在，
+通常我寫 php 的時候，針對這種外部相依就用 function 包起來再 Mock 掉，
+但是 C 我已經忘得差不多了，想找一個簡單可以做到類似效果的方法。
+目前解法 不囉唆，先上 code
+GitHub - krapshsa/c-native-mock
+這個簡單的 Case 是這樣：
+main() 呼叫 foo() ， foo() 呼叫 config_load()
+我想要不改變 foo.c ，讓測試 (main.c ) 可以不去真的用到 config_load() 其實這就相當於寫測試：
+main() 是 Test，而 foo.c 的 foo() 是我的 SUT (System Under Test)。
+手法就是 Wrap，根據 ld 的 Man Page：
+--wrap=symbol
+Use a wrapper function for symbol. Any undefined reference to symbol will be resolved to &ldquo;__wrap_symbol&rdquo;."><meta property="og:type" content="article"><meta property="og:url" content="https://krapshsa.github.io/posts/c-mock-wrapper-function-87728a4c-9871-48d0-9b84-24dc3483bce4/"><meta property="article:section" content="posts"><meta property="article:published_time" content="2022-08-06T11:12:00+08:00"><meta property="article:modified_time" content="2022-08-06T11:12:00+08:00"><meta property="og:site_name" content="My Blog"><meta name=twitter:card content="summary"><meta name=twitter:title content="簡易 C Mock — wrapper function"><meta name=twitter:description content="起因 幫一個舊的 Lib 寫測試的時候會去讀 config，
+但是這個路徑在我的 CI 環境並不存在，
+通常我寫 php 的時候，針對這種外部相依就用 function 包起來再 Mock 掉，
+但是 C 我已經忘得差不多了，想找一個簡單可以做到類似效果的方法。
+目前解法 不囉唆，先上 code
+GitHub - krapshsa/c-native-mock
+這個簡單的 Case 是這樣：
+main() 呼叫 foo() ， foo() 呼叫 config_load()
+我想要不改變 foo.c ，讓測試 (main.c ) 可以不去真的用到 config_load() 其實這就相當於寫測試：
+main() 是 Test，而 foo.c 的 foo() 是我的 SUT (System Under Test)。
+手法就是 Wrap，根據 ld 的 Man Page：
+--wrap=symbol
+Use a wrapper function for symbol. Any undefined reference to symbol will be resolved to &ldquo;__wrap_symbol&rdquo;."><link type=text/css rel=stylesheet href=/vendor/css/bootstrap.min.css><link rel=stylesheet href=/scss/journal.min.c5d92f380bf10f6849c7ac487c7df2b22c081e0851e5339224f1ae29210b20d2.css integrity="sha256-xdkvOAvxD2hJx6xIfH3ysiwIHghR5TOSJPGuKSELINI=" media=screen><link rel=stylesheet href=/scss/dark-mode.min.9f8d8c2df9285089d141edd4a50cb7506c7948e6ab79a29968dced1bd0ab7d22.css integrity="sha256-n42MLfkoUInRQe3UpQy3UGx5SOareaKZaNztG9CrfSI=" media=screen><script src=/vendor/js/loadCSS.js></script>
+<script>loadCSS("https://fonts.googleapis.com/css?family=Fira+Mono|Material+Icons")</script><script src=/js/toc.js></script>
+<link rel=stylesheet href=https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css><script src=https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js></script>
+<script src=/vendor/js/md5.min.js></script>
+<script>var gitalk=new Gitalk({clientID:"your client id",clientSecret:"your client secret",repo:"repo name",owner:"user",admin:["user"],id:md5(location.pathname),distractionFreeMode:"false"});window.onload=function(){gitalk.render("gitalk-container")}</script></head><body><div id=app><div id=sideContainer class=side-container><a class="a-block nav-head false" href=https://krapshsa.github.io/><div class=nav-title>KRAPSHSA'S BLOG</div><div class=nav-subtitle>Themed by Diary.</div></a><div class=nav-link-list><a class="a-block nav-link-item active" href=/posts>Archive</a>
+<a class="a-block nav-link-item false" href=/categories>Categories</a>
+<a class="a-block nav-link-item false" href=/tags>Tags</a>
+<a class="a-block nav-link-item false" href=/index.xml>RSS Feed</a></div><div class=nav-footer>Hugo Theme <a href=https://github.com/amazingrise/hugo-theme-diary>Diary</a> by <a href=https://risehere.net/>Rise</a><br>Ported from <a href=https://mak1t0.cc/ target=_blank rel="noreferrer noopener">Makito</a>'s <a href=https://github.com/SumiMakito/hexo-theme-journal/ target=_blank rel="noreferrer noopener">Journal.</a><br><br>&copy;
+© 2007 - 2022 krapshsa</div></div><div id=extraContainer class=extra-container><div class="toc animated-visibility" :class="{ invisible: scrollY <= 140 }"><div class=toc-content><center>- CATALOG -</center><ul><ul><li><a href=#%e8%b5%b7%e5%9b%a0 onclick="onNavClick(`#起因-nav`)" id=起因-nav>起因</a></li><li><a href=#%e7%9b%ae%e5%89%8d%e8%a7%a3%e6%b3%95 onclick="onNavClick(`#目前解法-nav`)" id=目前解法-nav>目前解法</a></li><li><a href=#%e5%b8%b8%e7%8a%af%e9%8c%af%e8%aa%a4 onclick="onNavClick(`#常犯錯誤-nav`)" id=常犯錯誤-nav>常犯錯誤</a></li><li><a href=#%e5%8f%a6%e5%a4%96%e4%b8%80%e5%80%8b%e6%96%b9%e6%b3%95-ifndef--define--endif onclick="onNavClick(`#另外一個方法-ifndef--define--endif-nav`)" id=另外一個方法-ifndef--define--endif-nav>另外一個方法： #ifndef ... #define ... #endif</a></li><li><a href=#%e5%8f%83%e8%80%83%e8%b3%87%e6%96%99 onclick="onNavClick(`#參考資料-nav`)" id=參考資料-nav>參考資料</a></li></ul></div></div><div class=pagination><a id=globalBackToTop class="pagination-action animated-visibility" href=#top :class="{ invisible: scrollY == 0 }"><i class="material-icons pagination-action-icon">keyboard_arrow_up</i></a>
+<a type=button class=pagination-action id=darkModeToggleButton><span class="material-icons pagination-action-icon" id=darkModeToggleIcon>dark_mode</span></a></div></div><div class=single-column-drawer-container id=drawer v-bind:class="{ 'single-column-drawer-container-active': isDrawerOpen }"><div class=drawer-content><div class=drawer-menu><a class="a-block drawer-menu-item active" href=/posts>Archive</a>
+<a class="a-block drawer-menu-item false" href=/categories>Categories</a>
+<a class="a-block drawer-menu-item false" href=/tags>Tags</a>
+<a class="a-block drawer-menu-item false" href=/index.xml>RSS Feed</a><div class=toc><div class=toc-content><center>- CATALOG -</center><ul><ul><li><a href=#%e8%b5%b7%e5%9b%a0 onclick="onNavClick(`#起因-nav`)" id=起因-nav>起因</a></li><li><a href=#%e7%9b%ae%e5%89%8d%e8%a7%a3%e6%b3%95 onclick="onNavClick(`#目前解法-nav`)" id=目前解法-nav>目前解法</a></li><li><a href=#%e5%b8%b8%e7%8a%af%e9%8c%af%e8%aa%a4 onclick="onNavClick(`#常犯錯誤-nav`)" id=常犯錯誤-nav>常犯錯誤</a></li><li><a href=#%e5%8f%a6%e5%a4%96%e4%b8%80%e5%80%8b%e6%96%b9%e6%b3%95-ifndef--define--endif onclick="onNavClick(`#另外一個方法-ifndef--define--endif-nav`)" id=另外一個方法-ifndef--define--endif-nav>另外一個方法： #ifndef ... #define ... #endif</a></li><li><a href=#%e5%8f%83%e8%80%83%e8%b3%87%e6%96%99 onclick="onNavClick(`#參考資料-nav`)" id=參考資料-nav>參考資料</a></li></ul></div></div></div></div></div><transition name=fade><div id=drawer-mask v-bind:class="{ 'single-column-drawer-mask': mounted }" v-if=isDrawerOpen v-on:click=toggleDrawer></div></transition><nav id=navBar class="navbar sticky-top navbar-light single-column-nav-container"><div id=navBackground class=nav-background></div><div class="container container-narrow nav-content"><button id=nav_dropdown_btn class=nav-dropdown-toggle type=button v-on:click=toggleDrawer>
+<i class=material-icons>menu</i></button>
+<a id=navTitle class=navbar-brand href=https://krapshsa.github.io/>KRAPSHSA'S BLOG</a>
+<button type=button class=nav-darkmode-toggle id=darkModeToggleButton2>
+<i class=material-icons id=darkModeToggleIcon2>dark_mode</i></button></div></nav><div class=single-column-header-container id=pageHead v-bind:style="{ transform: 'translateZ(0px) translateY('+.3*scrollY+'px)', opacity: 1-navOpacity }"><a href=https://krapshsa.github.io/><div class=single-column-header-title>KRAPSHSA'S BLOG</div><div class=single-column-header-subtitle>Themed by Diary.</div></a></div><div id=content><div id=streamContainer class=stream-container><div class="post-list-container post-list-container-shadow"><div class=post><div class=post-head-wrapper-text-only><div class=post-title>簡易 C Mock — wrapper function<div class=post-meta><time itemprop=datePublished>2022-08-06 11:12</time>
+<i class=material-icons>label</i>
+<a href=/tags/c>C</a>
+&nbsp;</div></div></div><div class=post-body-wrapper><div class=post-body v-pre><h2 id=起因>起因</h2><p>幫一個舊的 Lib 寫測試的時候會去讀 config，</p><p>但是這個路徑在我的 CI 環境並不存在，</p><p>通常我寫 php 的時候，針對這種外部相依就用 function 包起來再 Mock 掉，</p><p>但是 C 我已經忘得差不多了，想找一個簡單可以做到類似效果的方法。</p><br><h2 id=目前解法>目前解法</h2><p>不囉唆，先上 code</p><p><a href=https://github.com/krapshsa/c-native-mock>GitHub - krapshsa/c-native-mock</a></p><p>這個簡單的 Case 是這樣：</p><ol><li><code>main()</code> 呼叫 <code>foo()</code> ， <code>foo()</code> 呼叫 <code>config_load()</code><br><img src=c-mock-9adcb40d-b2d3-4874-9829-170784e9f812.png alt></li><li>我想要不改變 <code>foo.c</code> ，讓測試 (<code>main.c</code> ) 可以不去真的用到 <code>config_load()</code></li></ol><br><p>其實這就相當於寫測試：</p><p><code>main()</code> 是 Test，而 <code>foo.c</code> 的 <code>foo()</code> 是我的 SUT (System Under Test)。</p><br><p>手法就是 Wrap，根據 <code>ld</code> 的 Man Page：</p><blockquote><p><code>--wrap=symbol</code><br>Use a wrapper function for symbol. Any undefined reference to symbol will be resolved to &ldquo;<code>__wrap_symbol</code>&rdquo;. Any undefined reference to &ldquo;<code>__real_symbol</code>&rdquo; will be resolved to symbol.</p></blockquote><br><p>操作步驟：</p><ol><li><p>Caller 寫一個加上 <code>__wrap_</code> 開頭的函式，用來換掉某一個實作。</p><p>例如替換掉 <code>config_load</code> 我就要定義一個 <code>__wrap_config_load</code>。</p></li><li><p>Caller 可以使用加上 <code>__real_</code> 開頭的函式，就可以呼叫到原始的實作 (Optional)。</p></li><li><p>編譯的參數加上 <code>-Wl,--wrap=&lt;symbol></code></p></li></ol><br><p>可以用 nm 指令看一下編出來的 <code>.o</code></p><p>T: 表示在 Text Section 找得到這個 symbol</p><p>U: 表示這個 symbol 是 undefined</p><pre tabindex=0><code># nm config.o
+0000000000000000 T config_load
+                 U fclose
+                 U fopen
+                 U fseek
+</code></pre><pre tabindex=0><code># nm foo.o
+                 U config_load
+0000000000000000 T foo
+</code></pre><pre tabindex=0><code># nm main.o
+0000000000000000 T __wrap_config_load
+                 U foo
+0000000000000011 T main
+                 U puts
+</code></pre><br><h2 id=常犯錯誤>常犯錯誤</h2><p>如果 <code>config_load</code> 定義在 <code>foo.c</code> 裡面，試著跑看看：</p><pre tabindex=0><code># make main
+gcc -c main.c
+gcc -c foo.c
+gcc -Wl,--wrap=config_load -o main main.o foo.o
+# ./main
+Segmentation fault
+</code></pre><p>結果這樣是不行的，用 nm 查看：</p><pre tabindex=0><code># nm foo.o
+0000000000000011 T config_load
+                 U fclose
+0000000000000000 T foo
+                 U fopen
+                 U fseek
+</code></pre><pre tabindex=0><code># nm main.o
+0000000000000000 T __wrap_config_load
+                 U foo
+0000000000000011 T main
+                 U puts
+</code></pre><p>要把 ld 告訴我們的使用方法放在心上：</p><blockquote><p>Any undefined reference to symbol will be resolved to &ldquo;<code>__wrap_symbol</code>&rdquo;</p></blockquote><p>呼叫 <code>config_load</code> 並不是 undefined，</p><p>所以這告訴我們實作 & 寫測試的時候把要 Mock 的東西切出去，</p><p>就可以用這個手法來替換掉實作，也就是說要把相依但是職責不應該屬於我的 Code 另外放。</p><br><h2 id=另外一個方法-ifndef--define--endif>另外一個方法： <code>#ifndef ... #define ... #endif</code></h2><p>延伸自 <code>undefined</code> 的想法，我們也可以直接改寫 <code>foo.c</code></p><p><code>foo.c</code></p><pre tabindex=0><code>#include &#34;stdio.h&#34;
+#include &#34;config.h&#34;
+#include &#34;foo.h&#34;
+
+#ifndef config_load
+    #define config_load() my_config_load()
+#endif
+
+void my_config_load() {
+    printf(&#34;wrap\n&#34;);
+}
+
+void foo() {
+    config_load();
+}
+</code></pre><p><code>main.c</code></p><pre tabindex=0><code>#include &#34;foo.h&#34;
+
+int main() {
+    foo();
+
+    return 0;
+}
+</code></pre><p><code>Makefile</code></p><pre tabindex=0><code>config.o:
+	gcc -c config.c
+
+foo.o:
+	gcc -c foo.c
+
+main.o:
+	gcc -c main.c
+
+main: main.o foo.o config.o
+	gcc -o main main.o foo.o config.o
+
+clean:
+	rm *.o main
+</code></pre><br><p>應該是可以搭配 Target-specific Variable Values 編出 production / development 的 <code>foo.o</code></p><p>感謝大神同事給的參考資料：</p><p><a href=https://www.gnu.org/software/make/manual/html_node/Target_002dspecific.html>Target-specific (GNU make)</a></p><br><h2 id=參考資料>參考資料</h2><p><a href=https://stackoverflow.com/questions/31156327/how-to-mock-function-in-c-when-its-caller-function-is-defined-in-same-file>How to mock function in C when its caller function is defined in same file?</a></p><p><a href=https://stackoverflow.com/questions/617554/override-a-function-call-in-c>Override a function call in C</a></p><p><a href=https://stackoverflow.com/questions/43183060/how-to-wrap-existing-function-in-c>How to wrap existing function in C</a></p><p><a href=https://orionlin.pixnet.net/blog/post/96013596-wrap-function%E7%9A%84%E4%BD%BF%E7%94%A8>wrap function的使用 @ Orion&rsquo;s blog :: 痞客邦 ::</a></p><hr width=100% id=EOF><p style=color:#777>Last modified on 2022-08-06</p></div></div><nav class=post-pagination><a class=newer-posts>Next<br>No newer posts.</a>
+<a class=older-posts href=/posts/c-unit-test-criterion-eb7169c5-0a5e-4e8d-b9b5-04a8aa841ba1/>Previous<br>C Unit Test - Criterion 簡單範例</a></nav><div class=post-comment-wrapper><div id=gitalk-container></div></div></div></div></div></div><div id=single-column-footer>Hugo Theme <a href=https://github.com/amazingrise/hugo-theme-diary>Diary</a> by <a href=https://risehere.net/>Rise</a><br>Ported from <a href=https://mak1t0.cc/ target=_blank rel="noreferrer noopener">Makito</a>'s <a href=https://github.com/SumiMakito/hexo-theme-journal/ target=_blank rel="noreferrer noopener">Journal.</a><br><br>&copy;
+© 2007 - 2022 krapshsa</div></div><script src=/js/journal.js></script></body></html>

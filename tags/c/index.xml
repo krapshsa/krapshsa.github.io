@@ -1,4 +1,24 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>C on KRAPSHSA'S BLOG</title><link>https://krapshsa.github.io/tags/c/</link><description>Recent content in C on KRAPSHSA'S BLOG</description><generator>Hugo -- gohugo.io</generator><language>zh-tw</language><copyright>© 2007 - 2022 krapshsa</copyright><lastBuildDate>Sun, 31 Jul 2022 22:58:00 +0800</lastBuildDate><atom:link href="https://krapshsa.github.io/tags/c/index.xml" rel="self" type="application/rss+xml"/><item><title>Windows 上的類 Unix 環境 - Cygwin、MinGW、MSYS</title><link>https://krapshsa.github.io/posts/windows-unix-cygwin-mingw-msys-05707f1a-cacd-4484-9457-7aa26c7cace8/</link><pubDate>Sun, 31 Jul 2022 22:58:00 +0800</pubDate><guid>https://krapshsa.github.io/posts/windows-unix-cygwin-mingw-msys-05707f1a-cacd-4484-9457-7aa26c7cace8/</guid><description>起因 裝了 CLion，想在 Windows 底下為了在 Windows 上使用 gcc ，沒有想到竟然如此困難。
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>C on KRAPSHSA'S BLOG</title><link>https://krapshsa.github.io/tags/c/</link><description>Recent content in C on KRAPSHSA'S BLOG</description><generator>Hugo -- gohugo.io</generator><language>zh-tw</language><copyright>© 2007 - 2022 krapshsa</copyright><lastBuildDate>Sat, 06 Aug 2022 11:12:00 +0800</lastBuildDate><atom:link href="https://krapshsa.github.io/tags/c/index.xml" rel="self" type="application/rss+xml"/><item><title>簡易 C Mock — wrapper function</title><link>https://krapshsa.github.io/posts/c-mock-wrapper-function-87728a4c-9871-48d0-9b84-24dc3483bce4/</link><pubDate>Sat, 06 Aug 2022 11:12:00 +0800</pubDate><guid>https://krapshsa.github.io/posts/c-mock-wrapper-function-87728a4c-9871-48d0-9b84-24dc3483bce4/</guid><description>起因 幫一個舊的 Lib 寫測試的時候會去讀 config，
+但是這個路徑在我的 CI 環境並不存在，
+通常我寫 php 的時候，針對這種外部相依就用 function 包起來再 Mock 掉，
+但是 C 我已經忘得差不多了，想找一個簡單可以做到類似效果的方法。
+目前解法 不囉唆，先上 code
+GitHub - krapshsa/c-native-mock
+這個簡單的 Case 是這樣：
+main() 呼叫 foo() ， foo() 呼叫 config_load()
+我想要不改變 foo.c ，讓測試 (main.c ) 可以不去真的用到 config_load() 其實這就相當於寫測試：
+main() 是 Test，而 foo.c 的 foo() 是我的 SUT (System Under Test)。
+手法就是 Wrap，根據 ld 的 Man Page：
+--wrap=symbol
+Use a wrapper function for symbol. Any undefined reference to symbol will be resolved to &amp;ldquo;__wrap_symbol&amp;rdquo;.</description></item><item><title>C Unit Test - Criterion 簡單範例</title><link>https://krapshsa.github.io/posts/c-unit-test-criterion-eb7169c5-0a5e-4e8d-b9b5-04a8aa841ba1/</link><pubDate>Fri, 05 Aug 2022 01:52:00 +0800</pubDate><guid>https://krapshsa.github.io/posts/c-unit-test-criterion-eb7169c5-0a5e-4e8d-b9b5-04a8aa841ba1/</guid><description>起因 要用一個公司很久以前自己寫的 C Lib，沒有文件所以不知道行為是什麼。
+使用的過程中有發現問題，就進行一些修正。
+想說幫他加上一些測試案例，幫助之後要使用的人。
+環境 建置方法 由於公司是用 CentOS / RHEL / Oracle，我挑了一個差不多的 image 來建 CI
+重點是 rpm 我從 github 上面裝，就可以直接 -l 使用他的 Lib
+其他是這個 C lib 需要的其他 Lib，跟底下範例無關
+Dockerfile
+FROM oraclelinux:8.6 RUN yum install -y gcc make pcre pcre-devel RUN yum --enablerepo=ol8_codeready_builder install -y glibc glibc-common glibc-devel glibc-headers glibc-static RUN rpm -ivh https://github.com/samber/criterion-rpm-package/releases/download/2.3.3/libcriterion-devel-2.3.3-2.el7.x86_64.rpm Code sut.h
+#ifndef TEST_CRITERION_SUT_H #define TEST_CRITERION_SUT_H typedef struct result { char *begin; } Result; extern int doSomething(char *pContent, Result **ppResult); extern void sutFree(Result **ppResult); #endif //TEST_CRITERION_SUT_H sut.</description></item><item><title>Windows 上的類 Unix 環境 - Cygwin、MinGW、MSYS</title><link>https://krapshsa.github.io/posts/windows-unix-cygwin-mingw-msys-05707f1a-cacd-4484-9457-7aa26c7cace8/</link><pubDate>Sun, 31 Jul 2022 22:58:00 +0800</pubDate><guid>https://krapshsa.github.io/posts/windows-unix-cygwin-mingw-msys-05707f1a-cacd-4484-9457-7aa26c7cace8/</guid><description>起因 裝了 CLion，想在 Windows 底下為了在 Windows 上使用 gcc ，沒有想到竟然如此困難。
 JetBrains IDE 會自動偵測有沒有 Git ，在 Windows 上如果沒有先裝好的話，他就會安裝 Git for Windows。
 Git for Windows 自帶了一個很像 Linux 的環境，但是卻很難用它開始進行 C 的開發。
 古早味做法 Dev-C++ - 维基百科，自由的百科全书

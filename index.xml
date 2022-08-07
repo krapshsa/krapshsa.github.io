@@ -1,13 +1,272 @@
-<?xml-stylesheet href="/rss.xsl" type="text/xsl"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>KRAPSHSA'S BLOG</title><link>https://krapshsa.github.io/</link><description>Recent content on KRAPSHSA'S BLOG</description><generator>Hugo -- gohugo.io</generator><language>zh-tw</language><copyright>© 2007 - 2022 krapshsa</copyright><lastBuildDate>Thu, 04 Aug 2022 18:46:00 +0800</lastBuildDate><atom:link href="https://krapshsa.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>記一次 MariaDB CPU Loading 滿載查修過程</title><link>https://krapshsa.github.io/posts/mariadb-cpu-loading-e49af856-cc1f-45bf-9e40-f97a0718d89f/</link><pubDate>Thu, 04 Aug 2022 18:46:00 +0800</pubDate><guid>https://krapshsa.github.io/posts/mariadb-cpu-loading-e49af856-cc1f-45bf-9e40-f97a0718d89f/</guid><description>KRAPSHSA'S BLOG https://krapshsa.github.io/posts/mariadb-cpu-loading-e49af856-cc1f-45bf-9e40-f97a0718d89f/ -&lt;h2 id="起因">起因&lt;/h2>
+<?xml-stylesheet href="/rss.xsl" type="text/xsl"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>KRAPSHSA'S BLOG</title><link>https://krapshsa.github.io/</link><description>Recent content on KRAPSHSA'S BLOG</description><generator>Hugo -- gohugo.io</generator><language>zh-tw</language><copyright>© 2007 - 2022 krapshsa</copyright><lastBuildDate>Sat, 06 Aug 2022 11:12:00 +0800</lastBuildDate><atom:link href="https://krapshsa.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>簡易 C Mock — wrapper function</title><link>https://krapshsa.github.io/posts/c-mock-wrapper-function-87728a4c-9871-48d0-9b84-24dc3483bce4/</link><pubDate>Sat, 06 Aug 2022 11:12:00 +0800</pubDate><guid>https://krapshsa.github.io/posts/c-mock-wrapper-function-87728a4c-9871-48d0-9b84-24dc3483bce4/</guid><description>KRAPSHSA'S BLOG https://krapshsa.github.io/posts/c-mock-wrapper-function-87728a4c-9871-48d0-9b84-24dc3483bce4/ -&lt;h2 id="起因">起因&lt;/h2>
+&lt;p>幫一個舊的 Lib 寫測試的時候會去讀 config，&lt;/p>
+&lt;p>但是這個路徑在我的 CI 環境並不存在，&lt;/p>
+&lt;p>通常我寫 php 的時候，針對這種外部相依就用 function 包起來再 Mock 掉，&lt;/p>
+&lt;p>但是 C 我已經忘得差不多了，想找一個簡單可以做到類似效果的方法。&lt;/p>
+&lt;br>
+&lt;h2 id="目前解法">目前解法&lt;/h2>
+&lt;p>不囉唆，先上 code&lt;/p>
+&lt;p>&lt;a href="https://github.com/krapshsa/c-native-mock">GitHub - krapshsa/c-native-mock&lt;/a>&lt;/p>
+&lt;p>這個簡單的 Case 是這樣：&lt;/p>
+&lt;ol>
+&lt;li>&lt;code>main()&lt;/code> 呼叫 &lt;code>foo()&lt;/code> ， &lt;code>foo()&lt;/code> 呼叫 &lt;code>config_load()&lt;/code>&lt;br>
+&lt;img src="c-mock-9adcb40d-b2d3-4874-9829-170784e9f812.png" alt="">&lt;/li>
+&lt;li>我想要不改變 &lt;code>foo.c&lt;/code> ，讓測試 (&lt;code>main.c&lt;/code> ) 可以不去真的用到 &lt;code>config_load()&lt;/code>&lt;/li>
+&lt;/ol>
+&lt;br>
+&lt;p>其實這就相當於寫測試：&lt;/p>
+&lt;p>&lt;code>main()&lt;/code> 是 Test，而 &lt;code>foo.c&lt;/code> 的 &lt;code>foo()&lt;/code> 是我的 SUT (System Under Test)。&lt;/p>
+&lt;br>
+&lt;p>手法就是 Wrap，根據 &lt;code>ld&lt;/code> 的 Man Page：&lt;/p>
+&lt;blockquote>
+&lt;p>&lt;code>--wrap=symbol&lt;/code>&lt;br>
+Use a wrapper function for symbol. Any undefined reference to symbol will be resolved to &amp;ldquo;&lt;code>__wrap_symbol&lt;/code>&amp;rdquo;. Any undefined reference to &amp;ldquo;&lt;code>__real_symbol&lt;/code>&amp;rdquo; will be resolved to symbol.&lt;/p>
+&lt;/blockquote>
+&lt;br>
+&lt;p>操作步驟：&lt;/p>
+&lt;ol>
+&lt;li>
+&lt;p>Caller 寫一個加上 &lt;code>__wrap_&lt;/code> 開頭的函式，用來換掉某一個實作。&lt;/p>
+&lt;p>例如替換掉 &lt;code>config_load&lt;/code> 我就要定義一個 &lt;code>__wrap_config_load&lt;/code>。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Caller 可以使用加上 &lt;code>__real_&lt;/code> 開頭的函式，就可以呼叫到原始的實作 (Optional)。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>編譯的參數加上 &lt;code>-Wl,--wrap=&amp;lt;symbol&amp;gt;&lt;/code>&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;br>
+&lt;p>可以用 nm 指令看一下編出來的 &lt;code>.o&lt;/code>&lt;/p>
+&lt;p>T: 表示在 Text Section 找得到這個 symbol&lt;/p>
+&lt;p>U: 表示這個 symbol 是 undefined&lt;/p>
+&lt;pre tabindex="0">&lt;code># nm config.o
+0000000000000000 T config_load
+U fclose
+U fopen
+U fseek
+&lt;/code>&lt;/pre>&lt;pre tabindex="0">&lt;code># nm foo.o
+U config_load
+0000000000000000 T foo
+&lt;/code>&lt;/pre>&lt;pre tabindex="0">&lt;code># nm main.o
+0000000000000000 T __wrap_config_load
+U foo
+0000000000000011 T main
+U puts
+&lt;/code>&lt;/pre>&lt;br>
+&lt;h2 id="常犯錯誤">常犯錯誤&lt;/h2>
+&lt;p>如果 &lt;code>config_load&lt;/code> 定義在 &lt;code>foo.c&lt;/code> 裡面，試著跑看看：&lt;/p>
+&lt;pre tabindex="0">&lt;code># make main
+gcc -c main.c
+gcc -c foo.c
+gcc -Wl,--wrap=config_load -o main main.o foo.o
+# ./main
+Segmentation fault
+&lt;/code>&lt;/pre>&lt;p>結果這樣是不行的，用 nm 查看：&lt;/p>
+&lt;pre tabindex="0">&lt;code># nm foo.o
+0000000000000011 T config_load
+U fclose
+0000000000000000 T foo
+U fopen
+U fseek
+&lt;/code>&lt;/pre>&lt;pre tabindex="0">&lt;code># nm main.o
+0000000000000000 T __wrap_config_load
+U foo
+0000000000000011 T main
+U puts
+&lt;/code>&lt;/pre>&lt;p>要把 ld 告訴我們的使用方法放在心上：&lt;/p>
+&lt;blockquote>
+&lt;p>Any undefined reference to symbol will be resolved to &amp;ldquo;&lt;code>__wrap_symbol&lt;/code>&amp;rdquo;&lt;/p>
+&lt;/blockquote>
+&lt;p>呼叫 &lt;code>config_load&lt;/code> 並不是 undefined，&lt;/p>
+&lt;p>所以這告訴我們實作 &amp;amp; 寫測試的時候把要 Mock 的東西切出去，&lt;/p>
+&lt;p>就可以用這個手法來替換掉實作，也就是說要把相依但是職責不應該屬於我的 Code 另外放。&lt;/p>
+&lt;br>
+&lt;h2 id="另外一個方法-ifndef--define--endif">另外一個方法： &lt;code>#ifndef ... #define ... #endif&lt;/code>&lt;/h2>
+&lt;p>延伸自 &lt;code>undefined&lt;/code> 的想法，我們也可以直接改寫 &lt;code>foo.c&lt;/code>&lt;/p>
+&lt;p>&lt;code>foo.c&lt;/code>&lt;/p>
+&lt;pre tabindex="0">&lt;code>#include &amp;#34;stdio.h&amp;#34;
+#include &amp;#34;config.h&amp;#34;
+#include &amp;#34;foo.h&amp;#34;
+#ifndef config_load
+#define config_load() my_config_load()
+#endif
+void my_config_load() {
+printf(&amp;#34;wrap\n&amp;#34;);
+}
+void foo() {
+config_load();
+}
+&lt;/code>&lt;/pre>&lt;p>&lt;code>main.c&lt;/code>&lt;/p>
+&lt;pre tabindex="0">&lt;code>#include &amp;#34;foo.h&amp;#34;
+int main() {
+foo();
+return 0;
+}
+&lt;/code>&lt;/pre>&lt;p>&lt;code>Makefile&lt;/code>&lt;/p>
+&lt;pre tabindex="0">&lt;code>config.o:
+gcc -c config.c
+foo.o:
+gcc -c foo.c
+main.o:
+gcc -c main.c
+main: main.o foo.o config.o
+gcc -o main main.o foo.o config.o
+clean:
+rm *.o main
+&lt;/code>&lt;/pre>&lt;br>
+&lt;p>應該是可以搭配 Target-specific Variable Values 編出 production / development 的 &lt;code>foo.o&lt;/code>&lt;/p>
+&lt;p>感謝大神同事給的參考資料：&lt;/p>
+&lt;p>&lt;a href="https://www.gnu.org/software/make/manual/html_node/Target_002dspecific.html">Target-specific (GNU make)&lt;/a>&lt;/p>
+&lt;br>
+&lt;h2 id="參考資料">參考資料&lt;/h2>
+&lt;p>&lt;a href="https://stackoverflow.com/questions/31156327/how-to-mock-function-in-c-when-its-caller-function-is-defined-in-same-file">How to mock function in C when its caller function is defined in same file?&lt;/a>&lt;/p>
+&lt;p>&lt;a href="https://stackoverflow.com/questions/617554/override-a-function-call-in-c">Override a function call in C&lt;/a>&lt;/p>
+&lt;p>&lt;a href="https://stackoverflow.com/questions/43183060/how-to-wrap-existing-function-in-c">How to wrap existing function in C&lt;/a>&lt;/p>
+&lt;p>&lt;a href="https://orionlin.pixnet.net/blog/post/96013596-wrap-function%E7%9A%84%E4%BD%BF%E7%94%A8">wrap function的使用 @ Orion&amp;rsquo;s blog :: 痞客邦 ::&lt;/a>&lt;/p>
+- https://krapshsa.github.io/posts/c-mock-wrapper-function-87728a4c-9871-48d0-9b84-24dc3483bce4/ - © 2007 - 2022 krapshsa</description></item><item><title>C Unit Test - Criterion 簡單範例</title><link>https://krapshsa.github.io/posts/c-unit-test-criterion-eb7169c5-0a5e-4e8d-b9b5-04a8aa841ba1/</link><pubDate>Fri, 05 Aug 2022 01:52:00 +0800</pubDate><guid>https://krapshsa.github.io/posts/c-unit-test-criterion-eb7169c5-0a5e-4e8d-b9b5-04a8aa841ba1/</guid><description>KRAPSHSA'S BLOG https://krapshsa.github.io/posts/c-unit-test-criterion-eb7169c5-0a5e-4e8d-b9b5-04a8aa841ba1/ -&lt;h2 id="起因">起因&lt;/h2>
+&lt;p>要用一個公司很久以前自己寫的 C Lib，沒有文件所以不知道行為是什麼。&lt;/p>
+&lt;p>使用的過程中有發現問題，就進行一些修正。&lt;/p>
+&lt;p>想說幫他加上一些測試案例，幫助之後要使用的人。&lt;/p>
+&lt;br>
+&lt;h2 id="環境">環境&lt;/h2>
+&lt;h3 id="建置方法">建置方法&lt;/h3>
+&lt;p>由於公司是用 CentOS / RHEL / Oracle，我挑了一個差不多的 image 來建 CI&lt;/p>
+&lt;p>重點是 rpm 我從 github 上面裝，就可以直接 &lt;code>-l&lt;/code> 使用他的 Lib&lt;/p>
+&lt;p>其他是這個 C lib 需要的其他 Lib，跟底下範例無關&lt;/p>
+&lt;br>
+&lt;p>&lt;code>Dockerfile&lt;/code>&lt;/p>
+&lt;pre tabindex="0">&lt;code>FROM oraclelinux:8.6
+RUN yum install -y gcc make pcre pcre-devel
+RUN yum --enablerepo=ol8_codeready_builder install -y glibc glibc-common glibc-devel glibc-headers glibc-static
+RUN rpm -ivh https://github.com/samber/criterion-rpm-package/releases/download/2.3.3/libcriterion-devel-2.3.3-2.el7.x86_64.rpm
+&lt;/code>&lt;/pre>&lt;br>
+&lt;h2 id="code">Code&lt;/h2>
+&lt;p>&lt;code>sut.h&lt;/code>&lt;/p>
+&lt;pre tabindex="0">&lt;code>#ifndef TEST_CRITERION_SUT_H
+#define TEST_CRITERION_SUT_H
+typedef struct result
+{
+char *begin;
+} Result;
+extern int doSomething(char *pContent, Result **ppResult);
+extern void sutFree(Result **ppResult);
+#endif //TEST_CRITERION_SUT_H
+&lt;/code>&lt;/pre>&lt;br>
+&lt;p>&lt;code>sut.c&lt;/code>&lt;/p>
+&lt;pre tabindex="0">&lt;code>#include &amp;lt;stdlib.h&amp;gt;
+#include &amp;lt;string.h&amp;gt;
+#include &amp;#34;sut.h&amp;#34;
+int doSomething(char *pContent, Result **ppResult)
+{
+if (0 == strcmp(pContent, &amp;#34;INPUT_1&amp;#34;)) {
+*ppResult = (Result*)malloc(sizeof(Result));
+(*ppResult)-&amp;gt;begin = &amp;#34;OUTPUT_1&amp;#34;;
+return 1;
+}
+return 0;
+}
+void sutFree(Result **ppResult)
+{
+if(ppResult != NULL &amp;amp;&amp;amp; *ppResult != NULL) {
+free(*ppResult);
+*ppResult = NULL;
+}
+}
+&lt;/code>&lt;/pre>&lt;br>
+&lt;p>&lt;code>test.c&lt;/code>&lt;/p>
+&lt;pre tabindex="0">&lt;code>#include &amp;lt;string.h&amp;gt;
+#include &amp;lt;criterion/criterion.h&amp;gt;
+#include &amp;#34;sut.h&amp;#34;
+int ret = 0;
+int rule = -1;
+Result *s = NULL;
+void setup(void) {
+ret = 0;
+rule = -1;
+s = NULL;
+}
+void teardown(void) {
+if (NULL != s) {
+sutFree(&amp;amp;s);
+}
+}
+void givenContent(char *content) {
+ret = doSomething(content, &amp;amp;s);
+}
+void returnValueShouldBeSuccess() {
+cr_assert(ret &amp;gt; 0);
+}
+void returnValueShouldBeFailed() {
+cr_assert(ret &amp;lt;= 0);
+}
+void matchContentShouldBe(char *result) {
+cr_assert_eq(0, strcmp(result, s-&amp;gt;begin));
+}
+TestSuite(single_rule_suite, .init = setup, .fini = teardown);
+Test(single_rule_suite, test_success) {
+givenContent(&amp;#34;INPUT_1&amp;#34;);
+returnValueShouldBeSuccess();
+matchContentShouldBe(&amp;#34;OUTPUT_1&amp;#34;);
+}
+Test(single_rule_suite, test_failed) {
+givenContent(&amp;#34;INPUT_2&amp;#34;);
+returnValueShouldBeFailed();
+}
+&lt;/code>&lt;/pre>&lt;br>
+&lt;p>&lt;code>Makefile&lt;/code>&lt;/p>
+&lt;pre tabindex="0">&lt;code>CC = gcc -Wall
+sut.o: sut.c
+${CC} -c sut.c
+test.o: test.c
+${CC} -c test.c
+test: clean test.o sut.o
+${CC} -o test test.o sut.o -lcriterion
+./test
+clean:
+rm -f *.o
+&lt;/code>&lt;/pre>&lt;br>
+&lt;h2 id="結果">結果&lt;/h2>
+&lt;pre tabindex="0">&lt;code>./test
+[====] Synthesis: Tested: 2 | Passing: 2 | Failing: 0 | Crashing: 0
+&lt;/code>&lt;/pre>&lt;br>
+&lt;h2 id="簡易說明">簡易說明&lt;/h2>
+&lt;p>&lt;a href="https://criterion.readthedocs.io/en/master/starter.html?highlight=suite#configuration-reference">Getting started - Criterion 2.4.1-rc-1-g56f8f1a-dirty documentation&lt;/a>&lt;/p>
+&lt;br>
+&lt;h3 id="test-基本用法">Test 基本用法&lt;/h3>
+&lt;pre tabindex="0">&lt;code>Test(suite_name, test_name, .init = setup, .fini = teardown) {
+// test contents
+}
+&lt;/code>&lt;/pre>&lt;br>
+&lt;h3 id="test-suite-基本用法">Test Suite 基本用法&lt;/h3>
+&lt;p>官方給出的例子&lt;/p>
+&lt;pre tabindex="0">&lt;code>TestSuite(suite_name, [params...]);
+Test(suite_name, test_1) {
+}
+Test(suite_name, test_2) {
+}
+&lt;/code>&lt;/pre>&lt;br>
+&lt;p>我實際上是這樣用：&lt;/p>
+&lt;pre tabindex="0">&lt;code>TestSuite(single_rule_suite, .init = setup, .fini = teardown);
+Test(single_rule_suite, test_success) {
+...
+}
+Test(single_rule_suite, test_failed) {
+...
+}
+&lt;/code>&lt;/pre>&lt;p>因為大家的初始化跟銷毀都一樣，不需要在 &lt;code>Test&lt;/code> 裡面重複寫&lt;/p>
+&lt;br>
+&lt;h2 id="參考資料">參考資料&lt;/h2>
+- https://krapshsa.github.io/posts/c-unit-test-criterion-eb7169c5-0a5e-4e8d-b9b5-04a8aa841ba1/ - © 2007 - 2022 krapshsa</description></item><item><title>記一次 MariaDB CPU Loading 滿載查修過程</title><link>https://krapshsa.github.io/posts/mariadb-cpu-loading-e49af856-cc1f-45bf-9e40-f97a0718d89f/</link><pubDate>Thu, 04 Aug 2022 18:46:00 +0800</pubDate><guid>https://krapshsa.github.io/posts/mariadb-cpu-loading-e49af856-cc1f-45bf-9e40-f97a0718d89f/</guid><description>KRAPSHSA'S BLOG https://krapshsa.github.io/posts/mariadb-cpu-loading-e49af856-cc1f-45bf-9e40-f97a0718d89f/ -&lt;h2 id="起因">起因&lt;/h2>
 &lt;p>客戶環境的 MariaDB 把 CPU Resource 都吃滿了，&lt;/p>
 &lt;p>用 &lt;code>SHOW PROCESSLIST&lt;/code> 查詢有看到好幾條慢的查詢，亂槍打鳥調整了前幾筆都不見改善。&lt;/p>
 &lt;p>為了要可以比較精準地改善問題，做了一些研 (goo) 究 (gle)。&lt;/p>
 &lt;br>
 &lt;h2 id="症狀">症狀&lt;/h2>
 &lt;ol>
-&lt;li>用 TOP 只看得到 CPU 吃滿，但是記憶體的狀況是 OK 的
+&lt;li>用 TOP 只看得到 CPU 吃滿，但是記憶體的狀況是 OK 的&lt;br>
 &lt;img src="Screen_Shot_2022-08-04_at_6-933c0ea7-374b-425e-a8c0-48a7b22d5b20.52.53_PM.png" alt="">&lt;/li>
-&lt;li>ATOP 看起來硬碟也不忙，由於服務跟 DB 建在同一台，應該也不是網路問題
+&lt;li>ATOP 看起來硬碟也不忙，由於服務跟 DB 建在同一台，應該也不是網路問題&lt;br>
 &lt;img src="Screen_Shot_2022-08-04_at_6-4c435945-644d-404e-81b1-f95682c8e20e.54.25_PM.png" alt="">&lt;/li>
 &lt;li>約好停服務之後，不管三七二十一先 &lt;code>OPTIMIZE TABLE&lt;/code> 也沒有用&lt;/li>
 &lt;li>卡住的前幾名都是 UPDATE，一度懷疑是寫入的問題，但是實際找一個測試資料 Insert / Update 都很快，把這個 UPDATE 相關的 Code 拔掉也沒有用。&lt;/li>
@@ -67,10 +326,10 @@ Empty set (0.000 sec)
 &lt;/ol>
 &lt;br>
 &lt;h2 id="參考資料">參考資料&lt;/h2>
+&lt;p>&lt;a href="https://www.jianshu.com/p/57a42f6a8746">MySQL 执行计划 explain plan&lt;/a>&lt;/p>
+&lt;p>&lt;a href="https://ithelp.ithome.com.tw/articles/10221971">30-13 之資料庫層的優化 - 索引設計與雷區&lt;/a>&lt;/p>
 &lt;p>&lt;a href="https://www.percona.com/blog/2020/04/23/a-simple-approach-to-troubleshooting-high-cpu-in-mysql/">A Simple Approach to Troubleshooting High CPU in MySQL - Percona Database Performance Blog&lt;/a>&lt;/p>
-&lt;p>&lt;a href="https://ithelp.ithome.com.tw/articles/10221971">&lt;/a>&lt;/p>
 &lt;p>&lt;a href="https://segmentfault.com/a/1190000008131735">MySQL 性能优化神器 Explain 使用分析&lt;/a>&lt;/p>
-&lt;p>&lt;a href="https://www.jianshu.com/p/57a42f6a8746">&lt;/a>&lt;/p>
 &lt;p>&lt;a href="https://opensource.actionsky.com/20210407-mysql/">第25期：索引设计（索引的基数与可选择性） - 爱可生开源社区&lt;/a>&lt;/p>
 - https://krapshsa.github.io/posts/mariadb-cpu-loading-e49af856-cc1f-45bf-9e40-f97a0718d89f/ - © 2007 - 2022 krapshsa</description></item><item><title>Windows 上的類 Unix 環境 - Cygwin、MinGW、MSYS</title><link>https://krapshsa.github.io/posts/windows-unix-cygwin-mingw-msys-05707f1a-cacd-4484-9457-7aa26c7cace8/</link><pubDate>Sun, 31 Jul 2022 22:58:00 +0800</pubDate><guid>https://krapshsa.github.io/posts/windows-unix-cygwin-mingw-msys-05707f1a-cacd-4484-9457-7aa26c7cace8/</guid><description>KRAPSHSA'S BLOG https://krapshsa.github.io/posts/windows-unix-cygwin-mingw-msys-05707f1a-cacd-4484-9457-7aa26c7cace8/ -&lt;hr>
 &lt;h2 id="起因">起因&lt;/h2>
@@ -107,22 +366,22 @@ Empty set (0.000 sec)
 &lt;p>&lt;a href="https://www.msys2.org/wiki/MSYS2-introduction/">MSYS2 - MSYS2-Introduction&lt;/a>&lt;/p>
 &lt;p>&lt;a href="https://www.msys2.org/wiki/How-does-MSYS2-differ-from-Cygwin/">MSYS2 - How does MSYS2 differ from Cygwin?&lt;/a>&lt;/p>
 &lt;blockquote>
-&lt;p>MSYS2 is software distribution and a building platform for Windows.
-It provides a Unix-like environment, a command-line interface and a software repository making it easier to install, use, build and port software on Windows.
-That means Bash, Autotools, Make, Git, GCC, GDB&amp;hellip;, all easily installable through Pacman, a fully-featured package manager.
+&lt;p>MSYS2 is software distribution and a building platform for Windows.&lt;br>
+It provides a Unix-like environment, a command-line interface and a software repository making it easier to install, use, build and port software on Windows.&lt;br>
+That means Bash, Autotools, Make, Git, GCC, GDB&amp;hellip;, all easily installable through Pacman, a fully-featured package manager.&lt;br>
 It is an independent rewrite of MSys, based on modern Cygwin (POSIX compatibility layer) and MinGW-w64 with the aim of better interoperability with native Windows software.&lt;/p>
 &lt;/blockquote>
 &lt;blockquote>
 &lt;p>MSYS2 consists of three subsystems and their corresponding package repositories, &lt;code>msys2&lt;/code>, &lt;code>mingw32&lt;/code>, and &lt;code>mingw64&lt;/code>.&lt;/p>
 &lt;/blockquote>
 &lt;blockquote>
-&lt;p>The &lt;code>mingw&lt;/code> subsystems provide native Windows programs and are the main focus of the project.
-These programs are built to co-operate well with other Windows programs, independently of the other subsystems.
+&lt;p>The &lt;code>mingw&lt;/code> subsystems provide native Windows programs and are the main focus of the project.&lt;br>
+These programs are built to co-operate well with other Windows programs, independently of the other subsystems.&lt;br>
 This part builds on the MinGW-w64 project.&lt;/p>
 &lt;/blockquote>
 &lt;blockquote>
-&lt;p>The &lt;code>msys2&lt;/code> subsystem provides an emulated mostly-POSIX-compliant environment for building software, package management, and shell scripting.
-These programs live in a virtual single-root filesystem (the root is the MSYS2 installation directory).
+&lt;p>The &lt;code>msys2&lt;/code> subsystem provides an emulated mostly-POSIX-compliant environment for building software, package management, and shell scripting.&lt;br>
+These programs live in a virtual single-root filesystem (the root is the MSYS2 installation directory).&lt;br>
 Some effort is made to have the programs work well with native Windows programs, but it&amp;rsquo;s not seamless. This part builds on the Cygwin project.&lt;/p>
 &lt;/blockquote>
 &lt;p>這邊寫 MSYS2 有兩大類的子系統：&lt;/p>
@@ -188,7 +447,7 @@ Some effort is made to have the programs work well with native Windows programs,
 &lt;p>既然在 Windows 上開發 Unix 程式，環境這麼不好搞定，那就乾脆 toolchain 放在 VM 之類的環境裡面。&lt;/p>
 &lt;p>搜尋了一下有滿多人在抱怨如果要把編譯環境放在 WSL 裡面，但是用 Windows 上的編輯器 / IDE 開發很不順手 (路徑轉換、效能問題 …)。&lt;/p>
 &lt;blockquote>
-&lt;p>不在 wsl2 里安装 ide 的话，lz 的问题永远解决不了
+&lt;p>不在 wsl2 里安装 ide 的话，lz 的问题永远解决不了&lt;br>
 本身跨虚拟机宿主机之间的文件交互性能就很差，你一定要在 Windows 下读 WSL2 的文件或 WSL2 读 Windows 都不会有好体验的&lt;/p>
 &lt;/blockquote>
 &lt;blockquote>
@@ -260,7 +519,7 @@ Jul 28 11:12:19 localhost dockerd[1271313]: time=&amp;#34;2022-07-28T11:12:19.90
 Jul 28 11:12:19 localhost dockerd[1271313]: time=&amp;#34;2022-07-28T11:12:19.905022331+08:00&amp;#34; level=error msg=&amp;#34;Error getting task 3c902d2962f7: task 3c902d2962f7 not found&amp;#34;
 Jul 28 11:12:19 localhost dockerd[1271313]: time=&amp;#34;2022-07-28T11:12:19.906474336+08:00&amp;#34; level=error msg=&amp;#34;Error getting node 3c902d2962f7: node 3c902d2962f7 not found&amp;#34;
 &lt;/code>&lt;/pre>&lt;p>&lt;!-- raw HTML omitted -->&lt;!-- raw HTML omitted -->&lt;/p>
-&lt;p>一開始懷疑是沒有辦法關掉 process，可能在卡在寫 Log 了。
+&lt;p>一開始懷疑是沒有辦法關掉 process，可能在卡在寫 Log 了。&lt;br>
 照著這個思路，先去查詢查詢 container 相對應的 pid：&lt;/p>
 &lt;pre tabindex="0">&lt;code>docker inspect -f &amp;#39;{{.State.Pid}}&amp;#39; 3c902d2962f7
 1269485
@@ -359,7 +618,7 @@ Jul 28 11:12:19 localhost dockerd[1271313]: time=&amp;#34;2022-07-28T11:12:19.90
 Jul 28 11:12:19 localhost dockerd[1271313]: time=&amp;#34;2022-07-28T11:12:19.906474336+08:00&amp;#34; level=error msg=&amp;#34;Error getting node 3c902d2962f7: node 3c902d2962f7 not found&amp;#34;
 &lt;/code>&lt;/pre>&lt;br>
 &lt;h2 id="猜測">猜測&lt;/h2>
-&lt;p>一開始懷疑是沒有辦法關掉 process，可能在卡在寫 Log 了。
+&lt;p>一開始懷疑是沒有辦法關掉 process，可能在卡在寫 Log 了。&lt;br>
 照著這個思路，先去查詢查詢 container 相對應的 pid：&lt;/p>
 &lt;pre tabindex="0">&lt;code>docker inspect -f &amp;#39;{{.State.Pid}}&amp;#39; 3c902d2962f7
 1269485
