@@ -6,7 +6,7 @@ toc: true
 autoCollapseToc: false
 comment: true
 categories: []
-tags: []
+tags: [mariadb]
 ---
 
 ## 起因
@@ -113,12 +113,12 @@ SLA 未達承諾是要被罰的，當時這個方法有用就先頂著用了。
 
 ## 參考資料
 
+[MySQL 执行计划 explain plan](https://www.jianshu.com/p/57a42f6a8746)
+
+[30-13 之資料庫層的優化 - 索引設計與雷區](https://ithelp.ithome.com.tw/articles/10221971)
+
 [A Simple Approach to Troubleshooting High CPU in MySQL - Percona Database Performance Blog](https://www.percona.com/blog/2020/04/23/a-simple-approach-to-troubleshooting-high-cpu-in-mysql/)
 
-[](https://ithelp.ithome.com.tw/articles/10221971)
-
 [MySQL 性能优化神器 Explain 使用分析](https://segmentfault.com/a/1190000008131735)
-
-[](https://www.jianshu.com/p/57a42f6a8746)
 
 [第25期：索引设计（索引的基数与可选择性） - 爱可生开源社区](https://opensource.actionsky.com/20210407-mysql/)
