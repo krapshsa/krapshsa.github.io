@@ -1,6 +1,51 @@
-<?xml-stylesheet href="/rss.xsl" type="text/xsl"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>KRAPSHSA'S BLOG</title><link>https://krapshsa.github.io/</link><description>Recent content on KRAPSHSA'S BLOG</description><generator>Hugo -- gohugo.io</generator><language>zh-tw</language><copyright>© 2007 - 2022 krapshsa</copyright><lastBuildDate>Mon, 15 Aug 2022 19:26:00 +0800</lastBuildDate><atom:link href="https://krapshsa.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>iOS 無法預覽高 DPI 的 pdf</title><link>https://krapshsa.github.io/posts/ios-dpi-pdf-16af8336-45e8-4ad0-8764-5a0eab1ec309/</link><pubDate>Mon, 15 Aug 2022 19:26:00 +0800</pubDate><guid>https://krapshsa.github.io/posts/ios-dpi-pdf-16af8336-45e8-4ad0-8764-5a0eab1ec309/</guid><description>KRAPSHSA'S BLOG https://krapshsa.github.io/posts/ios-dpi-pdf-16af8336-45e8-4ad0-8764-5a0eab1ec309/ -&lt;h2 id="起因">起因&lt;/h2>
+<?xml-stylesheet href="/rss.xsl" type="text/xsl"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>KRAPSHSA'S BLOG</title><link>https://krapshsa.github.io/</link><description>Recent content on KRAPSHSA'S BLOG</description><generator>Hugo -- gohugo.io</generator><language>zh-tw</language><copyright>© 2007 - 2022 krapshsa</copyright><lastBuildDate>Mon, 15 Aug 2022 19:26:00 +0800</lastBuildDate><atom:link href="https://krapshsa.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>iOS 瀏覽器無法瀏覽高 DPI 的 pdf</title><link>https://krapshsa.github.io/posts/ios-dpi-pdf-16af8336-45e8-4ad0-8764-5a0eab1ec309/</link><pubDate>Mon, 15 Aug 2022 19:26:00 +0800</pubDate><guid>https://krapshsa.github.io/posts/ios-dpi-pdf-16af8336-45e8-4ad0-8764-5a0eab1ec309/</guid><description>KRAPSHSA'S BLOG https://krapshsa.github.io/posts/ios-dpi-pdf-16af8336-45e8-4ad0-8764-5a0eab1ec309/ -&lt;h2 id="起因">起因&lt;/h2>
+&lt;p>NextCloud 有一個功能 (PDF Viewer)，&lt;/p>
+&lt;p>可以讓我在手機瀏覽器上直接瀏覽 PDF。&lt;/p>
+&lt;p>但是今天有一個用掃描器掃上來的 PDF 卻無法正常在手機端瀏覽&lt;/p>
 &lt;br>
+&lt;h2 id="症狀">症狀&lt;/h2>
+&lt;p>瀏覽 pdf 的時候會一片空白，並且產生錯誤訊息&lt;/p>
+&lt;pre tabindex="0">&lt;code>Canvas area exceeds the maximum limit (width * height &amp;gt; 16777216).
+&lt;/code>&lt;/pre>&lt;br>
+&lt;p>經查詢原來是 iOS 的 &lt;code>canvas&lt;/code> element 有大小限制：&lt;/p>
+&lt;p>&lt;a href="https://pqina.nl/blog/canvas-area-exceeds-the-maximum-limit/">Canvas Area Exceeds The Maximum Limit&lt;/a>&lt;/p>
 &lt;br>
+&lt;p>跟 PDF.js 無關，所以這條 issue 至今也是無解：&lt;/p>
+&lt;br>
+&lt;h2 id="解決方法">解決方法&lt;/h2>
+&lt;p>搬運 &lt;code>askubuntu&lt;/code> 的解法，先在 Server Side 用 ghost script 把 DPI 改小就好了：&lt;/p>
+&lt;pre tabindex="0">&lt;code>gs -sDEVICE=pdfwrite \
+-dCompatibilityLevel=1.4 \
+-dPDFSETTINGS=/ebook \
+-dNOPAUSE \
+-dQUIET \
+-dBATCH \
+-sOutputFile=output.pdf input.pdf
+&lt;/code>&lt;/pre>&lt;br>
+&lt;ul>
+&lt;li>
+&lt;p>&lt;code>-dCompatibilityLevel&lt;/code> (不知道有什麼用)&lt;/p>
+&lt;p>&lt;a href="https://acrobatusers.com/tutorials/understanding-pdf-compatibility-levels/">Understanding PDF compatibility levels in Acrobat 9&lt;/a>&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;code>-dPDFSETTINGS&lt;/code> 用來調整 DPI&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;code>-dNOPAUSE&lt;/code> 停用每頁結束時的提示和暫停&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;code>-dQUIET&lt;/code> 安靜執行，儘量不輸出日誌&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;code>-dBATCH&lt;/code> 執行到最後一頁退出&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;br>
+&lt;h2 id="參考資料">參考資料&lt;/h2>
+&lt;p>&lt;a href="https://apps.nextcloud.com/apps/files_pdfviewer">PDF viewer&lt;/a>&lt;/p>
+&lt;p>&lt;a href="https://pqina.nl/blog/canvas-area-exceeds-the-maximum-limit/">Canvas Area Exceeds The Maximum Limit&lt;/a>&lt;/p>
+&lt;p>&lt;a href="https://askubuntu.com/questions/113544/how-can-i-reduce-the-file-size-of-a-scanned-pdf-file">How can I reduce the file size of a scanned PDF file?&lt;/a>&lt;/p>
+&lt;p>&lt;a href="https://www.ghostscript.com/doc/current/VectorDevices.htm#COMMON">High Level Output Devices&lt;/a>&lt;/p>
 - https://krapshsa.github.io/posts/ios-dpi-pdf-16af8336-45e8-4ad0-8764-5a0eab1ec309/ - © 2007 - 2022 krapshsa</description></item><item><title>簡易 C Mock — wrapper function</title><link>https://krapshsa.github.io/posts/c-mock-wrapper-function-87728a4c-9871-48d0-9b84-24dc3483bce4/</link><pubDate>Sat, 06 Aug 2022 11:12:00 +0800</pubDate><guid>https://krapshsa.github.io/posts/c-mock-wrapper-function-87728a4c-9871-48d0-9b84-24dc3483bce4/</guid><description>KRAPSHSA'S BLOG https://krapshsa.github.io/posts/c-mock-wrapper-function-87728a4c-9871-48d0-9b84-24dc3483bce4/ -&lt;h2 id="起因">起因&lt;/h2>
 &lt;p>幫一個舊的 Lib 寫測試的時候會去讀 config，&lt;/p>
 &lt;p>但是這個路徑在我的 CI 環境並不存在，&lt;/p>
