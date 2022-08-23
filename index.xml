@@ -1,4 +1,153 @@
-<?xml-stylesheet href="/rss.xsl" type="text/xsl"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>KRAPSHSA'S BLOG</title><link>https://krapshsa.github.io/</link><description>Recent content on KRAPSHSA'S BLOG</description><generator>Hugo -- gohugo.io</generator><language>zh-tw</language><copyright>© 2007 - 2022 krapshsa</copyright><lastBuildDate>Mon, 15 Aug 2022 19:26:00 +0800</lastBuildDate><atom:link href="https://krapshsa.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>iOS 瀏覽器無法瀏覽高 DPI 的 pdf</title><link>https://krapshsa.github.io/posts/ios-dpi-pdf-16af8336-45e8-4ad0-8764-5a0eab1ec309/</link><pubDate>Mon, 15 Aug 2022 19:26:00 +0800</pubDate><guid>https://krapshsa.github.io/posts/ios-dpi-pdf-16af8336-45e8-4ad0-8764-5a0eab1ec309/</guid><description>KRAPSHSA'S BLOG https://krapshsa.github.io/posts/ios-dpi-pdf-16af8336-45e8-4ad0-8764-5a0eab1ec309/ -&lt;h2 id="起因">起因&lt;/h2>
+<?xml-stylesheet href="/rss.xsl" type="text/xsl"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>KRAPSHSA'S BLOG</title><link>https://krapshsa.github.io/</link><description>Recent content on KRAPSHSA'S BLOG</description><generator>Hugo -- gohugo.io</generator><language>zh-tw</language><copyright>© 2007 - 2022 krapshsa</copyright><lastBuildDate>Sat, 20 Aug 2022 14:27:00 +0800</lastBuildDate><atom:link href="https://krapshsa.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>Grind 75 Week 1 回顧</title><link>https://krapshsa.github.io/posts/grind-75-week-1-25ae9972-3073-40bc-a1b3-0ddf7ae7fb41/</link><pubDate>Sat, 20 Aug 2022 14:27:00 +0800</pubDate><guid>https://krapshsa.github.io/posts/grind-75-week-1-25ae9972-3073-40bc-a1b3-0ddf7ae7fb41/</guid><description>KRAPSHSA'S BLOG https://krapshsa.github.io/posts/grind-75-week-1-25ae9972-3073-40bc-a1b3-0ddf7ae7fb41/ -&lt;hr>
+&lt;h2 id="小心得">小心得&lt;/h2>
+&lt;p>Week 1 的題目都是 Easy，(除了 53. Maximum Subarray 現在難度被重新評級為 Medium)&lt;/p>
+&lt;p>雖然不至於寫不出來，但是還是有很容易寫錯的題目。&lt;/p>
+&lt;p>發現我對於臨界值的掌握有點差：&lt;/p>
+&lt;ol>
+&lt;li>經常發生越界&lt;/li>
+&lt;li>不知道可以剪枝 (有時候會遞迴重複項目)&lt;/li>
+&lt;/ol>
+&lt;br>
+&lt;h2 id="two-sumhttpsleetcodecomproblemstwo-sum">&lt;a href="https://leetcode.com/problems/two-sum">Two Sum&lt;/a>&lt;/h2>
+&lt;p>暴力法，用兩個 Loop 嘗試各種組合&lt;/p>
+&lt;br>
+&lt;h2 id="valid-parentheseshttpsleetcodecomproblemsvalid-parentheses">&lt;a href="https://leetcode.com/problems/valid-parentheses">Valid Parentheses&lt;/a>&lt;/h2>
+&lt;p>Stack，成對的就 pop 掉，不然就塞進 Stack 內&lt;/p>
+&lt;br>
+&lt;h2 id="merge-two-sorted-listshttpsleetcodecomproblemsmerge-two-sorted-lists">&lt;a href="https://leetcode.com/problems/merge-two-sorted-lists">Merge Two Sorted Lists&lt;/a>&lt;/h2>
+&lt;p>相同大小無順序，就把兩個 List 都輪流遍歷就可以了&lt;/p>
+&lt;p>終止條件是 List 都為空就做完了&lt;/p>
+&lt;br>
+&lt;h2 id="best-time-to-buy-and-sell-stockhttpsleetcodecomproblemsbest-time-to-buy-and-sell-stock">&lt;a href="https://leetcode.com/problems/best-time-to-buy-and-sell-stock">Best Time to Buy and Sell Stock&lt;/a>&lt;/h2>
+&lt;p>買點是各個可能的谷底，在從左到右的過程中，如果遇到更低的價格，就更新潛在最佳買點。&lt;/p>
+&lt;p>但是這題沒有要求是哪個點，所以就計算最大利潤存起來就好。&lt;/p>
+&lt;br>
+&lt;h2 id="valid-palindromehttpsleetcodecomproblemsvalid-palindrome">&lt;a href="https://leetcode.com/problems/valid-palindrome">Valid Palindrome&lt;/a>&lt;/h2>
+&lt;p>題目寫：&lt;/p>
+&lt;blockquote>
+&lt;p>Alphanumeric characters include letters and numbers.&lt;/p>
+&lt;/blockquote>
+&lt;p>我漏掉了數字，WA 一次，這題我花比較多時間，因為第一次寫 Go 不知道到底要怎麼判斷字符。&lt;/p>
+&lt;br>
+&lt;h2 id="invert-binary-treehttpsleetcodecomproblemsinvert-binary-tree">&lt;a href="https://leetcode.com/problems/invert-binary-tree">Invert Binary Tree&lt;/a>&lt;/h2>
+&lt;p>遞迴交換，新的右邊是舊的左邊 &lt;code>invertTree&lt;/code>，左邊也是同樣道理。&lt;/p>
+&lt;br>
+&lt;h2 id="valid-anagramhttpsleetcodecomproblemsvalid-anagram">&lt;a href="https://leetcode.com/problems/valid-anagram">Valid Anagram&lt;/a>&lt;/h2>
+&lt;p>用 hasmap 存出現頻率&lt;/p>
+&lt;p>延伸題目是 unicode 怎麼辦？用 go 寫很容易，做一個 key 是 rune 的 map 就好了&lt;/p>
+&lt;pre tabindex="0">&lt;code>letterMap := make(map[rune]int)
+&lt;/code>&lt;/pre>&lt;br>
+&lt;h2 id="binary-searchhttpsleetcodecomproblemsbinary-search">&lt;a href="https://leetcode.com/problems/binary-search">Binary Search&lt;/a>&lt;/h2>
+&lt;p>心態打擊，逢寫必錯&lt;/p>
+&lt;p>推薦看一下 Carl 大大的手撕二分法&lt;/p>
+&lt;p>&lt;a href="https://www.bilibili.com/video/BV1fA4y1o715">手把手带你撕出正确的二分法 | 二分查找法 | 二分搜索法 | LeetCode：704. 二分查找_哔哩哔哩_bilibili&lt;/a>&lt;/p>
+&lt;p>學習重點：&lt;/p>
+&lt;ul>
+&lt;li>循環不變量&lt;/li>
+&lt;li>區間&lt;/li>
+&lt;/ul>
+&lt;p>這題我使用左閉右閉區間，也就是終止條件應該是 &lt;code>left ≤ right&lt;/code>&lt;/p>
+&lt;p>並解用過的區間就不應該再用了，不然會導致無窮的做下去&lt;/p>
+&lt;br>
+&lt;h2 id="flood-fillhttpsleetcodecomproblemsflood-fill">&lt;a href="https://leetcode.com/problems/flood-fill">Flood Fill&lt;/a>&lt;/h2>
+&lt;p>我把指定的點的上下左右丟進 queue 裡面，再拿出來處理。&lt;/p>
+&lt;p>要注意邊界，以及不要重複做。&lt;/p>
+&lt;br>
+&lt;h2 id="maximum-subarray25ae9972307340bca1b30ddf7ae7fb41">&lt;a href="https://krapshsa.github.io/25ae9972307340bca1b30ddf7ae7fb41">Maximum Subarray&lt;/a>&lt;/h2>
+&lt;p>一個解的左邊元素以及右邊元素只有可能是：&lt;/p>
+&lt;ol>
+&lt;li>空的&lt;/li>
+&lt;li>和是負的 → 若是正的，可以加起來形成更大的 subarray&lt;/li>
+&lt;/ol>
+&lt;p>想法是從左到右找，並且紀錄：&lt;/p>
+&lt;ol>
+&lt;li>最大的和 → 可能解&lt;/li>
+&lt;li>現在的和 → 可能可以貢獻到解 → 一旦為負就表示不可能是解一部分 → 重置要貢獻的和&lt;/li>
+&lt;/ol>
+&lt;p>Edge Case：全部都是負的&lt;/p>
+&lt;p>WA&lt;/p>
+&lt;pre tabindex="0">&lt;code>func maxSubArray(nums []int) int {
+maxSum := nums[0]
+curSum := 0
+for i := 0; i &amp;lt; len(nums); i++ {
+curSum += nums[i]
+if curSum &amp;lt; 0 {
+curSum = 0
+continue
+}
+if curSum &amp;gt; maxSum {
+maxSum = curSum
+}
+}
+return maxSum
+}
+&lt;/code>&lt;/pre>&lt;p>AC1&lt;/p>
+&lt;pre tabindex="0">&lt;code>func maxSubArray(nums []int) int {
+maxSum := nums[0]
+curSum := 0
+for i := 0; i &amp;lt; len(nums); i++ {
+curSum += nums[i]
+if curSum &amp;gt; maxSum {
+maxSum = curSum
+}
+if curSum &amp;lt; 0 {
+curSum = 0
+}
+}
+return maxSum
+}
+&lt;/code>&lt;/pre>&lt;p>AC2&lt;/p>
+&lt;pre tabindex="0">&lt;code>func maxSubArray(nums []int) int {
+maxSum := nums[0]
+curSum := nums[0]
+for i := 1; i &amp;lt; len(nums); i++ {
+if curSum &amp;lt; 0 {
+curSum = nums[i]
+} else {
+curSum += nums[i]
+}
+if curSum &amp;gt; maxSum {
+maxSum = curSum
+}
+}
+return maxSum
+}
+&lt;/code>&lt;/pre>&lt;h2 id="lowest-common-ancestor-of-a-binary-search-treehttpsleetcodecomproblemslowest-common-ancestor-of-a-binary-search-tree">&lt;a href="https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-search-tree">Lowest Common Ancestor of a Binary Search Tree&lt;/a>&lt;/h2>
+&lt;p>給兩個點 p, q 在過程中，如果我找到一個點：&lt;/p>
+&lt;ol>
+&lt;li>其中一個是 p 或 q → 高的是 ancestor&lt;/li>
+&lt;li>p, q 在不同邊 → 該點是 ancestor&lt;/li>
+&lt;/ol>
+&lt;p>另外一個想法是：&lt;/p>
+&lt;ol>
+&lt;li>都在左側 → 左邊那個點是可能的 ancestor，往左找&lt;/li>
+&lt;li>都在右側 → 右邊那個點是可能的 ancestor，往右找&lt;/li>
+&lt;li>其他：找到了&lt;/li>
+&lt;/ol>
+&lt;pre tabindex="0">&lt;code>func lowestCommonAncestor(root, p, q *TreeNode) *TreeNode {
+lowest := root
+for true {
+if lowest.Val &amp;gt; p.Val &amp;amp;&amp;amp; lowest.Val &amp;gt; q.Val {
+lowest = lowest.Left
+} else if lowest.Val &amp;lt; p.Val &amp;amp;&amp;amp; lowest.Val &amp;lt; q.Val {
+lowest = lowest.Right
+} else {
+break
+}
+}
+return lowest
+}
+&lt;/code>&lt;/pre>&lt;br>
+&lt;h2 id="balanced-binary-treehttpsleetcodecomproblemsbalanced-binary-tree">&lt;a href="https://leetcode.com/problems/balanced-binary-tree">Balanced Binary Tree&lt;/a>&lt;/h2>
+&lt;p>遞迴：DFS 回傳值為是否 balanced 以及深度&lt;/p>
+&lt;br>
+&lt;h2 id="linked-list-cyclehttpsleetcodecomproblemslinked-list-cycle">&lt;a href="https://leetcode.com/problems/linked-list-cycle">Linked List Cycle&lt;/a>&lt;/h2>
+&lt;p>NeetCode 講得很清楚&lt;/p>
+&lt;p>&lt;a href="https://www.youtube.com/watch?v=gBTe7lFR3vc">Linked List Cycle - Floyd&amp;rsquo;s Tortoise and Hare - Leetcode 141 - Python&lt;/a>&lt;/p>
+&lt;p>沒有 cycle → 最後會走到 nil&lt;/p>
+&lt;p>有 cycle → 快慢指針相遇&lt;/p>
+&lt;p>這題的延伸題是求解 cycle 的開端&lt;/p>
+- https://krapshsa.github.io/posts/grind-75-week-1-25ae9972-3073-40bc-a1b3-0ddf7ae7fb41/ - © 2007 - 2022 krapshsa</description></item><item><title>iOS 瀏覽器無法瀏覽高 DPI 的 pdf</title><link>https://krapshsa.github.io/posts/ios-dpi-pdf-16af8336-45e8-4ad0-8764-5a0eab1ec309/</link><pubDate>Mon, 15 Aug 2022 19:26:00 +0800</pubDate><guid>https://krapshsa.github.io/posts/ios-dpi-pdf-16af8336-45e8-4ad0-8764-5a0eab1ec309/</guid><description>KRAPSHSA'S BLOG https://krapshsa.github.io/posts/ios-dpi-pdf-16af8336-45e8-4ad0-8764-5a0eab1ec309/ -&lt;h2 id="起因">起因&lt;/h2>
 &lt;p>NextCloud 有一個功能 (PDF Viewer)，&lt;/p>
 &lt;p>可以讓我在手機瀏覽器上直接瀏覽 PDF。&lt;/p>
 &lt;p>但是今天有一個用掃描器掃上來的 PDF 卻無法正常在手機端瀏覽&lt;/p>
