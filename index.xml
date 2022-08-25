@@ -1,4 +1,71 @@
-<?xml-stylesheet href="/rss.xsl" type="text/xsl"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>KRAPSHSA'S BLOG</title><link>https://krapshsa.github.io/</link><description>Recent content on KRAPSHSA'S BLOG</description><generator>Hugo -- gohugo.io</generator><language>zh-tw</language><copyright>© 2007 - 2022 krapshsa</copyright><lastBuildDate>Sat, 20 Aug 2022 14:27:00 +0800</lastBuildDate><atom:link href="https://krapshsa.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>Grind 75 Week 1 回顧</title><link>https://krapshsa.github.io/posts/grind-75-week-1-25ae9972-3073-40bc-a1b3-0ddf7ae7fb41/</link><pubDate>Sat, 20 Aug 2022 14:27:00 +0800</pubDate><guid>https://krapshsa.github.io/posts/grind-75-week-1-25ae9972-3073-40bc-a1b3-0ddf7ae7fb41/</guid><description>KRAPSHSA'S BLOG https://krapshsa.github.io/posts/grind-75-week-1-25ae9972-3073-40bc-a1b3-0ddf7ae7fb41/ -&lt;hr>
+<?xml-stylesheet href="/rss.xsl" type="text/xsl"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>KRAPSHSA'S BLOG</title><link>https://krapshsa.github.io/</link><description>Recent content on KRAPSHSA'S BLOG</description><generator>Hugo -- gohugo.io</generator><language>zh-tw</language><copyright>© 2007 - 2022 krapshsa</copyright><lastBuildDate>Wed, 24 Aug 2022 00:25:00 +0800</lastBuildDate><atom:link href="https://krapshsa.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>Grind 75 Week 2 回顧</title><link>https://krapshsa.github.io/posts/grind-75-week-2-9b5eb7be-6c04-4c31-972e-17dbc7574690/</link><pubDate>Wed, 24 Aug 2022 00:25:00 +0800</pubDate><guid>https://krapshsa.github.io/posts/grind-75-week-2-9b5eb7be-6c04-4c31-972e-17dbc7574690/</guid><description>KRAPSHSA'S BLOG https://krapshsa.github.io/posts/grind-75-week-2-9b5eb7be-6c04-4c31-972e-17dbc7574690/ -&lt;hr>
+&lt;h2 id="小心得">小心得&lt;/h2>
+&lt;p>有一些題目第一次寫，寫不出來了。例如 &lt;a href="https://leetcode.com/problems/climbing-stairs">Climbing Stairs&lt;/a>&lt;/p>
+&lt;br>
+&lt;h2 id="implement-queue-using-stackshttpsleetcodecomproblemsimplement-queue-using-stacks">&lt;a href="https://leetcode.com/problems/implement-queue-using-stacks">Implement Queue using Stacks&lt;/a>&lt;/h2>
+&lt;ul>
+&lt;li>Stack: FILO&lt;/li>
+&lt;li>Queue: FIFO&lt;/li>
+&lt;/ul>
+&lt;ol>
+&lt;li>需要倒轉 Stack 的內容
+&lt;ol>
+&lt;li>把 Stack pop 的內容 push 到另外一個 Stack 就完成了倒轉 → 所以需要兩個 Stack&lt;/li>
+&lt;/ol>
+&lt;/li>
+&lt;li>要保證順序性，所以倒轉的過程只能發生在用來放倒轉元素的 Stack 為空的時候&lt;/li>
+&lt;/ol>
+&lt;br>
+&lt;h2 id="first-bad-versionhttpsleetcodecomproblemsfirst-bad-version">&lt;a href="https://leetcode.com/problems/first-bad-version">First Bad Version&lt;/a>&lt;/h2>
+&lt;p>又是 Binary Search，要小心邊界問題以及重複問題&lt;/p>
+&lt;p>可以去看 Week 1 的 Binary Search， Carl 的影片很清楚&lt;/p>
+&lt;p>個人認為左閉右開區間很難懂，還是使用左閉右閉，即 &lt;code>left&lt;/code> &lt;code>right&lt;/code> 都是搜索範圍&lt;/p>
+&lt;br>
+&lt;h2 id="ransom-notehttpsleetcodecomproblemsransom-note">&lt;a href="https://leetcode.com/problems/ransom-note">Ransom Note&lt;/a>&lt;/h2>
+&lt;p>map 解&lt;/p>
+&lt;br>
+&lt;h2 id="climbing-stairshttpsleetcodecomproblemsclimbing-stairs">&lt;a href="https://leetcode.com/problems/climbing-stairs">Climbing Stairs&lt;/a>&lt;/h2>
+&lt;p>第 n 階的上樓方法是：&lt;/p>
+&lt;ul>
+&lt;li>第 (n-1) 階 + 1 → 上到第 (n-1) 階的方法數&lt;/li>
+&lt;li>第 (n-2) 階 + 2 → 上道第 (n-2) 階的方法數&lt;/li>
+&lt;li>第 (n-2) 階 + 1 + 1 → 已經被算過了不重複算&lt;/li>
+&lt;/ul>
+&lt;br>
+&lt;h2 id="longest-palindromehttpsleetcodecomproblemslongest-palindrome">&lt;a href="https://leetcode.com/problems/longest-palindrome">Longest Palindrome&lt;/a>&lt;/h2>
+&lt;p>map 紀錄有多少成對的字元&lt;/p>
+&lt;p>回文中間可以是單獨的字元，只要判斷一下最後成對的加起來個數有沒有跟原始字串一樣長，&lt;/p>
+&lt;ul>
+&lt;li>是 → 解&lt;/li>
+&lt;li>否 → 可以加一&lt;/li>
+&lt;/ul>
+&lt;br>
+&lt;h2 id="reverse-linked-listhttpsleetcodecomproblemsreverse-linked-list">&lt;a href="https://leetcode.com/problems/reverse-linked-list">Reverse Linked List&lt;/a>&lt;/h2>
+&lt;p>要記得下一個跟前一個，比兩兩交換稍微複雜一點&lt;/p>
+&lt;br>
+&lt;h2 id="majority-elementhttpsleetcodecomproblemsmajority-element">&lt;a href="https://leetcode.com/problems/majority-element">Majority Element&lt;/a>&lt;/h2>
+&lt;p>solution 很值得一看，有很多種想法介紹而且都很詳細&lt;/p>
+&lt;p>&lt;a href="https://leetcode.com/problems/majority-element/solution/">Majority Element - LeetCode&lt;/a>&lt;/p>
+&lt;p>Boyer-Moore Voting Algorithm&lt;/p>
+&lt;p>存在絕對多數的情況下，倆倆不同的元素湮滅，最後剩下的就是眾數&lt;/p>
+&lt;br>
+&lt;h2 id="add-binaryhttpsleetcodecomproblemsadd-binary">&lt;a href="https://leetcode.com/problems/add-binary">Add Binary&lt;/a>&lt;/h2>
+&lt;p>開一個比輸入稍大的 slice，從最後一個 bit 開始加&lt;/p>
+&lt;br>
+&lt;h2 id="diameter-of-binary-treehttpsleetcodecomproblemsdiameter-of-binary-tree">&lt;a href="https://leetcode.com/problems/diameter-of-binary-tree">Diameter of Binary Tree&lt;/a>&lt;/h2>
+&lt;p>這題我錯了很多次，後來發現兩個點之間的最長路線是可以不通過頂點的。&lt;/p>
+&lt;p>DFS 紀錄最長的左與右&lt;/p>
+&lt;br>
+&lt;h2 id="middle-of-the-linked-listhttpsleetcodecomproblemsmiddle-of-the-linked-list">&lt;a href="https://leetcode.com/problems/middle-of-the-linked-list">Middle of the Linked List&lt;/a>&lt;/h2>
+&lt;p>用快慢指針，快指針走到底，慢指針就在中間&lt;/p>
+&lt;br>
+&lt;h2 id="maximum-depth-of-binary-treehttpsleetcodecomproblemsmaximum-depth-of-binary-tree">&lt;a href="https://leetcode.com/problems/maximum-depth-of-binary-tree">Maximum Depth of Binary Tree&lt;/a>&lt;/h2>
+&lt;p>DFS&lt;/p>
+&lt;br>
+&lt;h2 id="contains-duplicatehttpsleetcodecomproblemscontains-duplicate">&lt;a href="https://leetcode.com/problems/contains-duplicate">Contains Duplicate&lt;/a>&lt;/h2>
+&lt;p>map&lt;/p>
+&lt;br>
+- https://krapshsa.github.io/posts/grind-75-week-2-9b5eb7be-6c04-4c31-972e-17dbc7574690/ - © 2007 - 2022 krapshsa</description></item><item><title>Grind 75 Week 1 回顧</title><link>https://krapshsa.github.io/posts/grind-75-week-1-25ae9972-3073-40bc-a1b3-0ddf7ae7fb41/</link><pubDate>Sat, 20 Aug 2022 14:27:00 +0800</pubDate><guid>https://krapshsa.github.io/posts/grind-75-week-1-25ae9972-3073-40bc-a1b3-0ddf7ae7fb41/</guid><description>KRAPSHSA'S BLOG https://krapshsa.github.io/posts/grind-75-week-1-25ae9972-3073-40bc-a1b3-0ddf7ae7fb41/ -&lt;hr>
 &lt;h2 id="小心得">小心得&lt;/h2>
 &lt;p>Week 1 的題目都是 Easy，(除了 53. Maximum Subarray 現在難度被重新評級為 Medium)&lt;/p>
 &lt;p>雖然不至於寫不出來，但是還是有很容易寫錯的題目。&lt;/p>
@@ -925,42 +992,4 @@ Status: NOT_KILLED
 &lt;p>&lt;a href="https://blog.csdn.net/hawht/article/details/84246261">MariaDB Error：1932 Table doesn&amp;rsquo;t exist in engine 的解决方法_u014461454的博客-CSDN博客&lt;/a>&lt;/p>
 &lt;p>&lt;a href="https://blog.path8.net/archives/7608.html">MySQL/MariaDB已被锁表运行中热复制为副本/innodb表错误Table xx doesn&amp;rsquo;t exist in engine处理&lt;/a>&lt;/p>
 &lt;p>&lt;a href="https://dba.stackexchange.com/questions/62989/how-does-innodb-store-tables-in-ibdata-file">How does InnoDB store tables in ibdata file?&lt;/a>&lt;/p>
-- https://krapshsa.github.io/posts/owncloud-mariadb-mysqldump-84758a8c-6502-4c2d-b878-3a97ea0e36a7/ - © 2007 - 2022 krapshsa</description></item><item><title>在 template literal 中使用函數</title><link>https://krapshsa.github.io/posts/template-literal-bea4efe5-2565-42f7-832f-580089f7807d/</link><pubDate>Tue, 21 Jun 2022 16:18:00 +0800</pubDate><guid>https://krapshsa.github.io/posts/template-literal-bea4efe5-2565-42f7-832f-580089f7807d/</guid><description>KRAPSHSA'S BLOG https://krapshsa.github.io/posts/template-literal-bea4efe5-2565-42f7-832f-580089f7807d/ -&lt;h2 id="起因">起因&lt;/h2>
-&lt;p>在 Code Review 的時候，同事原本是使用多次字串相接&lt;/p>
-&lt;pre tabindex="0">&lt;code>const object1 = {
-a: &amp;#39;somestring&amp;#39;,
-b: 42
-};
-let html = `&amp;lt;ul&amp;gt;`;
-for (const [key, value] of Object.entries(object1)) {
-html += `&amp;lt;li&amp;gt;${key}: ${value}&amp;lt;/li&amp;gt;`;
-}
-html += `&amp;lt;/ul&amp;gt;`;
-&lt;/code>&lt;/pre>&lt;p>後來想要表達出 html 的階層結構，想用使用巢狀的方式使用 template literal&lt;/p>
-&lt;br>
-&lt;h2 id="解方">解方&lt;/h2>
-&lt;p>要用 function 來做的話可以使用 IIFE&lt;/p>
-&lt;pre tabindex="0">&lt;code>const object1 = {
-a: &amp;#39;somestring&amp;#39;,
-b: 42
-};
-let html = `
-&amp;lt;ul&amp;gt;
-${
-(function(){
-let list = &amp;#39;&amp;#39;;
-for (const [key, value] of Object.entries(object1)) {
-list += `&amp;lt;li&amp;gt;${key}: ${value}&amp;lt;/li&amp;gt;`;
-}
-return list;
-})()
-}
-&amp;lt;/ul&amp;gt;
-`;
-&lt;/code>&lt;/pre>&lt;p>以我簡化的例子來說，使用 IIFE 看起來變得更複雜了，&lt;/p>
-&lt;p>但是用在比較長的 &lt;code>html&lt;/code> 來說比較能看出結構&lt;/p>
-&lt;p>&lt;a href="https://jsfiddle.net/4h2n9L8t/">JSFiddle&lt;/a>&lt;/p>
-&lt;br>
-&lt;h2 id="參考資料">參考資料&lt;/h2>
-&lt;p>&lt;a href="https://flaviocopes.com/javascript-iife/">JavaScript Immediately-invoked Function Expressions (IIFE)&lt;/a>&lt;/p>
-- https://krapshsa.github.io/posts/template-literal-bea4efe5-2565-42f7-832f-580089f7807d/ - © 2007 - 2022 krapshsa</description></item></channel></rss>
+- https://krapshsa.github.io/posts/owncloud-mariadb-mysqldump-84758a8c-6502-4c2d-b878-3a97ea0e36a7/ - © 2007 - 2022 krapshsa</description></item></channel></rss>
