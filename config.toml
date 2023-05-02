@@ -21,7 +21,7 @@ theme = "diary"
       hardWraps = true
 
 [params]
-subtitle = "Themed by Diary."
+subtitle = ""
 enableGitalk = true
 enableAutoDarkMode = true
 

@@ -1,13 +1,10 @@
 ---
 title: "iOS 瀏覽器無法瀏覽高 DPI 的 pdf"
-date: "2022-08-15T19:26:00+08:00"
-draft: false
-toc: true
-autoCollapseToc: false
-comment: true
-categories: []
-tags: []
+date: "2022-08-15T11:26:00Z"
+tags: [javascript]
 ---
+
+# iOS 瀏覽器無法瀏覽高 DPI 的 pdf
 
 ## 起因
 
@@ -17,45 +14,30 @@ NextCloud 有一個功能 (PDF Viewer)，
 
 但是今天有一個用掃描器掃上來的 PDF 卻無法正常在手機端瀏覽
 
-
-{{< br >}}
-
 ## 症狀
 
 瀏覽 pdf 的時候會一片空白，並且產生錯誤訊息
 
-```
-Canvas area exceeds the maximum limit (width * height > 16777216).
-```
-
-{{< br >}}
+    Canvas area exceeds the maximum limit (width * height > 16777216).
 
 經查詢原來是 iOS 的 `canvas` element 有大小限制：
 
 [Canvas Area Exceeds The Maximum Limit](https://pqina.nl/blog/canvas-area-exceeds-the-maximum-limit/)
 
-{{< br >}}
-
 跟 PDF.js 無關，所以這條 issue 至今也是無解：
-
-
-{{< br >}}
 
 ## 解決方法
 
 搬運 `askubuntu` 的解法，先在 Server Side 用 ghost script 把 DPI 改小就好了：
 
-```
-gs -sDEVICE=pdfwrite \
--dCompatibilityLevel=1.4 \
--dPDFSETTINGS=/ebook \
--dNOPAUSE \
--dQUIET \
--dBATCH \
--sOutputFile=output.pdf input.pdf
-```
+    gs -sDEVICE=pdfwrite \
+    -dCompatibilityLevel=1.4 \
+    -dPDFSETTINGS=/ebook \
+    -dNOPAUSE \
+    -dQUIET \
+    -dBATCH \
+    -sOutputFile=output.pdf input.pdf
 
-{{< br >}}
 - `-dCompatibilityLevel` (不知道有什麼用)
 
     [Understanding PDF compatibility levels in Acrobat 9](https://acrobatusers.com/tutorials/understanding-pdf-compatibility-levels/)
@@ -63,8 +45,6 @@ gs -sDEVICE=pdfwrite \
 - `-dNOPAUSE` 停用每頁結束時的提示和暫停
 - `-dQUIET` 安靜執行，儘量不輸出日誌
 - `-dBATCH` 執行到最後一頁退出
-
-{{< br >}}
 
 ## 參考資料
 
