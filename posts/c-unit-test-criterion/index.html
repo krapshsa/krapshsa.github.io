@@ -1,0 +1,161 @@
+<!doctype html><html><head><title>C Unit Test - Criterion 簡單範例</title><meta charset=utf-8><meta name=X-UA-Compatible content="IE=edge"><meta name=google-site-verification content><meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0" name=viewport><meta content="telephone=no" name=format-detection><meta name=description content><meta name=renderer content="webkit"><meta name=theme-color content="#ffffff"><meta property="og:title" content="C Unit Test - Criterion 簡單範例"><meta property="og:description" content="C Unit Test - Criterion 簡單範例 起因 要用一個公司很久以前自己寫的 C Lib，沒有文件所以不知道行為是什麼。
+使用的過程中有發現問題，就進行一些修正。
+想說幫他加上一些測試案例，幫助之後要使用的人。
+環境 建置方法 由於公司是用 CentOS / RHEL / Oracle，我挑了一個差不多的 image 來建 CI
+重點是 rpm 我從 github 上面裝，就可以直接 -l 使用他的 Lib
+其他是這個 C lib 需要的其他 Lib，跟底下範例無關
+Dockerfile
+FROM oraclelinux:8.6 RUN yum install -y gcc make pcre pcre-devel RUN yum --enablerepo=ol8_codeready_builder install -y glibc glibc-common glibc-devel glibc-headers glibc-static RUN rpm -ivh https://github.com/samber/criterion-rpm-package/releases/download/2.3.3/libcriterion-devel-2.3.3-2.el7.x86_64.rpm Code sut.h
+#ifndef TEST_CRITERION_SUT_H #define TEST_CRITERION_SUT_H typedef struct result { char *begin; } Result; extern int doSomething(char *pContent, Result **ppResult); extern void sutFree(Result **ppResult); #endif //TEST_CRITERION_SUT_H sut."><meta property="og:type" content="article"><meta property="og:url" content="https://krapshsa.github.io/posts/c-unit-test-criterion/"><meta property="article:section" content="posts"><meta property="article:published_time" content="2022-08-04T17:52:00+00:00"><meta property="article:modified_time" content="2022-08-04T17:52:00+00:00"><meta property="og:site_name" content="My Blog"><meta name=twitter:card content="summary"><meta name=twitter:title content="C Unit Test - Criterion 簡單範例"><meta name=twitter:description content="C Unit Test - Criterion 簡單範例 起因 要用一個公司很久以前自己寫的 C Lib，沒有文件所以不知道行為是什麼。
+使用的過程中有發現問題，就進行一些修正。
+想說幫他加上一些測試案例，幫助之後要使用的人。
+環境 建置方法 由於公司是用 CentOS / RHEL / Oracle，我挑了一個差不多的 image 來建 CI
+重點是 rpm 我從 github 上面裝，就可以直接 -l 使用他的 Lib
+其他是這個 C lib 需要的其他 Lib，跟底下範例無關
+Dockerfile
+FROM oraclelinux:8.6 RUN yum install -y gcc make pcre pcre-devel RUN yum --enablerepo=ol8_codeready_builder install -y glibc glibc-common glibc-devel glibc-headers glibc-static RUN rpm -ivh https://github.com/samber/criterion-rpm-package/releases/download/2.3.3/libcriterion-devel-2.3.3-2.el7.x86_64.rpm Code sut.h
+#ifndef TEST_CRITERION_SUT_H #define TEST_CRITERION_SUT_H typedef struct result { char *begin; } Result; extern int doSomething(char *pContent, Result **ppResult); extern void sutFree(Result **ppResult); #endif //TEST_CRITERION_SUT_H sut."><link type=text/css rel=stylesheet href=/vendor/css/bootstrap.min.css><link rel=stylesheet href=/scss/journal.min.c5d92f380bf10f6849c7ac487c7df2b22c081e0851e5339224f1ae29210b20d2.css integrity="sha256-xdkvOAvxD2hJx6xIfH3ysiwIHghR5TOSJPGuKSELINI=" media=screen><link rel=stylesheet href=/scss/dark-mode.min.9f8d8c2df9285089d141edd4a50cb7506c7948e6ab79a29968dced1bd0ab7d22.css integrity="sha256-n42MLfkoUInRQe3UpQy3UGx5SOareaKZaNztG9CrfSI=" media=screen><script src=/vendor/js/loadCSS.js></script>
+<script>loadCSS("https://fonts.googleapis.com/css?family=Fira+Mono|Material+Icons")</script><script src=/js/toc.js></script>
+<link rel=stylesheet href=https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css><script src=https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js></script>
+<script src=/vendor/js/md5.min.js></script>
+<script>var gitalk=new Gitalk({clientID:"your client id",clientSecret:"your client secret",repo:"repo name",owner:"user",admin:["user"],id:md5(location.pathname),distractionFreeMode:"false"});window.onload=function(){gitalk.render("gitalk-container")}</script></head><body><div id=app><div id=sideContainer class=side-container><a class="a-block nav-head false" href=https://krapshsa.github.io/><div class=nav-title>KRAPSHSA'S BLOG</div></a><div class=nav-link-list><a class="a-block nav-link-item active" href=/posts>Archive</a>
+<a class="a-block nav-link-item false" href=/categories>Categories</a>
+<a class="a-block nav-link-item false" href=/tags>Tags</a>
+<a class="a-block nav-link-item false" href=/index.xml>RSS Feed</a></div><div class=nav-footer>Hugo Theme <a href=https://github.com/amazingrise/hugo-theme-diary>Diary</a> by <a href=https://risehere.net/>Rise</a><br>Ported from <a href=https://mak1t0.cc/ target=_blank rel="noreferrer noopener">Makito</a>'s <a href=https://github.com/SumiMakito/hexo-theme-journal/ target=_blank rel="noreferrer noopener">Journal.</a><br><br>&copy;
+© 2007 - 2022 krapshsa</div></div><div id=extraContainer class=extra-container><div class="toc animated-visibility" :class="{ invisible: scrollY <= 140 }"><div class=toc-content><center>- CATALOG -</center><ul><li><a href=#c-unit-test---criterion-%e7%b0%a1%e5%96%ae%e7%af%84%e4%be%8b onclick="onNavClick(`#c-unit-test---criterion-簡單範例-nav`)" id=c-unit-test---criterion-簡單範例-nav>C Unit Test - Criterion 簡單範例</a></li><ul><li><a href=#%e8%b5%b7%e5%9b%a0 onclick="onNavClick(`#起因-nav`)" id=起因-nav>起因</a></li><li><a href=#%e7%92%b0%e5%a2%83 onclick="onNavClick(`#環境-nav`)" id=環境-nav>環境</a></li><ul><li><a href=#%e5%bb%ba%e7%bd%ae%e6%96%b9%e6%b3%95 onclick="onNavClick(`#建置方法-nav`)" id=建置方法-nav>建置方法</a></li></ul><li><a href=#code onclick="onNavClick(`#code-nav`)" id=code-nav>Code</a></li><li><a href=#%e7%b5%90%e6%9e%9c onclick="onNavClick(`#結果-nav`)" id=結果-nav>結果</a></li><li><a href=#%e7%b0%a1%e6%98%93%e8%aa%aa%e6%98%8e onclick="onNavClick(`#簡易說明-nav`)" id=簡易說明-nav>簡易說明</a></li><ul><li><a href=#test-%e5%9f%ba%e6%9c%ac%e7%94%a8%e6%b3%95 onclick="onNavClick(`#test-基本用法-nav`)" id=test-基本用法-nav>Test 基本用法</a></li><li><a href=#test-suite-%e5%9f%ba%e6%9c%ac%e7%94%a8%e6%b3%95 onclick="onNavClick(`#test-suite-基本用法-nav`)" id=test-suite-基本用法-nav>Test Suite 基本用法</a></li></ul><li><a href=#%e5%8f%83%e8%80%83%e8%b3%87%e6%96%99 onclick="onNavClick(`#參考資料-nav`)" id=參考資料-nav>參考資料</a></li></ul></div></div><div class=pagination><a id=globalBackToTop class="pagination-action animated-visibility" href=#top :class="{ invisible: scrollY == 0 }"><i class="material-icons pagination-action-icon">keyboard_arrow_up</i></a>
+<a type=button class=pagination-action id=darkModeToggleButton><span class="material-icons pagination-action-icon" id=darkModeToggleIcon>dark_mode</span></a></div></div><div class=single-column-drawer-container id=drawer v-bind:class="{ 'single-column-drawer-container-active': isDrawerOpen }"><div class=drawer-content><div class=drawer-menu><a class="a-block drawer-menu-item active" href=/posts>Archive</a>
+<a class="a-block drawer-menu-item false" href=/categories>Categories</a>
+<a class="a-block drawer-menu-item false" href=/tags>Tags</a>
+<a class="a-block drawer-menu-item false" href=/index.xml>RSS Feed</a><div class=toc><div class=toc-content><center>- CATALOG -</center><ul><li><a href=#c-unit-test---criterion-%e7%b0%a1%e5%96%ae%e7%af%84%e4%be%8b onclick="onNavClick(`#c-unit-test---criterion-簡單範例-nav`)" id=c-unit-test---criterion-簡單範例-nav>C Unit Test - Criterion 簡單範例</a></li><ul><li><a href=#%e8%b5%b7%e5%9b%a0 onclick="onNavClick(`#起因-nav`)" id=起因-nav>起因</a></li><li><a href=#%e7%92%b0%e5%a2%83 onclick="onNavClick(`#環境-nav`)" id=環境-nav>環境</a></li><ul><li><a href=#%e5%bb%ba%e7%bd%ae%e6%96%b9%e6%b3%95 onclick="onNavClick(`#建置方法-nav`)" id=建置方法-nav>建置方法</a></li></ul><li><a href=#code onclick="onNavClick(`#code-nav`)" id=code-nav>Code</a></li><li><a href=#%e7%b5%90%e6%9e%9c onclick="onNavClick(`#結果-nav`)" id=結果-nav>結果</a></li><li><a href=#%e7%b0%a1%e6%98%93%e8%aa%aa%e6%98%8e onclick="onNavClick(`#簡易說明-nav`)" id=簡易說明-nav>簡易說明</a></li><ul><li><a href=#test-%e5%9f%ba%e6%9c%ac%e7%94%a8%e6%b3%95 onclick="onNavClick(`#test-基本用法-nav`)" id=test-基本用法-nav>Test 基本用法</a></li><li><a href=#test-suite-%e5%9f%ba%e6%9c%ac%e7%94%a8%e6%b3%95 onclick="onNavClick(`#test-suite-基本用法-nav`)" id=test-suite-基本用法-nav>Test Suite 基本用法</a></li></ul><li><a href=#%e5%8f%83%e8%80%83%e8%b3%87%e6%96%99 onclick="onNavClick(`#參考資料-nav`)" id=參考資料-nav>參考資料</a></li></ul></div></div></div></div></div><transition name=fade><div id=drawer-mask v-bind:class="{ 'single-column-drawer-mask': mounted }" v-if=isDrawerOpen v-on:click=toggleDrawer></div></transition><nav id=navBar class="navbar sticky-top navbar-light single-column-nav-container"><div id=navBackground class=nav-background></div><div class="container container-narrow nav-content"><button id=nav_dropdown_btn class=nav-dropdown-toggle type=button v-on:click=toggleDrawer>
+<i class=material-icons>menu</i></button>
+<a id=navTitle class=navbar-brand href=https://krapshsa.github.io/>KRAPSHSA'S BLOG</a>
+<button type=button class=nav-darkmode-toggle id=darkModeToggleButton2>
+<i class=material-icons id=darkModeToggleIcon2>dark_mode</i></button></div></nav><div class=single-column-header-container id=pageHead v-bind:style="{ transform: 'translateZ(0px) translateY('+.3*scrollY+'px)', opacity: 1-navOpacity }"><a href=https://krapshsa.github.io/><div class=single-column-header-title>KRAPSHSA'S BLOG</div></a></div><div id=content><div id=streamContainer class=stream-container><div class="post-list-container post-list-container-shadow"><div class=post><div class=post-head-wrapper-text-only><div class=post-title>C Unit Test - Criterion 簡單範例<div class=post-meta><time itemprop=datePublished>2022-08-04 17:52</time>
+<i class=material-icons>label</i>
+<a href=/tags/c>C</a>
+&nbsp;</div></div></div><div class=post-body-wrapper><div class=post-body v-pre><h1 id=c-unit-test---criterion-簡單範例>C Unit Test - Criterion 簡單範例</h1><h2 id=起因>起因</h2><p>要用一個公司很久以前自己寫的 C Lib，沒有文件所以不知道行為是什麼。</p><p>使用的過程中有發現問題，就進行一些修正。</p><p>想說幫他加上一些測試案例，幫助之後要使用的人。</p><h2 id=環境>環境</h2><h3 id=建置方法>建置方法</h3><p>由於公司是用 CentOS / RHEL / Oracle，我挑了一個差不多的 image 來建 CI</p><p>重點是 rpm 我從 github 上面裝，就可以直接 <code>-l</code> 使用他的 Lib</p><p>其他是這個 C lib 需要的其他 Lib，跟底下範例無關</p><p><code>Dockerfile</code></p><pre><code>FROM oraclelinux:8.6
+
+RUN yum install -y gcc make pcre pcre-devel
+RUN yum --enablerepo=ol8_codeready_builder install -y glibc glibc-common glibc-devel glibc-headers glibc-static
+RUN rpm -ivh https://github.com/samber/criterion-rpm-package/releases/download/2.3.3/libcriterion-devel-2.3.3-2.el7.x86_64.rpm
+</code></pre><h2 id=code>Code</h2><p><code>sut.h</code></p><pre><code>#ifndef TEST_CRITERION_SUT_H
+#define TEST_CRITERION_SUT_H
+typedef struct result
+{
+    char *begin;
+} Result;
+
+extern int doSomething(char *pContent, Result **ppResult);
+
+extern void sutFree(Result **ppResult);
+#endif //TEST_CRITERION_SUT_H
+</code></pre><p><code>sut.c</code></p><pre><code>#include &lt;stdlib.h&gt;
+#include &lt;string.h&gt;
+#include &quot;sut.h&quot;
+
+int doSomething(char *pContent, Result **ppResult)
+{
+    if (0 == strcmp(pContent, &quot;INPUT_1&quot;)) {
+        *ppResult = (Result*)malloc(sizeof(Result));
+        (*ppResult)-&gt;begin = &quot;OUTPUT_1&quot;;
+        return 1;
+    }
+
+    return 0;
+}
+
+void sutFree(Result **ppResult)
+{
+    if(ppResult != NULL &amp;&amp; *ppResult != NULL) {
+        free(*ppResult);
+        *ppResult = NULL;
+    }
+}
+</code></pre><p><code>test.c</code></p><pre><code>#include &lt;string.h&gt;
+#include &lt;criterion/criterion.h&gt;
+#include &quot;sut.h&quot;
+
+int ret   = 0;
+int rule  = -1;
+Result *s = NULL;
+
+void setup(void) {
+    ret  = 0;
+    rule = -1;
+    s    = NULL;
+}
+
+void teardown(void) {
+    if (NULL != s) {
+        sutFree(&amp;s);
+    }
+}
+
+void givenContent(char *content) {
+    ret = doSomething(content, &amp;s);
+}
+
+void returnValueShouldBeSuccess() {
+    cr_assert(ret &gt; 0);
+}
+
+void returnValueShouldBeFailed() {
+    cr_assert(ret &lt;= 0);
+}
+
+void matchContentShouldBe(char *result) {
+    cr_assert_eq(0, strcmp(result, s-&gt;begin));
+}
+
+TestSuite(single_rule_suite, .init = setup, .fini = teardown);
+
+Test(single_rule_suite, test_success) {
+    givenContent(&quot;INPUT_1&quot;);
+
+    returnValueShouldBeSuccess();
+    matchContentShouldBe(&quot;OUTPUT_1&quot;);
+}
+
+Test(single_rule_suite, test_failed) {
+    givenContent(&quot;INPUT_2&quot;);
+
+    returnValueShouldBeFailed();
+}
+</code></pre><p><code>Makefile</code></p><pre><code>CC = gcc -Wall
+
+sut.o: sut.c
+	${CC} -c sut.c
+
+test.o: test.c
+	${CC} -c test.c
+
+test: clean test.o sut.o
+	${CC} -o test test.o sut.o -lcriterion
+	./test
+
+clean:
+	rm -f *.o
+</code></pre><h2 id=結果>結果</h2><pre><code>./test
+[====] Synthesis: Tested: 2 | Passing: 2 | Failing: 0 | Crashing: 0
+</code></pre><h2 id=簡易說明>簡易說明</h2><p><a href="https://criterion.readthedocs.io/en/master/starter.html?highlight=suite#configuration-reference">Getting started - Criterion 2.4.1-rc-1-g56f8f1a-dirty documentation</a></p><h3 id=test-基本用法>Test 基本用法</h3><pre><code>Test(suite_name, test_name, .init = setup, .fini = teardown) {
+    // test contents
+}
+</code></pre><h3 id=test-suite-基本用法>Test Suite 基本用法</h3><p>官方給出的例子</p><pre><code>TestSuite(suite_name, [params...]);
+
+Test(suite_name, test_1) {
+}
+
+Test(suite_name, test_2) {
+}
+</code></pre><p>我實際上是這樣用：</p><pre><code>TestSuite(single_rule_suite, .init = setup, .fini = teardown);
+
+Test(single_rule_suite, test_success) {
+    ...
+}
+
+Test(single_rule_suite, test_failed) {
+    ...
+}
+</code></pre><p>因為大家的初始化跟銷毀都一樣，不需要在 <code>Test</code> 裡面重複寫</p><h2 id=參考資料>參考資料</h2><hr width=100% id=EOF><p style=color:#777>Last modified on 2022-08-04</p></div></div><nav class=post-pagination><a class=newer-posts href=/posts/c-mock-wrapper-function/>Next<br>簡易 C Mock — wrapper function</a>
+<a class=older-posts href=/posts/mariadb-cpu-loading/>Previous<br>記一次 MariaDB CPU Loading 滿載查修過程</a></nav><div class=post-comment-wrapper><div id=gitalk-container></div></div></div></div></div></div><div id=single-column-footer>Hugo Theme <a href=https://github.com/amazingrise/hugo-theme-diary>Diary</a> by <a href=https://risehere.net/>Rise</a><br>Ported from <a href=https://mak1t0.cc/ target=_blank rel="noreferrer noopener">Makito</a>'s <a href=https://github.com/SumiMakito/hexo-theme-journal/ target=_blank rel="noreferrer noopener">Journal.</a><br><br>&copy;
+© 2007 - 2022 krapshsa</div></div><script src=/js/journal.js></script></body></html>

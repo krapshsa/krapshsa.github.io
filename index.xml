@@ -1,7 +1,7 @@
-<?xml-stylesheet href="/rss.xsl" type="text/xsl"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>KRAPSHSA'S BLOG</title><link>https://krapshsa.github.io/</link><description>Recent content on KRAPSHSA'S BLOG</description><generator>Hugo -- gohugo.io</generator><language>zh-tw</language><copyright>© 2007 - 2022 krapshsa</copyright><lastBuildDate>Wed, 24 Aug 2022 00:25:00 +0800</lastBuildDate><atom:link href="https://krapshsa.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>Grind 75 Week 2 回顧</title><link>https://krapshsa.github.io/posts/grind-75-week-2-9b5eb7be-6c04-4c31-972e-17dbc7574690/</link><pubDate>Wed, 24 Aug 2022 00:25:00 +0800</pubDate><guid>https://krapshsa.github.io/posts/grind-75-week-2-9b5eb7be-6c04-4c31-972e-17dbc7574690/</guid><description>KRAPSHSA'S BLOG https://krapshsa.github.io/posts/grind-75-week-2-9b5eb7be-6c04-4c31-972e-17dbc7574690/ -&lt;hr>
+<?xml-stylesheet href="/rss.xsl" type="text/xsl"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>KRAPSHSA'S BLOG</title><link>https://krapshsa.github.io/</link><description>Recent content on KRAPSHSA'S BLOG</description><generator>Hugo -- gohugo.io</generator><language>zh-tw</language><copyright>© 2007 - 2022 krapshsa</copyright><lastBuildDate>Tue, 23 Aug 2022 16:25:00 +0000</lastBuildDate><atom:link href="https://krapshsa.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>Grind 75 Week 2 回顧</title><link>https://krapshsa.github.io/posts/grind-75-week-2/</link><pubDate>Tue, 23 Aug 2022 16:25:00 +0000</pubDate><guid>https://krapshsa.github.io/posts/grind-75-week-2/</guid><description>KRAPSHSA'S BLOG https://krapshsa.github.io/posts/grind-75-week-2/ -&lt;h1 id="grind-75-week-2-回顧">Grind 75 Week 2 回顧&lt;/h1>
+&lt;hr>
 &lt;h2 id="小心得">小心得&lt;/h2>
 &lt;p>有一些題目第一次寫，寫不出來了。例如 &lt;a href="https://leetcode.com/problems/climbing-stairs">Climbing Stairs&lt;/a>&lt;/p>
-&lt;br>
 &lt;h2 id="implement-queue-using-stackshttpsleetcodecomproblemsimplement-queue-using-stacks">&lt;a href="https://leetcode.com/problems/implement-queue-using-stacks">Implement Queue using Stacks&lt;/a>&lt;/h2>
 &lt;ul>
 &lt;li>Stack: FILO&lt;/li>
@@ -15,15 +15,12 @@
 &lt;/li>
 &lt;li>要保證順序性，所以倒轉的過程只能發生在用來放倒轉元素的 Stack 為空的時候&lt;/li>
 &lt;/ol>
-&lt;br>
 &lt;h2 id="first-bad-versionhttpsleetcodecomproblemsfirst-bad-version">&lt;a href="https://leetcode.com/problems/first-bad-version">First Bad Version&lt;/a>&lt;/h2>
 &lt;p>又是 Binary Search，要小心邊界問題以及重複問題&lt;/p>
 &lt;p>可以去看 Week 1 的 Binary Search， Carl 的影片很清楚&lt;/p>
 &lt;p>個人認為左閉右開區間很難懂，還是使用左閉右閉，即 &lt;code>left&lt;/code> &lt;code>right&lt;/code> 都是搜索範圍&lt;/p>
-&lt;br>
 &lt;h2 id="ransom-notehttpsleetcodecomproblemsransom-note">&lt;a href="https://leetcode.com/problems/ransom-note">Ransom Note&lt;/a>&lt;/h2>
 &lt;p>map 解&lt;/p>
-&lt;br>
 &lt;h2 id="climbing-stairshttpsleetcodecomproblemsclimbing-stairs">&lt;a href="https://leetcode.com/problems/climbing-stairs">Climbing Stairs&lt;/a>&lt;/h2>
 &lt;p>第 n 階的上樓方法是：&lt;/p>
 &lt;ul>
@@ -31,7 +28,6 @@
 &lt;li>第 (n-2) 階 + 2 → 上道第 (n-2) 階的方法數&lt;/li>
 &lt;li>第 (n-2) 階 + 1 + 1 → 已經被算過了不重複算&lt;/li>
 &lt;/ul>
-&lt;br>
 &lt;h2 id="longest-palindromehttpsleetcodecomproblemslongest-palindrome">&lt;a href="https://leetcode.com/problems/longest-palindrome">Longest Palindrome&lt;/a>&lt;/h2>
 &lt;p>map 紀錄有多少成對的字元&lt;/p>
 &lt;p>回文中間可以是單獨的字元，只要判斷一下最後成對的加起來個數有沒有跟原始字串一樣長，&lt;/p>
@@ -39,33 +35,26 @@
 &lt;li>是 → 解&lt;/li>
 &lt;li>否 → 可以加一&lt;/li>
 &lt;/ul>
-&lt;br>
 &lt;h2 id="reverse-linked-listhttpsleetcodecomproblemsreverse-linked-list">&lt;a href="https://leetcode.com/problems/reverse-linked-list">Reverse Linked List&lt;/a>&lt;/h2>
 &lt;p>要記得下一個跟前一個，比兩兩交換稍微複雜一點&lt;/p>
-&lt;br>
 &lt;h2 id="majority-elementhttpsleetcodecomproblemsmajority-element">&lt;a href="https://leetcode.com/problems/majority-element">Majority Element&lt;/a>&lt;/h2>
 &lt;p>solution 很值得一看，有很多種想法介紹而且都很詳細&lt;/p>
 &lt;p>&lt;a href="https://leetcode.com/problems/majority-element/solution/">Majority Element - LeetCode&lt;/a>&lt;/p>
 &lt;p>Boyer-Moore Voting Algorithm&lt;/p>
 &lt;p>存在絕對多數的情況下，倆倆不同的元素湮滅，最後剩下的就是眾數&lt;/p>
-&lt;br>
 &lt;h2 id="add-binaryhttpsleetcodecomproblemsadd-binary">&lt;a href="https://leetcode.com/problems/add-binary">Add Binary&lt;/a>&lt;/h2>
 &lt;p>開一個比輸入稍大的 slice，從最後一個 bit 開始加&lt;/p>
-&lt;br>
 &lt;h2 id="diameter-of-binary-treehttpsleetcodecomproblemsdiameter-of-binary-tree">&lt;a href="https://leetcode.com/problems/diameter-of-binary-tree">Diameter of Binary Tree&lt;/a>&lt;/h2>
 &lt;p>這題我錯了很多次，後來發現兩個點之間的最長路線是可以不通過頂點的。&lt;/p>
 &lt;p>DFS 紀錄最長的左與右&lt;/p>
-&lt;br>
 &lt;h2 id="middle-of-the-linked-listhttpsleetcodecomproblemsmiddle-of-the-linked-list">&lt;a href="https://leetcode.com/problems/middle-of-the-linked-list">Middle of the Linked List&lt;/a>&lt;/h2>
 &lt;p>用快慢指針，快指針走到底，慢指針就在中間&lt;/p>
-&lt;br>
 &lt;h2 id="maximum-depth-of-binary-treehttpsleetcodecomproblemsmaximum-depth-of-binary-tree">&lt;a href="https://leetcode.com/problems/maximum-depth-of-binary-tree">Maximum Depth of Binary Tree&lt;/a>&lt;/h2>
 &lt;p>DFS&lt;/p>
-&lt;br>
 &lt;h2 id="contains-duplicatehttpsleetcodecomproblemscontains-duplicate">&lt;a href="https://leetcode.com/problems/contains-duplicate">Contains Duplicate&lt;/a>&lt;/h2>
 &lt;p>map&lt;/p>
-&lt;br>
-- https://krapshsa.github.io/posts/grind-75-week-2-9b5eb7be-6c04-4c31-972e-17dbc7574690/ - © 2007 - 2022 krapshsa</description></item><item><title>Grind 75 Week 1 回顧</title><link>https://krapshsa.github.io/posts/grind-75-week-1-25ae9972-3073-40bc-a1b3-0ddf7ae7fb41/</link><pubDate>Sat, 20 Aug 2022 14:27:00 +0800</pubDate><guid>https://krapshsa.github.io/posts/grind-75-week-1-25ae9972-3073-40bc-a1b3-0ddf7ae7fb41/</guid><description>KRAPSHSA'S BLOG https://krapshsa.github.io/posts/grind-75-week-1-25ae9972-3073-40bc-a1b3-0ddf7ae7fb41/ -&lt;hr>
+- https://krapshsa.github.io/posts/grind-75-week-2/ - © 2007 - 2022 krapshsa</description></item><item><title>Grind 75 Week 1 回顧</title><link>https://krapshsa.github.io/posts/grind-75-week-1/</link><pubDate>Sat, 20 Aug 2022 06:27:00 +0000</pubDate><guid>https://krapshsa.github.io/posts/grind-75-week-1/</guid><description>KRAPSHSA'S BLOG https://krapshsa.github.io/posts/grind-75-week-1/ -&lt;h1 id="grind-75-week-1-回顧">Grind 75 Week 1 回顧&lt;/h1>
+&lt;hr>
 &lt;h2 id="小心得">小心得&lt;/h2>
 &lt;p>Week 1 的題目都是 Easy，(除了 53. Maximum Subarray 現在難度被重新評級為 Medium)&lt;/p>
 &lt;p>雖然不至於寫不出來，但是還是有很容易寫錯的題目。&lt;/p>
@@ -74,36 +63,29 @@
 &lt;li>經常發生越界&lt;/li>
 &lt;li>不知道可以剪枝 (有時候會遞迴重複項目)&lt;/li>
 &lt;/ol>
-&lt;br>
 &lt;h2 id="two-sumhttpsleetcodecomproblemstwo-sum">&lt;a href="https://leetcode.com/problems/two-sum">Two Sum&lt;/a>&lt;/h2>
 &lt;p>暴力法，用兩個 Loop 嘗試各種組合&lt;/p>
-&lt;br>
 &lt;h2 id="valid-parentheseshttpsleetcodecomproblemsvalid-parentheses">&lt;a href="https://leetcode.com/problems/valid-parentheses">Valid Parentheses&lt;/a>&lt;/h2>
 &lt;p>Stack，成對的就 pop 掉，不然就塞進 Stack 內&lt;/p>
-&lt;br>
 &lt;h2 id="merge-two-sorted-listshttpsleetcodecomproblemsmerge-two-sorted-lists">&lt;a href="https://leetcode.com/problems/merge-two-sorted-lists">Merge Two Sorted Lists&lt;/a>&lt;/h2>
 &lt;p>相同大小無順序，就把兩個 List 都輪流遍歷就可以了&lt;/p>
 &lt;p>終止條件是 List 都為空就做完了&lt;/p>
-&lt;br>
 &lt;h2 id="best-time-to-buy-and-sell-stockhttpsleetcodecomproblemsbest-time-to-buy-and-sell-stock">&lt;a href="https://leetcode.com/problems/best-time-to-buy-and-sell-stock">Best Time to Buy and Sell Stock&lt;/a>&lt;/h2>
 &lt;p>買點是各個可能的谷底，在從左到右的過程中，如果遇到更低的價格，就更新潛在最佳買點。&lt;/p>
 &lt;p>但是這題沒有要求是哪個點，所以就計算最大利潤存起來就好。&lt;/p>
-&lt;br>
 &lt;h2 id="valid-palindromehttpsleetcodecomproblemsvalid-palindrome">&lt;a href="https://leetcode.com/problems/valid-palindrome">Valid Palindrome&lt;/a>&lt;/h2>
 &lt;p>題目寫：&lt;/p>
 &lt;blockquote>
 &lt;p>Alphanumeric characters include letters and numbers.&lt;/p>
 &lt;/blockquote>
 &lt;p>我漏掉了數字，WA 一次，這題我花比較多時間，因為第一次寫 Go 不知道到底要怎麼判斷字符。&lt;/p>
-&lt;br>
 &lt;h2 id="invert-binary-treehttpsleetcodecomproblemsinvert-binary-tree">&lt;a href="https://leetcode.com/problems/invert-binary-tree">Invert Binary Tree&lt;/a>&lt;/h2>
 &lt;p>遞迴交換，新的右邊是舊的左邊 &lt;code>invertTree&lt;/code>，左邊也是同樣道理。&lt;/p>
-&lt;br>
 &lt;h2 id="valid-anagramhttpsleetcodecomproblemsvalid-anagram">&lt;a href="https://leetcode.com/problems/valid-anagram">Valid Anagram&lt;/a>&lt;/h2>
 &lt;p>用 hasmap 存出現頻率&lt;/p>
 &lt;p>延伸題目是 unicode 怎麼辦？用 go 寫很容易，做一個 key 是 rune 的 map 就好了&lt;/p>
-&lt;pre tabindex="0">&lt;code>letterMap := make(map[rune]int)
-&lt;/code>&lt;/pre>&lt;br>
+&lt;pre>&lt;code>letterMap := make(map[rune]int)
+&lt;/code>&lt;/pre>
 &lt;h2 id="binary-searchhttpsleetcodecomproblemsbinary-search">&lt;a href="https://leetcode.com/problems/binary-search">Binary Search&lt;/a>&lt;/h2>
 &lt;p>心態打擊，逢寫必錯&lt;/p>
 &lt;p>推薦看一下 Carl 大大的手撕二分法&lt;/p>
@@ -115,11 +97,9 @@
 &lt;/ul>
 &lt;p>這題我使用左閉右閉區間，也就是終止條件應該是 &lt;code>left ≤ right&lt;/code>&lt;/p>
 &lt;p>並解用過的區間就不應該再用了，不然會導致無窮的做下去&lt;/p>
-&lt;br>
 &lt;h2 id="flood-fillhttpsleetcodecomproblemsflood-fill">&lt;a href="https://leetcode.com/problems/flood-fill">Flood Fill&lt;/a>&lt;/h2>
 &lt;p>我把指定的點的上下左右丟進 queue 裡面，再拿出來處理。&lt;/p>
 &lt;p>要注意邊界，以及不要重複做。&lt;/p>
-&lt;br>
 &lt;h2 id="maximum-subarray25ae9972307340bca1b30ddf7ae7fb41">&lt;a href="https://krapshsa.github.io/25ae9972307340bca1b30ddf7ae7fb41">Maximum Subarray&lt;/a>&lt;/h2>
 &lt;p>一個解的左邊元素以及右邊元素只有可能是：&lt;/p>
 &lt;ol>
@@ -133,7 +113,7 @@
 &lt;/ol>
 &lt;p>Edge Case：全部都是負的&lt;/p>
 &lt;p>WA&lt;/p>
-&lt;pre tabindex="0">&lt;code>func maxSubArray(nums []int) int {
+&lt;pre>&lt;code>func maxSubArray(nums []int) int {
 maxSum := nums[0]
 curSum := 0
 for i := 0; i &amp;lt; len(nums); i++ {
@@ -148,8 +128,9 @@ maxSum = curSum
 }
 return maxSum
 }
-&lt;/code>&lt;/pre>&lt;p>AC1&lt;/p>
-&lt;pre tabindex="0">&lt;code>func maxSubArray(nums []int) int {
+&lt;/code>&lt;/pre>
+&lt;p>AC1&lt;/p>
+&lt;pre>&lt;code>func maxSubArray(nums []int) int {
 maxSum := nums[0]
 curSum := 0
 for i := 0; i &amp;lt; len(nums); i++ {
@@ -163,8 +144,9 @@ curSum = 0
 }
 return maxSum
 }
-&lt;/code>&lt;/pre>&lt;p>AC2&lt;/p>
-&lt;pre tabindex="0">&lt;code>func maxSubArray(nums []int) int {
+&lt;/code>&lt;/pre>
+&lt;p>AC2&lt;/p>
+&lt;pre>&lt;code>func maxSubArray(nums []int) int {
 maxSum := nums[0]
 curSum := nums[0]
 for i := 1; i &amp;lt; len(nums); i++ {
@@ -179,7 +161,8 @@ maxSum = curSum
 }
 return maxSum
 }
-&lt;/code>&lt;/pre>&lt;h2 id="lowest-common-ancestor-of-a-binary-search-treehttpsleetcodecomproblemslowest-common-ancestor-of-a-binary-search-tree">&lt;a href="https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-search-tree">Lowest Common Ancestor of a Binary Search Tree&lt;/a>&lt;/h2>
+&lt;/code>&lt;/pre>
+&lt;h2 id="lowest-common-ancestor-of-a-binary-search-treehttpsleetcodecomproblemslowest-common-ancestor-of-a-binary-search-tree">&lt;a href="https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-search-tree">Lowest Common Ancestor of a Binary Search Tree&lt;/a>&lt;/h2>
 &lt;p>給兩個點 p, q 在過程中，如果我找到一個點：&lt;/p>
 &lt;ol>
 &lt;li>其中一個是 p 或 q → 高的是 ancestor&lt;/li>
@@ -187,13 +170,17 @@ return maxSum
 &lt;/ol>
 &lt;p>另外一個想法是：&lt;/p>
 &lt;ol>
-&lt;li>都在左側 → 左邊那個點是可能的 ancestor，往左找&lt;/li>
-&lt;li>都在右側 → 右邊那個點是可能的 ancestor，往右找&lt;/li>
-&lt;li>其他：找到了&lt;/li>
-&lt;/ol>
-&lt;pre tabindex="0">&lt;code>func lowestCommonAncestor(root, p, q *TreeNode) *TreeNode {
-lowest := root
-for true {
+&lt;li>
+&lt;p>都在左側 → 左邊那個點是可能的 ancestor，往左找&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>都在右側 → 右邊那個點是可能的 ancestor，往右找&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>其他：找到了&lt;/p>
+&lt;p>func lowestCommonAncestor(root, p, q *TreeNode) *TreeNode {&lt;br>
+lowest := root&lt;/p>
+&lt;pre>&lt;code> for true {
 if lowest.Val &amp;gt; p.Val &amp;amp;&amp;amp; lowest.Val &amp;gt; q.Val {
 lowest = lowest.Left
 } else if lowest.Val &amp;lt; p.Val &amp;amp;&amp;amp; lowest.Val &amp;lt; q.Val {
@@ -203,41 +190,40 @@ break
 }
 }
 return lowest
-}
-&lt;/code>&lt;/pre>&lt;br>
+&lt;/code>&lt;/pre>
+&lt;p>}&lt;/p>
+&lt;/li>
+&lt;/ol>
 &lt;h2 id="balanced-binary-treehttpsleetcodecomproblemsbalanced-binary-tree">&lt;a href="https://leetcode.com/problems/balanced-binary-tree">Balanced Binary Tree&lt;/a>&lt;/h2>
 &lt;p>遞迴：DFS 回傳值為是否 balanced 以及深度&lt;/p>
-&lt;br>
 &lt;h2 id="linked-list-cyclehttpsleetcodecomproblemslinked-list-cycle">&lt;a href="https://leetcode.com/problems/linked-list-cycle">Linked List Cycle&lt;/a>&lt;/h2>
 &lt;p>NeetCode 講得很清楚&lt;/p>
 &lt;p>&lt;a href="https://www.youtube.com/watch?v=gBTe7lFR3vc">Linked List Cycle - Floyd&amp;rsquo;s Tortoise and Hare - Leetcode 141 - Python&lt;/a>&lt;/p>
 &lt;p>沒有 cycle → 最後會走到 nil&lt;/p>
 &lt;p>有 cycle → 快慢指針相遇&lt;/p>
 &lt;p>這題的延伸題是求解 cycle 的開端&lt;/p>
-- https://krapshsa.github.io/posts/grind-75-week-1-25ae9972-3073-40bc-a1b3-0ddf7ae7fb41/ - © 2007 - 2022 krapshsa</description></item><item><title>iOS 瀏覽器無法瀏覽高 DPI 的 pdf</title><link>https://krapshsa.github.io/posts/ios-dpi-pdf-16af8336-45e8-4ad0-8764-5a0eab1ec309/</link><pubDate>Mon, 15 Aug 2022 19:26:00 +0800</pubDate><guid>https://krapshsa.github.io/posts/ios-dpi-pdf-16af8336-45e8-4ad0-8764-5a0eab1ec309/</guid><description>KRAPSHSA'S BLOG https://krapshsa.github.io/posts/ios-dpi-pdf-16af8336-45e8-4ad0-8764-5a0eab1ec309/ -&lt;h2 id="起因">起因&lt;/h2>
+- https://krapshsa.github.io/posts/grind-75-week-1/ - © 2007 - 2022 krapshsa</description></item><item><title>iOS 瀏覽器無法瀏覽高 DPI 的 pdf</title><link>https://krapshsa.github.io/posts/ios-dpi-pdf/</link><pubDate>Mon, 15 Aug 2022 11:26:00 +0000</pubDate><guid>https://krapshsa.github.io/posts/ios-dpi-pdf/</guid><description>KRAPSHSA'S BLOG https://krapshsa.github.io/posts/ios-dpi-pdf/ -&lt;h1 id="ios-瀏覽器無法瀏覽高-dpi-的-pdf">iOS 瀏覽器無法瀏覽高 DPI 的 pdf&lt;/h1>
+&lt;h2 id="起因">起因&lt;/h2>
 &lt;p>NextCloud 有一個功能 (PDF Viewer)，&lt;/p>
 &lt;p>可以讓我在手機瀏覽器上直接瀏覽 PDF。&lt;/p>
 &lt;p>但是今天有一個用掃描器掃上來的 PDF 卻無法正常在手機端瀏覽&lt;/p>
-&lt;br>
 &lt;h2 id="症狀">症狀&lt;/h2>
 &lt;p>瀏覽 pdf 的時候會一片空白，並且產生錯誤訊息&lt;/p>
-&lt;pre tabindex="0">&lt;code>Canvas area exceeds the maximum limit (width * height &amp;gt; 16777216).
-&lt;/code>&lt;/pre>&lt;br>
+&lt;pre>&lt;code>Canvas area exceeds the maximum limit (width * height &amp;gt; 16777216).
+&lt;/code>&lt;/pre>
 &lt;p>經查詢原來是 iOS 的 &lt;code>canvas&lt;/code> element 有大小限制：&lt;/p>
 &lt;p>&lt;a href="https://pqina.nl/blog/canvas-area-exceeds-the-maximum-limit/">Canvas Area Exceeds The Maximum Limit&lt;/a>&lt;/p>
-&lt;br>
 &lt;p>跟 PDF.js 無關，所以這條 issue 至今也是無解：&lt;/p>
-&lt;br>
 &lt;h2 id="解決方法">解決方法&lt;/h2>
 &lt;p>搬運 &lt;code>askubuntu&lt;/code> 的解法，先在 Server Side 用 ghost script 把 DPI 改小就好了：&lt;/p>
-&lt;pre tabindex="0">&lt;code>gs -sDEVICE=pdfwrite \
+&lt;pre>&lt;code>gs -sDEVICE=pdfwrite \
 -dCompatibilityLevel=1.4 \
 -dPDFSETTINGS=/ebook \
 -dNOPAUSE \
 -dQUIET \
 -dBATCH \
 -sOutputFile=output.pdf input.pdf
-&lt;/code>&lt;/pre>&lt;br>
+&lt;/code>&lt;/pre>
 &lt;ul>
 &lt;li>
 &lt;p>&lt;code>-dCompatibilityLevel&lt;/code> (不知道有什麼用)&lt;/p>
@@ -256,37 +242,40 @@ return lowest
 &lt;p>&lt;code>-dBATCH&lt;/code> 執行到最後一頁退出&lt;/p>
 &lt;/li>
 &lt;/ul>
-&lt;br>
 &lt;h2 id="參考資料">參考資料&lt;/h2>
 &lt;p>&lt;a href="https://apps.nextcloud.com/apps/files_pdfviewer">PDF viewer&lt;/a>&lt;/p>
 &lt;p>&lt;a href="https://pqina.nl/blog/canvas-area-exceeds-the-maximum-limit/">Canvas Area Exceeds The Maximum Limit&lt;/a>&lt;/p>
 &lt;p>&lt;a href="https://askubuntu.com/questions/113544/how-can-i-reduce-the-file-size-of-a-scanned-pdf-file">How can I reduce the file size of a scanned PDF file?&lt;/a>&lt;/p>
 &lt;p>&lt;a href="https://www.ghostscript.com/doc/current/VectorDevices.htm#COMMON">High Level Output Devices&lt;/a>&lt;/p>
-- https://krapshsa.github.io/posts/ios-dpi-pdf-16af8336-45e8-4ad0-8764-5a0eab1ec309/ - © 2007 - 2022 krapshsa</description></item><item><title>簡易 C Mock — wrapper function</title><link>https://krapshsa.github.io/posts/c-mock-wrapper-function-87728a4c-9871-48d0-9b84-24dc3483bce4/</link><pubDate>Sat, 06 Aug 2022 11:12:00 +0800</pubDate><guid>https://krapshsa.github.io/posts/c-mock-wrapper-function-87728a4c-9871-48d0-9b84-24dc3483bce4/</guid><description>KRAPSHSA'S BLOG https://krapshsa.github.io/posts/c-mock-wrapper-function-87728a4c-9871-48d0-9b84-24dc3483bce4/ -&lt;h2 id="起因">起因&lt;/h2>
+- https://krapshsa.github.io/posts/ios-dpi-pdf/ - © 2007 - 2022 krapshsa</description></item><item><title>JB 小技巧</title><link>https://krapshsa.github.io/posts/jb/</link><pubDate>Fri, 12 Aug 2022 11:01:00 +0000</pubDate><guid>https://krapshsa.github.io/posts/jb/</guid><description>KRAPSHSA'S BLOG https://krapshsa.github.io/posts/jb/ -&lt;h1 id="jb-小技巧">JB 小技巧&lt;/h1>
+&lt;p>&lt;a href="https://stackoverflow.com/questions/50563010/how-do-i-preserve-search-results-in-intellij-idea">How do I preserve search results in IntelliJ IDEA&lt;/a>&lt;/p>
+&lt;p>&lt;a href="https://blog.jetbrains.com/webstorm/2022/08/fomo-digest-2/">FOMO Digest #2: Top 5 Tips for Angular Development With JetBrains IDEs | The WebStorm Blog&lt;/a>&lt;/p>
+- https://krapshsa.github.io/posts/jb/ - © 2007 - 2022 krapshsa</description></item><item><title>簡易 C Mock — wrapper function</title><link>https://krapshsa.github.io/posts/c-mock-wrapper-function/</link><pubDate>Sat, 06 Aug 2022 03:12:00 +0000</pubDate><guid>https://krapshsa.github.io/posts/c-mock-wrapper-function/</guid><description>KRAPSHSA'S BLOG https://krapshsa.github.io/posts/c-mock-wrapper-function/ -&lt;h1 id="簡易-c-mock--wrapper-function">簡易 C Mock — wrapper function&lt;/h1>
+&lt;h2 id="起因">起因&lt;/h2>
 &lt;p>幫一個舊的 Lib 寫測試的時候會去讀 config，&lt;/p>
 &lt;p>但是這個路徑在我的 CI 環境並不存在，&lt;/p>
 &lt;p>通常我寫 php 的時候，針對這種外部相依就用 function 包起來再 Mock 掉，&lt;/p>
 &lt;p>但是 C 我已經忘得差不多了，想找一個簡單可以做到類似效果的方法。&lt;/p>
-&lt;br>
 &lt;h2 id="目前解法">目前解法&lt;/h2>
 &lt;p>不囉唆，先上 code&lt;/p>
 &lt;p>&lt;a href="https://github.com/krapshsa/c-native-mock">GitHub - krapshsa/c-native-mock&lt;/a>&lt;/p>
 &lt;p>這個簡單的 Case 是這樣：&lt;/p>
 &lt;ol>
-&lt;li>&lt;code>main()&lt;/code> 呼叫 &lt;code>foo()&lt;/code> ， &lt;code>foo()&lt;/code> 呼叫 &lt;code>config_load()&lt;/code>&lt;br>
-&lt;img src="c-mock-9adcb40d-b2d3-4874-9829-170784e9f812.png" alt="">&lt;/li>
-&lt;li>我想要不改變 &lt;code>foo.c&lt;/code> ，讓測試 (&lt;code>main.c&lt;/code> ) 可以不去真的用到 &lt;code>config_load()&lt;/code>&lt;/li>
+&lt;li>
+&lt;p>&lt;code>main()&lt;/code> 呼叫 &lt;code>foo()&lt;/code> ， &lt;code>foo()&lt;/code> 呼叫 &lt;code>config_load()&lt;/code>&lt;/p>
+&lt;p>&lt;img src="c-mock-9adcb40d-b2d3-4874-9829-170784e9f812.png" alt="">&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>我想要不改變 &lt;code>foo.c&lt;/code> ，讓測試 (&lt;code>main.c&lt;/code> ) 可以不去真的用到 &lt;code>config_load()&lt;/code>&lt;/p>
+&lt;/li>
 &lt;/ol>
-&lt;br>
 &lt;p>其實這就相當於寫測試：&lt;/p>
 &lt;p>&lt;code>main()&lt;/code> 是 Test，而 &lt;code>foo.c&lt;/code> 的 &lt;code>foo()&lt;/code> 是我的 SUT (System Under Test)。&lt;/p>
-&lt;br>
 &lt;p>手法就是 Wrap，根據 &lt;code>ld&lt;/code> 的 Man Page：&lt;/p>
 &lt;blockquote>
 &lt;p>&lt;code>--wrap=symbol&lt;/code>&lt;br>
 Use a wrapper function for symbol. Any undefined reference to symbol will be resolved to &amp;ldquo;&lt;code>__wrap_symbol&lt;/code>&amp;rdquo;. Any undefined reference to &amp;ldquo;&lt;code>__real_symbol&lt;/code>&amp;rdquo; will be resolved to symbol.&lt;/p>
 &lt;/blockquote>
-&lt;br>
 &lt;p>操作步驟：&lt;/p>
 &lt;ol>
 &lt;li>
@@ -300,75 +289,77 @@ Use a wrapper function for symbol. Any undefined reference to symbol will be res
 &lt;p>編譯的參數加上 &lt;code>-Wl,--wrap=&amp;lt;symbol&amp;gt;&lt;/code>&lt;/p>
 &lt;/li>
 &lt;/ol>
-&lt;br>
 &lt;p>可以用 nm 指令看一下編出來的 &lt;code>.o&lt;/code>&lt;/p>
 &lt;p>T: 表示在 Text Section 找得到這個 symbol&lt;/p>
 &lt;p>U: 表示這個 symbol 是 undefined&lt;/p>
-&lt;pre tabindex="0">&lt;code># nm config.o
+&lt;pre>&lt;code># nm config.o
 0000000000000000 T config_load
 U fclose
 U fopen
 U fseek
-&lt;/code>&lt;/pre>&lt;pre tabindex="0">&lt;code># nm foo.o
+# nm foo.o
 U config_load
 0000000000000000 T foo
-&lt;/code>&lt;/pre>&lt;pre tabindex="0">&lt;code># nm main.o
+# nm main.o
 0000000000000000 T __wrap_config_load
 U foo
 0000000000000011 T main
 U puts
-&lt;/code>&lt;/pre>&lt;br>
+&lt;/code>&lt;/pre>
 &lt;h2 id="常犯錯誤">常犯錯誤&lt;/h2>
 &lt;p>如果 &lt;code>config_load&lt;/code> 定義在 &lt;code>foo.c&lt;/code> 裡面，試著跑看看：&lt;/p>
-&lt;pre tabindex="0">&lt;code># make main
+&lt;pre>&lt;code># make main
 gcc -c main.c
 gcc -c foo.c
 gcc -Wl,--wrap=config_load -o main main.o foo.o
 # ./main
 Segmentation fault
-&lt;/code>&lt;/pre>&lt;p>結果這樣是不行的，用 nm 查看：&lt;/p>
-&lt;pre tabindex="0">&lt;code># nm foo.o
+&lt;/code>&lt;/pre>
+&lt;p>結果這樣是不行的，用 nm 查看：&lt;/p>
+&lt;pre>&lt;code># nm foo.o
 0000000000000011 T config_load
 U fclose
 0000000000000000 T foo
 U fopen
 U fseek
-&lt;/code>&lt;/pre>&lt;pre tabindex="0">&lt;code># nm main.o
+# nm main.o
 0000000000000000 T __wrap_config_load
 U foo
 0000000000000011 T main
 U puts
-&lt;/code>&lt;/pre>&lt;p>要把 ld 告訴我們的使用方法放在心上：&lt;/p>
+&lt;/code>&lt;/pre>
+&lt;p>要把 ld 告訴我們的使用方法放在心上：&lt;/p>
 &lt;blockquote>
 &lt;p>Any undefined reference to symbol will be resolved to &amp;ldquo;&lt;code>__wrap_symbol&lt;/code>&amp;rdquo;&lt;/p>
 &lt;/blockquote>
 &lt;p>呼叫 &lt;code>config_load&lt;/code> 並不是 undefined，&lt;/p>
 &lt;p>所以這告訴我們實作 &amp;amp; 寫測試的時候把要 Mock 的東西切出去，&lt;/p>
 &lt;p>就可以用這個手法來替換掉實作，也就是說要把相依但是職責不應該屬於我的 Code 另外放。&lt;/p>
-&lt;br>
 &lt;h2 id="另外一個方法-ifndef--define--endif">另外一個方法： &lt;code>#ifndef ... #define ... #endif&lt;/code>&lt;/h2>
 &lt;p>延伸自 &lt;code>undefined&lt;/code> 的想法，我們也可以直接改寫 &lt;code>foo.c&lt;/code>&lt;/p>
 &lt;p>&lt;code>foo.c&lt;/code>&lt;/p>
-&lt;pre tabindex="0">&lt;code>#include &amp;#34;stdio.h&amp;#34;
-#include &amp;#34;config.h&amp;#34;
-#include &amp;#34;foo.h&amp;#34;
+&lt;pre>&lt;code>#include &amp;quot;stdio.h&amp;quot;
+#include &amp;quot;config.h&amp;quot;
+#include &amp;quot;foo.h&amp;quot;
 #ifndef config_load
 #define config_load() my_config_load()
 #endif
 void my_config_load() {
-printf(&amp;#34;wrap\n&amp;#34;);
+printf(&amp;quot;wrap\n&amp;quot;);
 }
 void foo() {
 config_load();
 }
-&lt;/code>&lt;/pre>&lt;p>&lt;code>main.c&lt;/code>&lt;/p>
-&lt;pre tabindex="0">&lt;code>#include &amp;#34;foo.h&amp;#34;
+&lt;/code>&lt;/pre>
+&lt;p>&lt;code>main.c&lt;/code>&lt;/p>
+&lt;pre>&lt;code>#include &amp;quot;foo.h&amp;quot;
 int main() {
 foo();
 return 0;
 }
-&lt;/code>&lt;/pre>&lt;p>&lt;code>Makefile&lt;/code>&lt;/p>
-&lt;pre tabindex="0">&lt;code>config.o:
+&lt;/code>&lt;/pre>
+&lt;p>&lt;code>Makefile&lt;/code>&lt;/p>
+&lt;pre>&lt;code>config.o:
 gcc -c config.c
 foo.o:
 gcc -c foo.c
@@ -378,36 +369,34 @@ main: main.o foo.o config.o
 gcc -o main main.o foo.o config.o
 clean:
 rm *.o main
-&lt;/code>&lt;/pre>&lt;br>
+&lt;/code>&lt;/pre>
 &lt;p>應該是可以搭配 Target-specific Variable Values 編出 production / development 的 &lt;code>foo.o&lt;/code>&lt;/p>
 &lt;p>感謝大神同事給的參考資料：&lt;/p>
 &lt;p>&lt;a href="https://www.gnu.org/software/make/manual/html_node/Target_002dspecific.html">Target-specific (GNU make)&lt;/a>&lt;/p>
-&lt;br>
 &lt;h2 id="參考資料">參考資料&lt;/h2>
 &lt;p>&lt;a href="https://stackoverflow.com/questions/31156327/how-to-mock-function-in-c-when-its-caller-function-is-defined-in-same-file">How to mock function in C when its caller function is defined in same file?&lt;/a>&lt;/p>
 &lt;p>&lt;a href="https://stackoverflow.com/questions/617554/override-a-function-call-in-c">Override a function call in C&lt;/a>&lt;/p>
 &lt;p>&lt;a href="https://stackoverflow.com/questions/43183060/how-to-wrap-existing-function-in-c">How to wrap existing function in C&lt;/a>&lt;/p>
 &lt;p>&lt;a href="https://orionlin.pixnet.net/blog/post/96013596-wrap-function%E7%9A%84%E4%BD%BF%E7%94%A8">wrap function的使用 @ Orion&amp;rsquo;s blog :: 痞客邦 ::&lt;/a>&lt;/p>
-- https://krapshsa.github.io/posts/c-mock-wrapper-function-87728a4c-9871-48d0-9b84-24dc3483bce4/ - © 2007 - 2022 krapshsa</description></item><item><title>C Unit Test - Criterion 簡單範例</title><link>https://krapshsa.github.io/posts/c-unit-test-criterion-eb7169c5-0a5e-4e8d-b9b5-04a8aa841ba1/</link><pubDate>Fri, 05 Aug 2022 01:52:00 +0800</pubDate><guid>https://krapshsa.github.io/posts/c-unit-test-criterion-eb7169c5-0a5e-4e8d-b9b5-04a8aa841ba1/</guid><description>KRAPSHSA'S BLOG https://krapshsa.github.io/posts/c-unit-test-criterion-eb7169c5-0a5e-4e8d-b9b5-04a8aa841ba1/ -&lt;h2 id="起因">起因&lt;/h2>
+- https://krapshsa.github.io/posts/c-mock-wrapper-function/ - © 2007 - 2022 krapshsa</description></item><item><title>C Unit Test - Criterion 簡單範例</title><link>https://krapshsa.github.io/posts/c-unit-test-criterion/</link><pubDate>Thu, 04 Aug 2022 17:52:00 +0000</pubDate><guid>https://krapshsa.github.io/posts/c-unit-test-criterion/</guid><description>KRAPSHSA'S BLOG https://krapshsa.github.io/posts/c-unit-test-criterion/ -&lt;h1 id="c-unit-test---criterion-簡單範例">C Unit Test - Criterion 簡單範例&lt;/h1>
+&lt;h2 id="起因">起因&lt;/h2>
 &lt;p>要用一個公司很久以前自己寫的 C Lib，沒有文件所以不知道行為是什麼。&lt;/p>
 &lt;p>使用的過程中有發現問題，就進行一些修正。&lt;/p>
 &lt;p>想說幫他加上一些測試案例，幫助之後要使用的人。&lt;/p>
-&lt;br>
 &lt;h2 id="環境">環境&lt;/h2>
 &lt;h3 id="建置方法">建置方法&lt;/h3>
 &lt;p>由於公司是用 CentOS / RHEL / Oracle，我挑了一個差不多的 image 來建 CI&lt;/p>
 &lt;p>重點是 rpm 我從 github 上面裝，就可以直接 &lt;code>-l&lt;/code> 使用他的 Lib&lt;/p>
 &lt;p>其他是這個 C lib 需要的其他 Lib，跟底下範例無關&lt;/p>
-&lt;br>
 &lt;p>&lt;code>Dockerfile&lt;/code>&lt;/p>
-&lt;pre tabindex="0">&lt;code>FROM oraclelinux:8.6
+&lt;pre>&lt;code>FROM oraclelinux:8.6
 RUN yum install -y gcc make pcre pcre-devel
 RUN yum --enablerepo=ol8_codeready_builder install -y glibc glibc-common glibc-devel glibc-headers glibc-static
 RUN rpm -ivh https://github.com/samber/criterion-rpm-package/releases/download/2.3.3/libcriterion-devel-2.3.3-2.el7.x86_64.rpm
-&lt;/code>&lt;/pre>&lt;br>
+&lt;/code>&lt;/pre>
 &lt;h2 id="code">Code&lt;/h2>
 &lt;p>&lt;code>sut.h&lt;/code>&lt;/p>
-&lt;pre tabindex="0">&lt;code>#ifndef TEST_CRITERION_SUT_H
+&lt;pre>&lt;code>#ifndef TEST_CRITERION_SUT_H
 #define TEST_CRITERION_SUT_H
 typedef struct result
 {
@@ -416,16 +405,16 @@ char *begin;
 extern int doSomething(char *pContent, Result **ppResult);
 extern void sutFree(Result **ppResult);
 #endif //TEST_CRITERION_SUT_H
-&lt;/code>&lt;/pre>&lt;br>
+&lt;/code>&lt;/pre>
 &lt;p>&lt;code>sut.c&lt;/code>&lt;/p>
-&lt;pre tabindex="0">&lt;code>#include &amp;lt;stdlib.h&amp;gt;
+&lt;pre>&lt;code>#include &amp;lt;stdlib.h&amp;gt;
 #include &amp;lt;string.h&amp;gt;
-#include &amp;#34;sut.h&amp;#34;
+#include &amp;quot;sut.h&amp;quot;
 int doSomething(char *pContent, Result **ppResult)
 {
-if (0 == strcmp(pContent, &amp;#34;INPUT_1&amp;#34;)) {
+if (0 == strcmp(pContent, &amp;quot;INPUT_1&amp;quot;)) {
 *ppResult = (Result*)malloc(sizeof(Result));
-(*ppResult)-&amp;gt;begin = &amp;#34;OUTPUT_1&amp;#34;;
+(*ppResult)-&amp;gt;begin = &amp;quot;OUTPUT_1&amp;quot;;
 return 1;
 }
 return 0;
@@ -437,11 +426,11 @@ free(*ppResult);
 *ppResult = NULL;
 }
 }
-&lt;/code>&lt;/pre>&lt;br>
+&lt;/code>&lt;/pre>
 &lt;p>&lt;code>test.c&lt;/code>&lt;/p>
-&lt;pre tabindex="0">&lt;code>#include &amp;lt;string.h&amp;gt;
+&lt;pre>&lt;code>#include &amp;lt;string.h&amp;gt;
 #include &amp;lt;criterion/criterion.h&amp;gt;
-#include &amp;#34;sut.h&amp;#34;
+#include &amp;quot;sut.h&amp;quot;
 int ret = 0;
 int rule = -1;
 Result *s = NULL;
@@ -469,17 +458,17 @@ cr_assert_eq(0, strcmp(result, s-&amp;gt;begin));
 }
 TestSuite(single_rule_suite, .init = setup, .fini = teardown);
 Test(single_rule_suite, test_success) {
-givenContent(&amp;#34;INPUT_1&amp;#34;);
+givenContent(&amp;quot;INPUT_1&amp;quot;);
 returnValueShouldBeSuccess();
-matchContentShouldBe(&amp;#34;OUTPUT_1&amp;#34;);
+matchContentShouldBe(&amp;quot;OUTPUT_1&amp;quot;);
 }
 Test(single_rule_suite, test_failed) {
-givenContent(&amp;#34;INPUT_2&amp;#34;);
+givenContent(&amp;quot;INPUT_2&amp;quot;);
 returnValueShouldBeFailed();
 }
-&lt;/code>&lt;/pre>&lt;br>
+&lt;/code>&lt;/pre>
 &lt;p>&lt;code>Makefile&lt;/code>&lt;/p>
-&lt;pre tabindex="0">&lt;code>CC = gcc -Wall
+&lt;pre>&lt;code>CC = gcc -Wall
 sut.o: sut.c
 ${CC} -c sut.c
 test.o: test.c
@@ -489,53 +478,59 @@ ${CC} -o test test.o sut.o -lcriterion
 ./test
 clean:
 rm -f *.o
-&lt;/code>&lt;/pre>&lt;br>
+&lt;/code>&lt;/pre>
 &lt;h2 id="結果">結果&lt;/h2>
-&lt;pre tabindex="0">&lt;code>./test
+&lt;pre>&lt;code>./test
 [====] Synthesis: Tested: 2 | Passing: 2 | Failing: 0 | Crashing: 0
-&lt;/code>&lt;/pre>&lt;br>
+&lt;/code>&lt;/pre>
 &lt;h2 id="簡易說明">簡易說明&lt;/h2>
 &lt;p>&lt;a href="https://criterion.readthedocs.io/en/master/starter.html?highlight=suite#configuration-reference">Getting started - Criterion 2.4.1-rc-1-g56f8f1a-dirty documentation&lt;/a>&lt;/p>
-&lt;br>
 &lt;h3 id="test-基本用法">Test 基本用法&lt;/h3>
-&lt;pre tabindex="0">&lt;code>Test(suite_name, test_name, .init = setup, .fini = teardown) {
+&lt;pre>&lt;code>Test(suite_name, test_name, .init = setup, .fini = teardown) {
 // test contents
 }
-&lt;/code>&lt;/pre>&lt;br>
+&lt;/code>&lt;/pre>
 &lt;h3 id="test-suite-基本用法">Test Suite 基本用法&lt;/h3>
 &lt;p>官方給出的例子&lt;/p>
-&lt;pre tabindex="0">&lt;code>TestSuite(suite_name, [params...]);
+&lt;pre>&lt;code>TestSuite(suite_name, [params...]);
 Test(suite_name, test_1) {
 }
 Test(suite_name, test_2) {
 }
-&lt;/code>&lt;/pre>&lt;br>
+&lt;/code>&lt;/pre>
 &lt;p>我實際上是這樣用：&lt;/p>
-&lt;pre tabindex="0">&lt;code>TestSuite(single_rule_suite, .init = setup, .fini = teardown);
+&lt;pre>&lt;code>TestSuite(single_rule_suite, .init = setup, .fini = teardown);
 Test(single_rule_suite, test_success) {
 ...
 }
 Test(single_rule_suite, test_failed) {
 ...
 }
-&lt;/code>&lt;/pre>&lt;p>因為大家的初始化跟銷毀都一樣，不需要在 &lt;code>Test&lt;/code> 裡面重複寫&lt;/p>
-&lt;br>
+&lt;/code>&lt;/pre>
+&lt;p>因為大家的初始化跟銷毀都一樣，不需要在 &lt;code>Test&lt;/code> 裡面重複寫&lt;/p>
 &lt;h2 id="參考資料">參考資料&lt;/h2>
-- https://krapshsa.github.io/posts/c-unit-test-criterion-eb7169c5-0a5e-4e8d-b9b5-04a8aa841ba1/ - © 2007 - 2022 krapshsa</description></item><item><title>記一次 MariaDB CPU Loading 滿載查修過程</title><link>https://krapshsa.github.io/posts/mariadb-cpu-loading-e49af856-cc1f-45bf-9e40-f97a0718d89f/</link><pubDate>Thu, 04 Aug 2022 18:46:00 +0800</pubDate><guid>https://krapshsa.github.io/posts/mariadb-cpu-loading-e49af856-cc1f-45bf-9e40-f97a0718d89f/</guid><description>KRAPSHSA'S BLOG https://krapshsa.github.io/posts/mariadb-cpu-loading-e49af856-cc1f-45bf-9e40-f97a0718d89f/ -&lt;h2 id="起因">起因&lt;/h2>
+- https://krapshsa.github.io/posts/c-unit-test-criterion/ - © 2007 - 2022 krapshsa</description></item><item><title>記一次 MariaDB CPU Loading 滿載查修過程</title><link>https://krapshsa.github.io/posts/mariadb-cpu-loading/</link><pubDate>Thu, 04 Aug 2022 10:46:00 +0000</pubDate><guid>https://krapshsa.github.io/posts/mariadb-cpu-loading/</guid><description>KRAPSHSA'S BLOG https://krapshsa.github.io/posts/mariadb-cpu-loading/ -&lt;h1 id="記一次-mariadb-cpu-loading-滿載查修過程">記一次 MariaDB CPU Loading 滿載查修過程&lt;/h1>
+&lt;h2 id="起因">起因&lt;/h2>
 &lt;p>客戶環境的 MariaDB 把 CPU Resource 都吃滿了，&lt;/p>
 &lt;p>用 &lt;code>SHOW PROCESSLIST&lt;/code> 查詢有看到好幾條慢的查詢，亂槍打鳥調整了前幾筆都不見改善。&lt;/p>
 &lt;p>為了要可以比較精準地改善問題，做了一些研 (goo) 究 (gle)。&lt;/p>
-&lt;br>
 &lt;h2 id="症狀">症狀&lt;/h2>
 &lt;ol>
-&lt;li>用 TOP 只看得到 CPU 吃滿，但是記憶體的狀況是 OK 的&lt;br>
-&lt;img src="Screen_Shot_2022-08-04_at_6-933c0ea7-374b-425e-a8c0-48a7b22d5b20.52.53_PM.png" alt="">&lt;/li>
-&lt;li>ATOP 看起來硬碟也不忙，由於服務跟 DB 建在同一台，應該也不是網路問題&lt;br>
-&lt;img src="Screen_Shot_2022-08-04_at_6-4c435945-644d-404e-81b1-f95682c8e20e.54.25_PM.png" alt="">&lt;/li>
-&lt;li>約好停服務之後，不管三七二十一先 &lt;code>OPTIMIZE TABLE&lt;/code> 也沒有用&lt;/li>
-&lt;li>卡住的前幾名都是 UPDATE，一度懷疑是寫入的問題，但是實際找一個測試資料 Insert / Update 都很快，把這個 UPDATE 相關的 Code 拔掉也沒有用。&lt;/li>
+&lt;li>
+&lt;p>用 TOP 只看得到 CPU 吃滿，但是記憶體的狀況是 OK 的&lt;/p>
+&lt;p>&lt;img src="Screen_Shot_2022-08-04_at_6-933c0ea7-374b-425e-a8c0-48a7b22d5b20.52.53_PM.png" alt="">&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>ATOP 看起來硬碟也不忙，由於服務跟 DB 建在同一台，應該也不是網路問題&lt;/p>
+&lt;p>&lt;img src="Screen_Shot_2022-08-04_at_6-4c435945-644d-404e-81b1-f95682c8e20e.54.25_PM.png" alt="">&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>約好停服務之後，不管三七二十一先 &lt;code>OPTIMIZE TABLE&lt;/code> 也沒有用&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>卡住的前幾名都是 UPDATE，一度懷疑是寫入的問題，但是實際找一個測試資料 Insert / Update 都很快，把這個 UPDATE 相關的 Code 拔掉也沒有用。&lt;/p>
+&lt;/li>
 &lt;/ol>
-&lt;br>
 &lt;h2 id="修復流程">修復流程&lt;/h2>
 &lt;h3 id="值得參考的流程">值得參考的流程&lt;/h3>
 &lt;p>&lt;a href="https://www.percona.com/blog/2020/04/23/a-simple-approach-to-troubleshooting-high-cpu-in-mysql/">A Simple Approach to Troubleshooting High CPU in MySQL - Percona Database Performance Blog&lt;/a>&lt;/p>
@@ -547,31 +542,31 @@ Test(single_rule_suite, test_failed) {
 &lt;li>想辦法找到 thread id ，看看是哪個 thread 在忙。&lt;/li>
 &lt;li>有 thread id 之後就可以用， &lt;code>performance_schema.threads&lt;/code> 找到 &lt;code>THREAD_OS_ID&lt;/code> 對應的 Command。&lt;/li>
 &lt;/ol>
-&lt;br>
 &lt;h3 id="我的流程">我的流程&lt;/h3>
 &lt;p>因為我的 MariaDB 還沒有升級到 10.5，所以我是去看 process list 中比較慢的 query。&lt;/p>
 &lt;p>對這些 Query 查看 query plan，最後找到一筆 &lt;code>SELECT&lt;/code> ，在把服務切斷的狀態下就要四秒。&lt;/p>
-&lt;pre tabindex="0">&lt;code>describe SELECT * FROM problem_table WHERE id=100 AND `path` LIKE &amp;#39;某個關鍵字%&amp;#39;;
+&lt;pre>&lt;code>describe SELECT * FROM problem_table WHERE id=100 AND `path` LIKE '某個關鍵字%';
 +------+-------------+---------------+------+-------------------------------------------------------+-----------------+---------+-------+---------+-------------+
 | id | select_type | table | type | possible_keys | key | key_len | ref | rows | Extra |
 +------+-------------+---------------+------+-------------------------------------------------------+-----------------+---------+-------+---------+-------------+
 | 1 | SIMPLE | problem_table | ref | index_1,index_2,index_3 | index_3 | 4 | const | 4213770 | Using where |
 +------+-------------+---------------+------+-------------------------------------------------------+-----------------+---------+-------+---------+-------------+
-&lt;/code>&lt;/pre>&lt;p>看到 &lt;code>index_3&lt;/code> (被我碼掉了) 是 &lt;code>fid&lt;/code>+ &lt;code>extra&lt;/code> 的聯合索引，對 &lt;code>path&lt;/code> 沒有幫助&lt;/p>
+&lt;/code>&lt;/pre>
+&lt;p>看到 &lt;code>index_3&lt;/code> (被我碼掉了) 是 &lt;code>fid&lt;/code>+ &lt;code>extra&lt;/code> 的聯合索引，對 &lt;code>path&lt;/code> 沒有幫助&lt;/p>
 &lt;p>覺得應該是沒有適合的 Index，才會這麼久。&lt;/p>
 &lt;p>針對 &lt;code>fid&lt;/code> + &lt;code>path&lt;/code> 去建 Index，最後就解決問題了：&lt;/p>
-&lt;pre tabindex="0">&lt;code>create index index_4 on problem_table(field_1,field_2(768));
+&lt;pre>&lt;code>create index index_4 on problem_table(field_1,field_2(768));
 Query OK, 0 rows affected (1 min 29.487 sec)
-describe SELECT * FROM problem_table WHERE fid=100 AND `path` LIKE &amp;#39;某個關鍵字%&amp;#39;;
+describe SELECT * FROM problem_table WHERE fid=100 AND `path` LIKE '某個關鍵字%';
 +------+-------------+---------------+-------+-------------------------------------------------------+-----------------+---------+-------+---------+------------------------------------+
 | id | select_type | table | type | possible_keys | key | key_len | ref | rows | Extra |
 +------+-------------+---------------+-------+-------------------------------------------------------+-----------------+---------+-------+---------+------------------------------------+
 | 1 | SIMPLE | problem_table | range | index_1,index_2,index_3,index_4 | index_4 | 2311 | NULL | 1 | Using index condition; Using where |
 +------+-------------+---------------+-------+-------------------------------------------------------+-----------------+---------+-------+---------+------------------------------------+
-MariaDB [owncloud]&amp;gt; ELECT * FROM problem_table WHERE fid=100 AND `path` LIKE &amp;#39;某個關鍵字%&amp;#39;;
+MariaDB [owncloud]&amp;gt; ELECT * FROM problem_table WHERE fid=100 AND `path` LIKE '某個關鍵字%';
 Empty set (0.000 sec)
-&lt;/code>&lt;/pre>&lt;p>SLA 未達承諾是要被罰的，當時這個方法有用就先頂著用了。&lt;/p>
-&lt;br>
+&lt;/code>&lt;/pre>
+&lt;p>SLA 未達承諾是要被罰的，當時這個方法有用就先頂著用了。&lt;/p>
 &lt;h2 id="事後諸葛">事後諸葛&lt;/h2>
 &lt;p>在現場時憑著一股直覺，覺得用到 &lt;code>fid&lt;/code> + &lt;code>path&lt;/code> 就去建構這兩個的聯合索引，&lt;/p>
 &lt;p>那到底這樣建 index 為什麼有用，要來事後諸葛一下：&lt;/p>
@@ -588,19 +583,18 @@ Empty set (0.000 sec)
 &lt;li>只建 &lt;code>path&lt;/code> 可不可以 → 基數算大，所以想嘗試&lt;/li>
 &lt;li>反過來建成 &lt;code>path&lt;/code> + &lt;code>fid&lt;/code> 會不會更好 → 基數大的放前面，想試試看&lt;/li>
 &lt;/ol>
-&lt;br>
 &lt;h2 id="參考資料">參考資料&lt;/h2>
 &lt;p>&lt;a href="https://www.jianshu.com/p/57a42f6a8746">MySQL 执行计划 explain plan&lt;/a>&lt;/p>
 &lt;p>&lt;a href="https://ithelp.ithome.com.tw/articles/10221971">30-13 之資料庫層的優化 - 索引設計與雷區&lt;/a>&lt;/p>
 &lt;p>&lt;a href="https://www.percona.com/blog/2020/04/23/a-simple-approach-to-troubleshooting-high-cpu-in-mysql/">A Simple Approach to Troubleshooting High CPU in MySQL - Percona Database Performance Blog&lt;/a>&lt;/p>
 &lt;p>&lt;a href="https://segmentfault.com/a/1190000008131735">MySQL 性能优化神器 Explain 使用分析&lt;/a>&lt;/p>
 &lt;p>&lt;a href="https://opensource.actionsky.com/20210407-mysql/">第25期：索引设计（索引的基数与可选择性） - 爱可生开源社区&lt;/a>&lt;/p>
-- https://krapshsa.github.io/posts/mariadb-cpu-loading-e49af856-cc1f-45bf-9e40-f97a0718d89f/ - © 2007 - 2022 krapshsa</description></item><item><title>Windows 上的類 Unix 環境 - Cygwin、MinGW、MSYS</title><link>https://krapshsa.github.io/posts/windows-unix-cygwin-mingw-msys-05707f1a-cacd-4484-9457-7aa26c7cace8/</link><pubDate>Sun, 31 Jul 2022 22:58:00 +0800</pubDate><guid>https://krapshsa.github.io/posts/windows-unix-cygwin-mingw-msys-05707f1a-cacd-4484-9457-7aa26c7cace8/</guid><description>KRAPSHSA'S BLOG https://krapshsa.github.io/posts/windows-unix-cygwin-mingw-msys-05707f1a-cacd-4484-9457-7aa26c7cace8/ -&lt;hr>
+- https://krapshsa.github.io/posts/mariadb-cpu-loading/ - © 2007 - 2022 krapshsa</description></item><item><title>Windows 上的類 Unix 環境 - Cygwin、MinGW、MSYS</title><link>https://krapshsa.github.io/posts/windows-unix-cygwin-mingw-msys/</link><pubDate>Sun, 31 Jul 2022 14:58:00 +0000</pubDate><guid>https://krapshsa.github.io/posts/windows-unix-cygwin-mingw-msys/</guid><description>KRAPSHSA'S BLOG https://krapshsa.github.io/posts/windows-unix-cygwin-mingw-msys/ -&lt;h1 id="windows-上的類-unix-環境---cygwinmingwmsys">Windows 上的類 Unix 環境 - Cygwin、MinGW、MSYS&lt;/h1>
+&lt;hr>
 &lt;h2 id="起因">起因&lt;/h2>
 &lt;p>裝了 CLion，想在 Windows 底下為了在 Windows 上使用 &lt;code>gcc&lt;/code> ，沒有想到竟然如此困難。&lt;/p>
 &lt;p>JetBrains IDE 會自動偵測有沒有 Git ，在 Windows 上如果沒有先裝好的話，他就會安裝 Git for Windows。&lt;/p>
 &lt;p>Git for Windows 自帶了一個很像 Linux 的環境，但是卻很難用它開始進行 C 的開發。&lt;/p>
-&lt;br>
 &lt;h2 id="古早味做法">古早味做法&lt;/h2>
 &lt;p>&lt;a href="https://zh.wikipedia.org/zh-tw/Dev-C%2B%2B">Dev-C++ - 维基百科，自由的百科全书&lt;/a>&lt;/p>
 &lt;p>&lt;a href="https://www.codeblocks.org/">Code::Blocks&lt;/a>&lt;/p>
@@ -617,7 +611,6 @@ Empty set (0.000 sec)
 &lt;/blockquote>
 &lt;p>其他科系的程式設計課用的都是 Visual Studio，用的編譯器是 Visual C++，我沒用過不清楚，&lt;/p>
 &lt;p>不過概念應該是相同的，有些東西 Windows API 不支援就不能用，例如 &lt;code>fork()&lt;/code> 。&lt;/p>
-&lt;br>
 &lt;h2 id="裝-git-on-windows-跑出來的-mingw">裝 git on windows 跑出來的 MinGW&lt;/h2>
 &lt;p>&lt;img src="gw1-fef1084f-cd1b-44fc-aae8-ffbf6efd0094.png" alt="">&lt;/p>
 &lt;p>現在裝完 git for windows 2.x 之後，就會有一個 git bash 可以用，上面寫著 &lt;code>MINGW64&lt;/code>&lt;/p>
@@ -625,7 +618,6 @@ Empty set (0.000 sec)
 &lt;p>既然裝 git 就有，就想要拿來試著開發看看。&lt;/p>
 &lt;p>但進到 bash 裡面卻發現沒有 make 可以用，於是就想要模仿 Linux 在上面用套件管理器裝一些套件。&lt;/p>
 &lt;p>但是在找資料的過程中發現，很多人都說，git for windows 是搭建在 MSYS / MSYS2 上面，那 MSYS 又是什麼？&lt;/p>
-&lt;br>
 &lt;h2 id="msys2">MSYS2&lt;/h2>
 &lt;p>&lt;a href="https://www.msys2.org/wiki/MSYS2-introduction/">MSYS2 - MSYS2-Introduction&lt;/a>&lt;/p>
 &lt;p>&lt;a href="https://www.msys2.org/wiki/How-does-MSYS2-differ-from-Cygwin/">MSYS2 - How does MSYS2 differ from Cygwin?&lt;/a>&lt;/p>
@@ -653,12 +645,10 @@ Some effort is made to have the programs work well with native Windows programs,
 &lt;li>MinGW - 移植的 GCC 編譯器與工具鏈，屬於 Windows 原生。&lt;/li>
 &lt;li>MSYS2 - 基於 Cygwin 改寫，屬於模擬 POSIX&lt;/li>
 &lt;/ul>
-&lt;br>
 &lt;p>MSYS2 可以用 &lt;code>pacman&lt;/code> 作為套件管理工具，但是 Git for Windows 上沒有。如果裝 Git for Windows SDK 的話就會有，但是很肥。&lt;/p>
 &lt;p>有嘗試著下載安裝包直接裝在系統上，不過卡了一個 zstd 很麻煩，但那就是另外一個故事了。&lt;/p>
 &lt;p>最後我自己裝了 MSYS2 ，跟 Git 分開來，就可以順利的編譯了。&lt;/p>
 &lt;p>不過好像還有另外一個選擇，以前在學校有看老師用過，就是剛剛提到的 Cygwin。&lt;/p>
-&lt;br>
 &lt;h2 id="更像-unix-的環境---cygwin">更像 Unix 的環境 - Cygwin&lt;/h2>
 &lt;p>&lt;img src="512px-Cygwin_logo-8cee2851-62bc-4926-a7ac-9b61b81091dc.svg.png" alt="">&lt;/p>
 &lt;h3 id="what-is-it">What is it?&lt;/h3>
@@ -674,7 +664,6 @@ Some effort is made to have the programs work well with native Windows programs,
 &lt;li>一個 GNU 和開源工具的大集合，在 Windows 上提供類似 Linux 發行版的功能&lt;/li>
 &lt;li>&lt;code>cygwin1.dll&lt;/code> 提供大量 POSIX API 的功能&lt;/li>
 &lt;/ul>
-&lt;br>
 &lt;blockquote>
 &lt;p>Cygwin is not:&lt;/p>
 &lt;ul>
@@ -700,11 +689,10 @@ Some effort is made to have the programs work well with native Windows programs,
 &lt;p>據說有一些效能問題，而且也不確定是不是 100% 模擬。但是拿來通過大一的程式設計課是綽綽有餘的。&lt;/p>
 &lt;p>到之後的高等程式設計，大家就直接在 Unix 環境底下作業了。&lt;/p>
 &lt;p>&lt;img src="81Ywze2ijaL-a9de5dc3-85a0-4348-99b0-6e26fe4b45e3.jpg" alt="">&lt;/p>
-&lt;br>
 &lt;h2 id="關係圖">關係圖&lt;/h2>
 &lt;p>Stack Overflow 上大神整理好的關係圖，我覺得很清楚&lt;/p>
 &lt;p>&lt;img src="apNVx-5bde4d7b-cfe8-403f-b9ba-f1a06680519a.png" alt="">&lt;/p>
-&lt;br>
+&lt;p>出處：&lt;a href="https://stackoverflow.com/questions/25019057/how-are-msys-msys2-and-msysgit-related-to-each-other">https://stackoverflow.com/questions/25019057/how-are-msys-msys2-and-msysgit-related-to-each-other&lt;/a>&lt;/p>
 &lt;h2 id="也許是更好的方案wsl2">也許是更好的方案：WSL2&lt;/h2>
 &lt;p>&lt;a href="https://www.v2ex.com/t/793055">某些场景下 wsl2 的文件系统简直蛋疼的不行 - V2EX&lt;/a>&lt;/p>
 &lt;p>&lt;a href="https://docs.microsoft.com/zh-tw/windows/wsl/tutorials/gui-apps">使用 WSL 執行 Linux GUI 應用程式&lt;/a>&lt;/p>
@@ -720,14 +708,14 @@ Some effort is made to have the programs work well with native Windows programs,
 &lt;p>所幸 JetBrains IDE 是可以裝在 Linux 上的，可以利用 WSL 跑 Linux GUI，或者是跑 JetBrains Gateway 應該都會動。&lt;/p>
 &lt;p>正確的姿勢應該是連 IDE 都裝在 WSL 裡面，就可以解決很多 Windows 跟 WSL 溝通得困難。&lt;/p>
 &lt;p>如果 Server 不夠強，或是怕桌機太閒了可以試試看這個方法，應該可以解決掉很多問題 (例如：不能用 rsync ，權限不一樣，換行符號不一樣 …)&lt;/p>
-&lt;br>
 &lt;h2 id="番外在-git-bash-上裝額外的東西是很麻煩的">番外：在 Git Bash 上裝額外的東西是很麻煩的&lt;/h2>
 &lt;p>以 &lt;code>rsync&lt;/code> 為例，想要在 Git Bash 上使用 &lt;code>rsync&lt;/code> ，可以直接把 binary 跟 dll 丟進去就好了&lt;/p>
 &lt;p>&lt;a href="https://packages.msys2.org/package/rsync?repo=msys&amp;amp;variant=x86_64">Package: rsync - MSYS2 Packages&lt;/a>&lt;/p>
 &lt;p>但是他的副檔名是 &lt;code>.tar.zst&lt;/code>，這是 facebook 開發的一種壓縮格式，目前 windows 官方的解壓縮跟官方版本的 7z 都還不支援。&lt;/p>
 &lt;p>我們可以去 github 下載 windows 版的 &lt;code>zstd.exe&lt;/code> 就可以在 zstd 的目錄中，從 cmd 解開得到 tar 檔：&lt;/p>
-&lt;pre tabindex="0">&lt;code>.\zstd.exe -d rsync-3.2.3-2-x86_64.pkg.tar.zst
-&lt;/code>&lt;/pre>&lt;p>&lt;a href="https://github.com/facebook/zstd/releases">Releases · facebook/zstd&lt;/a>&lt;/p>
+&lt;pre>&lt;code>.\zstd.exe -d rsync-3.2.3-2-x86_64.pkg.tar.zst
+&lt;/code>&lt;/pre>
+&lt;p>&lt;a href="https://github.com/facebook/zstd/releases">Releases · facebook/zstd&lt;/a>&lt;/p>
 &lt;p>把解出來的內容丟到 git 的目錄下，例如我的是： &lt;code>C:\Program Files\Git&lt;/code>&lt;/p>
 &lt;p>但是這樣還是跑不起來，原因就是它還有缺相依的 dll，所以下載兩個相依的 dll 如法炮製：&lt;/p>
 &lt;ul>
@@ -740,7 +728,6 @@ Some effort is made to have the programs work well with native Windows programs,
 &lt;p>&lt;a href="https://packages.msys2.org/package/libxxhash?repo=msys&amp;amp;variant=x86_64">Package: libxxhash - MSYS2 Packages&lt;/a>&lt;/p>
 &lt;/li>
 &lt;/ul>
-&lt;br>
 &lt;h2 id="參考資料">參考資料&lt;/h2>
 &lt;p>&lt;a href="https://stackoverflow.com/questions/25019057/how-are-msys-msys2-and-msysgit-related-to-each-other">How are msys, msys2, and msysgit related to each other?&lt;/a>&lt;/p>
 &lt;p>&lt;a href="https://zhuanlan.zhihu.com/p/360773277">Cygwin vs MinGW vs MSYS2&lt;/a>&lt;/p>
@@ -748,145 +735,53 @@ Some effort is made to have the programs work well with native Windows programs,
 &lt;p>&lt;a href="https://blog.csdn.net/u012408797/article/details/120490201">POSIX、Cygwin、MSYS、MSYS2、MinGW、MinGW-w64的区别_deparks的博客-CSDN博客_msys msys2&lt;/a>&lt;/p>
 &lt;p>&lt;a href="https://blog.zengrong.net/post/cygwin_and_mingw/">Cygwin 与 MinGW/MSYS/MSYS2，如何选择？&lt;/a>&lt;/p>
 &lt;p>&lt;a href="https://www.msys2.org/wiki/How-does-MSYS2-differ-from-Cygwin/">MSYS2 - How does MSYS2 differ from Cygwin?&lt;/a>&lt;/p>
-- https://krapshsa.github.io/posts/windows-unix-cygwin-mingw-msys-05707f1a-cacd-4484-9457-7aa26c7cace8/ - © 2007 - 2022 krapshsa</description></item><item><title>docker stack rm 在有 fluentd 的時候總有服務關不掉</title><link>https://krapshsa.github.io/posts/docker-stack-rm-fluentd-3c0047b9-a458-4700-a6f2-b41dcd7da96d/</link><pubDate>Thu, 28 Jul 2022 16:19:00 +0800</pubDate><guid>https://krapshsa.github.io/posts/docker-stack-rm-fluentd-3c0047b9-a458-4700-a6f2-b41dcd7da96d/</guid><description>KRAPSHSA'S BLOG https://krapshsa.github.io/posts/docker-stack-rm-fluentd-3c0047b9-a458-4700-a6f2-b41dcd7da96d/ -&lt;p>最近把 &lt;code>fluentd&lt;/code> 加入到 docker swarm 中當作 Log Driver 的時候，&lt;/p>
-&lt;p>移除 docker stack 時，關閉得比較慢的 service 有機會沒辦法完整移除。&lt;/p>
-&lt;p>此時 &lt;code>docker inspect&lt;/code> ， &lt;code>docker rm&lt;/code> 等指令都會卡住。&lt;/p>
-&lt;p>唯一的解法就是重啟 docker daemon。&lt;/p>
-&lt;p>猜測因為沒辦法保證 &lt;code>fluentd&lt;/code> 在最後一個關閉導致出錯了。&lt;/p>
-&lt;p>&lt;!-- raw HTML omitted -->&lt;!-- raw HTML omitted -->&lt;/p>
-&lt;ol>
-&lt;li>移除 docker stack&lt;/li>
-&lt;/ol>
-&lt;pre tabindex="0">&lt;code>docker stack rm mystack
-&lt;/code>&lt;/pre>&lt;ol start="2">
-&lt;li>檢查 service 都移除掉了&lt;/li>
-&lt;/ol>
-&lt;pre tabindex="0">&lt;code>docker service ls
-ID NAME MODE REPLICAS IMAGE PORTS
-&lt;/code>&lt;/pre>&lt;ol start="3">
-&lt;li>發現還有 container 沒有正常關閉，且永遠卡在這個狀態&lt;/li>
-&lt;/ol>
-&lt;pre tabindex="0">&lt;code>docker stack ps mystack --no-trunc
-ID NAME IMAGE NODE DESIRED STATE CURRENT STATE ERROR PORTS
-5fllkwthpur60gzgeqq4cow48 i1i65yn2b35jqsfqk7gb9y7l8.1 my-clamav:2022-0406-145048 localhost.localdomain Remove Running about a minute ago
-&lt;/code>&lt;/pre>&lt;p>&lt;!-- raw HTML omitted -->&lt;!-- raw HTML omitted -->&lt;/p>
-&lt;p>檢查系統的 Log，有出現如下訊息 (我是 CentOS)：&lt;/p>
-&lt;pre tabindex="0">&lt;code>sudo cat /var/log/messages | grep 3c902d2962f7
-Jul 28 10:48:49 localhost dockerd[1265564]: time=&amp;#34;2022-07-28T10:48:49.917640954+08:00&amp;#34; level=info msg=&amp;#34;Configured log driver does not support reads, enabling local file cache for container logs&amp;#34; container=3c902d2962f7fb6af8ce5a16a965bd2707383dbb18fed9b6942e1687f6419c4b driver=fluentd
-Jul 28 10:48:49 localhost containerd[1161]: time=&amp;#34;2022-07-28T10:48:49.936470840+08:00&amp;#34; level=info msg=&amp;#34;starting signal loop&amp;#34; namespace=moby path=/run/containerd/io.containerd.runtime.v2.task/moby/3c902d2962f7fb6af8ce5a16a965bd2707383dbb18fed9b6942e1687f6419c4b pid=1269465 runtime=io.containerd.runc.v2
-Jul 28 10:53:00 localhost dockerd[1265564]: time=&amp;#34;2022-07-28T10:53:00.719182463+08:00&amp;#34; level=info msg=&amp;#34;ignoring event&amp;#34; container=3c902d2962f7fb6af8ce5a16a965bd2707383dbb18fed9b6942e1687f6419c4b module=libcontainerd namespace=moby topic=/tasks/delete type=&amp;#34;*events.TaskDelete&amp;#34;
-Jul 28 10:53:00 localhost containerd[1161]: time=&amp;#34;2022-07-28T10:53:00.719579189+08:00&amp;#34; level=info msg=&amp;#34;shim disconnected&amp;#34; id=3c902d2962f7fb6af8ce5a16a965bd2707383dbb18fed9b6942e1687f6419c4b
-Jul 28 10:53:00 localhost containerd[1161]: time=&amp;#34;2022-07-28T10:53:00.719667935+08:00&amp;#34; level=warning msg=&amp;#34;cleaning up after shim disconnected&amp;#34; id=3c902d2962f7fb6af8ce5a16a965bd2707383dbb18fed9b6942e1687f6419c4b namespace=moby
-Jul 28 10:53:07 localhost dockerd[1265564]: time=&amp;#34;2022-07-28T10:53:07.730207608+08:00&amp;#34; level=info msg=&amp;#34;Container failed to exit within 10s of signal 15 - using the force&amp;#34; container=3c902d2962f7fb6af8ce5a16a965bd2707383dbb18fed9b6942e1687f6419c4b
-Jul 28 10:57:07 localhost dockerd[1271313]: time=&amp;#34;2022-07-28T10:57:07.971173522+08:00&amp;#34; level=info msg=&amp;#34;Removing stale sandbox c540d42e6cba844695f8cb780f5c28a82a59500207ace2b6526d11eca5b54600 (3c902d2962f7fb6af8ce5a16a965bd2707383dbb18fed9b6942e1687f6419c4b)&amp;#34;
-Jul 28 11:12:19 localhost dockerd[1271313]: time=&amp;#34;2022-07-28T11:12:19.902248293+08:00&amp;#34; level=error msg=&amp;#34;Error getting service 3c902d2962f7: service 3c902d2962f7 not found&amp;#34;
-Jul 28 11:12:19 localhost dockerd[1271313]: time=&amp;#34;2022-07-28T11:12:19.905022331+08:00&amp;#34; level=error msg=&amp;#34;Error getting task 3c902d2962f7: task 3c902d2962f7 not found&amp;#34;
-Jul 28 11:12:19 localhost dockerd[1271313]: time=&amp;#34;2022-07-28T11:12:19.906474336+08:00&amp;#34; level=error msg=&amp;#34;Error getting node 3c902d2962f7: node 3c902d2962f7 not found&amp;#34;
-&lt;/code>&lt;/pre>&lt;p>&lt;!-- raw HTML omitted -->&lt;!-- raw HTML omitted -->&lt;/p>
-&lt;p>一開始懷疑是沒有辦法關掉 process，可能在卡在寫 Log 了。&lt;br>
-照著這個思路，先去查詢查詢 container 相對應的 pid：&lt;/p>
-&lt;pre tabindex="0">&lt;code>docker inspect -f &amp;#39;{{.State.Pid}}&amp;#39; 3c902d2962f7
-1269485
-&lt;/code>&lt;/pre>&lt;pre tabindex="0">&lt;code>sudo pstree -a -p
-...
-|-containerd-shim,1269465 -namespace moby -id 3c902d2962f7fb6af8ce5a16a965bd2707383dbb18fed9b6942e1687f6419c4b -address/run/
-| |-docker-init,1269485 -- /bootstrap.sh
-| | |-clamd,1269536 -c /etc/clamav/clam.conf
-| | | `-{clamd},1269731
-| | |-freshclam,1269560 -d -c 6
-| | | `-{freshclam},1269732
-| | `-gunicorn,1269558 /usr/bin/gunicorn --workers=2 --threads=2 --bind 0.0.0.0:8000 --daemon wsgi:app
-| | |-gunicorn,1269561 /usr/bin/gunicorn --workers=2 --threads=2 --bind 0.0.0.0:8000 --daemon wsgi:app
-| | `-gunicorn,1269562 /usr/bin/gunicorn --workers=2 --threads=2 --bind 0.0.0.0:8000 --daemon wsgi:app
-...
-&lt;/code>&lt;/pre>&lt;p>接著移除掉整個 stack。&lt;/p>
-&lt;p>但是發現儘管 docker ps 看到 container 還在，但 pid 已經找不到了。&lt;/p>
-&lt;p>&lt;!-- raw HTML omitted -->&lt;!-- raw HTML omitted -->&lt;/p>
-&lt;p>看起來這個 container 沒有施力點，只好試試看手動調整關閉 Service 的順序&lt;/p>
-&lt;p>最後寫成腳本：&lt;/p>
-&lt;pre tabindex="0">&lt;code>function get_services() {
-services=$(docker service ls --format &amp;#34;{{.Name}}&amp;#34; | sed -E &amp;#39;s/mystack_//&amp;#39;)
-echo &amp;#34;$services&amp;#34;
-}
-function down() {
-stack_prefix=&amp;#34;mystack_&amp;#34;
-last_service=&amp;#34;fluentd&amp;#34;
-services=$(get_services)
-services=${services[*]/$last_service}
-for service in $services
-do
-docker service rm &amp;#34;$stack_prefix$service&amp;#34; &amp;gt; /dev/null
-done
-# wait for all containers removed.
-for i in {1..60}
-do
-docker ps -a | grep -v &amp;#34;$stack_prefix$last_service&amp;#34; | grep -q &amp;#34;$stack_prefix&amp;#34;
-if [ $? -eq 1 ]; then
-docker service rm &amp;#34;$stack_prefix$last_service&amp;#34; &amp;gt; /dev/null
-break
-fi
-sleep 1
-done
-if [[ &amp;#34;60&amp;#34; -eq &amp;#34;$i&amp;#34; ]]; then
-exit 1
-fi
-for i in {1..60}
-do
-docker ps -a | grep -q &amp;#34;$stack_prefix&amp;#34;
-if [ $? -eq 1 ]; then
-break
-fi
-sleep 1
-done
-if [[ &amp;#34;60&amp;#34; -eq &amp;#34;$i&amp;#34; ]]; then
-exit 1
-fi
-}
-down
-&lt;/code>&lt;/pre>&lt;p>&lt;!-- raw HTML omitted -->&lt;!-- raw HTML omitted -->&lt;/p>
-- https://krapshsa.github.io/posts/docker-stack-rm-fluentd-3c0047b9-a458-4700-a6f2-b41dcd7da96d/ - © 2007 - 2022 krapshsa</description></item><item><title>使用 container 在同一個 stack 部屬 log driver 時，docker stack rm 經常性失敗</title><link>https://krapshsa.github.io/posts/container-stack-log-driver-docker-stack-rm-3c0047b9-a458-4700-a6f2-b41dcd7da96d/</link><pubDate>Thu, 28 Jul 2022 16:19:00 +0800</pubDate><guid>https://krapshsa.github.io/posts/container-stack-log-driver-docker-stack-rm-3c0047b9-a458-4700-a6f2-b41dcd7da96d/</guid><description>KRAPSHSA'S BLOG https://krapshsa.github.io/posts/container-stack-log-driver-docker-stack-rm-3c0047b9-a458-4700-a6f2-b41dcd7da96d/ -&lt;h2 id="起因">起因&lt;/h2>
+- https://krapshsa.github.io/posts/windows-unix-cygwin-mingw-msys/ - © 2007 - 2022 krapshsa</description></item><item><title>使用 container 在同一個 stack 部屬 log driver 時，docker stack rm 經常性失敗</title><link>https://krapshsa.github.io/posts/container-stack-log-driver-docker-stack-rm/</link><pubDate>Thu, 28 Jul 2022 08:19:00 +0000</pubDate><guid>https://krapshsa.github.io/posts/container-stack-log-driver-docker-stack-rm/</guid><description>KRAPSHSA'S BLOG https://krapshsa.github.io/posts/container-stack-log-driver-docker-stack-rm/ -&lt;h1 id="使用-container-在同一個-stack-部屬-log-driver-時docker-stack-rm-經常性失敗">使用 container 在同一個 stack 部屬 log driver 時，docker stack rm 經常性失敗&lt;/h1>
+&lt;h2 id="起因">起因&lt;/h2>
 &lt;p>最近把 &lt;code>fluentd&lt;/code> 加入到 docker swarm 中當作 Log Driver 的時候，&lt;/p>
 &lt;p>移除 docker stack 時，關閉得比較慢的 service 有機會沒辦法完整移除。&lt;/p>
 &lt;p>此時 &lt;code>docker inspect&lt;/code> ， &lt;code>docker rm&lt;/code> 等指令都會卡住。&lt;/p>
 &lt;p>唯一的解法就是重啟 docker daemon。&lt;/p>
 &lt;p>猜測因為沒辦法保證 &lt;code>fluentd&lt;/code> 在最後一個關閉導致出錯了。&lt;/p>
-&lt;br>
 &lt;h2 id="重製步驟">重製步驟&lt;/h2>
 &lt;ol>
-&lt;li>移除 docker stack&lt;/li>
+&lt;li>
+&lt;p>移除 docker stack&lt;/p>
+&lt;pre>&lt;code> docker stack rm mystack
+&lt;/code>&lt;/pre>
+&lt;/li>
+&lt;li>
+&lt;p>檢查 service 都移除掉了&lt;/p>
+&lt;pre>&lt;code> docker service ls
+&lt;/code>&lt;/pre>
+&lt;p>ID NAME MODE REPLICAS IMAGE PORTS&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>發現還有 container 沒有正常關閉，且永遠卡在這個狀態&lt;/p>
+&lt;pre>&lt;code> docker stack ps mystack --no-trunc
+&lt;/code>&lt;/pre>
+&lt;p>ID NAME IMAGE NODE DESIRED STATE CURRENT STATE ERROR PORTS&lt;br>
+5fllkwthpur60gzgeqq4cow48 i1i65yn2b35jqsfqk7gb9y7l8.1 my-clamav:2022-0406-145048 localhost.localdomain Remove Running about a minute ago&lt;/p>
+&lt;/li>
 &lt;/ol>
-&lt;pre tabindex="0">&lt;code>docker stack rm mystack
-&lt;/code>&lt;/pre>&lt;ol start="2">
-&lt;li>檢查 service 都移除掉了&lt;/li>
-&lt;/ol>
-&lt;pre tabindex="0">&lt;code>docker service ls
-ID NAME MODE REPLICAS IMAGE PORTS
-&lt;/code>&lt;/pre>&lt;ol start="3">
-&lt;li>發現還有 container 沒有正常關閉，且永遠卡在這個狀態&lt;/li>
-&lt;/ol>
-&lt;pre tabindex="0">&lt;code>docker stack ps mystack --no-trunc
-ID NAME IMAGE NODE DESIRED STATE CURRENT STATE ERROR PORTS
-5fllkwthpur60gzgeqq4cow48 i1i65yn2b35jqsfqk7gb9y7l8.1 my-clamav:2022-0406-145048 localhost.localdomain Remove Running about a minute ago
-&lt;/code>&lt;/pre>&lt;br>
 &lt;p>檢查系統的 Log，有出現如下訊息 (我是 CentOS)：&lt;/p>
-&lt;pre tabindex="0">&lt;code>sudo cat /var/log/messages | grep 3c902d2962f7
-Jul 28 10:48:49 localhost dockerd[1265564]: time=&amp;#34;2022-07-28T10:48:49.917640954+08:00&amp;#34; level=info msg=&amp;#34;Configured log driver does not support reads, enabling local file cache for container logs&amp;#34; container=3c902d2962f7fb6af8ce5a16a965bd2707383dbb18fed9b6942e1687f6419c4b driver=fluentd
-Jul 28 10:48:49 localhost containerd[1161]: time=&amp;#34;2022-07-28T10:48:49.936470840+08:00&amp;#34; level=info msg=&amp;#34;starting signal loop&amp;#34; namespace=moby path=/run/containerd/io.containerd.runtime.v2.task/moby/3c902d2962f7fb6af8ce5a16a965bd2707383dbb18fed9b6942e1687f6419c4b pid=1269465 runtime=io.containerd.runc.v2
-Jul 28 10:53:00 localhost dockerd[1265564]: time=&amp;#34;2022-07-28T10:53:00.719182463+08:00&amp;#34; level=info msg=&amp;#34;ignoring event&amp;#34; container=3c902d2962f7fb6af8ce5a16a965bd2707383dbb18fed9b6942e1687f6419c4b module=libcontainerd namespace=moby topic=/tasks/delete type=&amp;#34;*events.TaskDelete&amp;#34;
-Jul 28 10:53:00 localhost containerd[1161]: time=&amp;#34;2022-07-28T10:53:00.719579189+08:00&amp;#34; level=info msg=&amp;#34;shim disconnected&amp;#34; id=3c902d2962f7fb6af8ce5a16a965bd2707383dbb18fed9b6942e1687f6419c4b
-Jul 28 10:53:00 localhost containerd[1161]: time=&amp;#34;2022-07-28T10:53:00.719667935+08:00&amp;#34; level=warning msg=&amp;#34;cleaning up after shim disconnected&amp;#34; id=3c902d2962f7fb6af8ce5a16a965bd2707383dbb18fed9b6942e1687f6419c4b namespace=moby
-Jul 28 10:53:07 localhost dockerd[1265564]: time=&amp;#34;2022-07-28T10:53:07.730207608+08:00&amp;#34; level=info msg=&amp;#34;Container failed to exit within 10s of signal 15 - using the force&amp;#34; container=3c902d2962f7fb6af8ce5a16a965bd2707383dbb18fed9b6942e1687f6419c4b
-Jul 28 10:57:07 localhost dockerd[1271313]: time=&amp;#34;2022-07-28T10:57:07.971173522+08:00&amp;#34; level=info msg=&amp;#34;Removing stale sandbox c540d42e6cba844695f8cb780f5c28a82a59500207ace2b6526d11eca5b54600 (3c902d2962f7fb6af8ce5a16a965bd2707383dbb18fed9b6942e1687f6419c4b)&amp;#34;
-Jul 28 11:12:19 localhost dockerd[1271313]: time=&amp;#34;2022-07-28T11:12:19.902248293+08:00&amp;#34; level=error msg=&amp;#34;Error getting service 3c902d2962f7: service 3c902d2962f7 not found&amp;#34;
-Jul 28 11:12:19 localhost dockerd[1271313]: time=&amp;#34;2022-07-28T11:12:19.905022331+08:00&amp;#34; level=error msg=&amp;#34;Error getting task 3c902d2962f7: task 3c902d2962f7 not found&amp;#34;
-Jul 28 11:12:19 localhost dockerd[1271313]: time=&amp;#34;2022-07-28T11:12:19.906474336+08:00&amp;#34; level=error msg=&amp;#34;Error getting node 3c902d2962f7: node 3c902d2962f7 not found&amp;#34;
-&lt;/code>&lt;/pre>&lt;br>
+&lt;pre>&lt;code>sudo cat /var/log/messages | grep 3c902d2962f7
+Jul 28 10:48:49 localhost dockerd[1265564]: time=&amp;quot;2022-07-28T10:48:49.917640954+08:00&amp;quot; level=info msg=&amp;quot;Configured log driver does not support reads, enabling local file cache for container logs&amp;quot; container=3c902d2962f7fb6af8ce5a16a965bd2707383dbb18fed9b6942e1687f6419c4b driver=fluentd
+Jul 28 10:48:49 localhost containerd[1161]: time=&amp;quot;2022-07-28T10:48:49.936470840+08:00&amp;quot; level=info msg=&amp;quot;starting signal loop&amp;quot; namespace=moby path=/run/containerd/io.containerd.runtime.v2.task/moby/3c902d2962f7fb6af8ce5a16a965bd2707383dbb18fed9b6942e1687f6419c4b pid=1269465 runtime=io.containerd.runc.v2
+Jul 28 10:53:00 localhost dockerd[1265564]: time=&amp;quot;2022-07-28T10:53:00.719182463+08:00&amp;quot; level=info msg=&amp;quot;ignoring event&amp;quot; container=3c902d2962f7fb6af8ce5a16a965bd2707383dbb18fed9b6942e1687f6419c4b module=libcontainerd namespace=moby topic=/tasks/delete type=&amp;quot;*events.TaskDelete&amp;quot;
+Jul 28 10:53:00 localhost containerd[1161]: time=&amp;quot;2022-07-28T10:53:00.719579189+08:00&amp;quot; level=info msg=&amp;quot;shim disconnected&amp;quot; id=3c902d2962f7fb6af8ce5a16a965bd2707383dbb18fed9b6942e1687f6419c4b
+Jul 28 10:53:00 localhost containerd[1161]: time=&amp;quot;2022-07-28T10:53:00.719667935+08:00&amp;quot; level=warning msg=&amp;quot;cleaning up after shim disconnected&amp;quot; id=3c902d2962f7fb6af8ce5a16a965bd2707383dbb18fed9b6942e1687f6419c4b namespace=moby
+Jul 28 10:53:07 localhost dockerd[1265564]: time=&amp;quot;2022-07-28T10:53:07.730207608+08:00&amp;quot; level=info msg=&amp;quot;Container failed to exit within 10s of signal 15 - using the force&amp;quot; container=3c902d2962f7fb6af8ce5a16a965bd2707383dbb18fed9b6942e1687f6419c4b
+Jul 28 10:57:07 localhost dockerd[1271313]: time=&amp;quot;2022-07-28T10:57:07.971173522+08:00&amp;quot; level=info msg=&amp;quot;Removing stale sandbox c540d42e6cba844695f8cb780f5c28a82a59500207ace2b6526d11eca5b54600 (3c902d2962f7fb6af8ce5a16a965bd2707383dbb18fed9b6942e1687f6419c4b)&amp;quot;
+Jul 28 11:12:19 localhost dockerd[1271313]: time=&amp;quot;2022-07-28T11:12:19.902248293+08:00&amp;quot; level=error msg=&amp;quot;Error getting service 3c902d2962f7: service 3c902d2962f7 not found&amp;quot;
+Jul 28 11:12:19 localhost dockerd[1271313]: time=&amp;quot;2022-07-28T11:12:19.905022331+08:00&amp;quot; level=error msg=&amp;quot;Error getting task 3c902d2962f7: task 3c902d2962f7 not found&amp;quot;
+Jul 28 11:12:19 localhost dockerd[1271313]: time=&amp;quot;2022-07-28T11:12:19.906474336+08:00&amp;quot; level=error msg=&amp;quot;Error getting node 3c902d2962f7: node 3c902d2962f7 not found&amp;quot;
+&lt;/code>&lt;/pre>
 &lt;h2 id="猜測">猜測&lt;/h2>
 &lt;p>一開始懷疑是沒有辦法關掉 process，可能在卡在寫 Log 了。&lt;br>
 照著這個思路，先去查詢查詢 container 相對應的 pid：&lt;/p>
-&lt;pre tabindex="0">&lt;code>docker inspect -f &amp;#39;{{.State.Pid}}&amp;#39; 3c902d2962f7
+&lt;pre>&lt;code>docker inspect -f '{{.State.Pid}}' 3c902d2962f7
 1269485
-&lt;/code>&lt;/pre>&lt;pre tabindex="0">&lt;code>sudo pstree -a -p
+sudo pstree -a -p
 ...
 |-containerd-shim,1269465 -namespace moby -id 3c902d2962f7fb6af8ce5a16a965bd2707383dbb18fed9b6942e1687f6419c4b -address/run/
 | |-docker-init,1269485 -- /bootstrap.sh
@@ -898,59 +793,58 @@ Jul 28 11:12:19 localhost dockerd[1271313]: time=&amp;#34;2022-07-28T11:12:19.90
 | | |-gunicorn,1269561 /usr/bin/gunicorn --workers=2 --threads=2 --bind 0.0.0.0:8000 --daemon wsgi:app
 | | `-gunicorn,1269562 /usr/bin/gunicorn --workers=2 --threads=2 --bind 0.0.0.0:8000 --daemon wsgi:app
 ...
-&lt;/code>&lt;/pre>&lt;p>接著移除掉整個 stack。&lt;/p>
+&lt;/code>&lt;/pre>
+&lt;p>接著移除掉整個 stack。&lt;/p>
 &lt;p>但是發現儘管 &lt;code>docker ps&lt;/code> 看到 container 還在，但 pid 已經找不到了。&lt;/p>
-&lt;br>
 &lt;h2 id="workaround">Workaround&lt;/h2>
 &lt;p>看起來這個 container 沒有施力點，只好試試看手動調整關閉 Service 的順序&lt;/p>
 &lt;p>最後寫成腳本：&lt;/p>
-&lt;pre tabindex="0">&lt;code>function get_services() {
-services=$(docker service ls --format &amp;#34;{{.Name}}&amp;#34; | sed -E &amp;#39;s/mystack_//&amp;#39;)
-echo &amp;#34;$services&amp;#34;
+&lt;pre>&lt;code>function get_services() {
+services=$(docker service ls --format &amp;quot;{{.Name}}&amp;quot; | sed -E 's/mystack_//')
+echo &amp;quot;$services&amp;quot;
 }
 function down() {
-stack_prefix=&amp;#34;mystack_&amp;#34;
-last_service=&amp;#34;fluentd&amp;#34;
+stack_prefix=&amp;quot;mystack_&amp;quot;
+last_service=&amp;quot;fluentd&amp;quot;
 services=$(get_services)
 services=${services[*]/$last_service}
 for service in $services
 do
-docker service rm &amp;#34;$stack_prefix$service&amp;#34; &amp;gt; /dev/null
+docker service rm &amp;quot;$stack_prefix$service&amp;quot; &amp;gt; /dev/null
 done
 # wait for all containers removed.
 for i in {1..60}
 do
-docker ps -a | grep -v &amp;#34;$stack_prefix$last_service&amp;#34; | grep -q &amp;#34;$stack_prefix&amp;#34;
+docker ps -a | grep -v &amp;quot;$stack_prefix$last_service&amp;quot; | grep -q &amp;quot;$stack_prefix&amp;quot;
 if [ $? -eq 1 ]; then
-docker service rm &amp;#34;$stack_prefix$last_service&amp;#34; &amp;gt; /dev/null
+docker service rm &amp;quot;$stack_prefix$last_service&amp;quot; &amp;gt; /dev/null
 break
 fi
 sleep 1
 done
-if [[ &amp;#34;60&amp;#34; -eq &amp;#34;$i&amp;#34; ]]; then
+if [[ &amp;quot;60&amp;quot; -eq &amp;quot;$i&amp;quot; ]]; then
 exit 1
 fi
 for i in {1..60}
 do
-docker ps -a | grep -q &amp;#34;$stack_prefix&amp;#34;
+docker ps -a | grep -q &amp;quot;$stack_prefix&amp;quot;
 if [ $? -eq 1 ]; then
 break
 fi
 sleep 1
 done
-if [[ &amp;#34;60&amp;#34; -eq &amp;#34;$i&amp;#34; ]]; then
+if [[ &amp;quot;60&amp;quot; -eq &amp;quot;$i&amp;quot; ]]; then
 exit 1
 fi
 }
-down
-&lt;/code>&lt;/pre>&lt;br>
-- https://krapshsa.github.io/posts/container-stack-log-driver-docker-stack-rm-3c0047b9-a458-4700-a6f2-b41dcd7da96d/ - © 2007 - 2022 krapshsa</description></item><item><title>OwnCloud MariaDB mysqldump 失敗</title><link>https://krapshsa.github.io/posts/owncloud-mariadb-mysqldump-84758a8c-6502-4c2d-b878-3a97ea0e36a7/</link><pubDate>Wed, 27 Jul 2022 14:58:00 +0800</pubDate><guid>https://krapshsa.github.io/posts/owncloud-mariadb-mysqldump-84758a8c-6502-4c2d-b878-3a97ea0e36a7/</guid><description>KRAPSHSA'S BLOG https://krapshsa.github.io/posts/owncloud-mariadb-mysqldump-84758a8c-6502-4c2d-b878-3a97ea0e36a7/ -&lt;h2 id="起因">起因&lt;/h2>
+down&lt;/code>&lt;/pre>
+- https://krapshsa.github.io/posts/container-stack-log-driver-docker-stack-rm/ - © 2007 - 2022 krapshsa</description></item><item><title>OwnCloud MariaDB mysqldump 失敗</title><link>https://krapshsa.github.io/posts/owncloud-mariadb-mysqldump/</link><pubDate>Wed, 27 Jul 2022 06:58:00 +0000</pubDate><guid>https://krapshsa.github.io/posts/owncloud-mariadb-mysqldump/</guid><description>KRAPSHSA'S BLOG https://krapshsa.github.io/posts/owncloud-mariadb-mysqldump/ -&lt;h1 id="owncloud-mariadb-mysqldump-失敗">OwnCloud MariaDB mysqldump 失敗&lt;/h1>
+&lt;h2 id="起因">起因&lt;/h2>
 &lt;p>近期遭遇 &lt;code>mysqldump&lt;/code> 備份 OwnCloud 的 DB 結果 crash 的問題&lt;/p>
 &lt;p>google 了一下發現 NextCloud 也有人發生類似的問題&lt;/p>
 &lt;p>&lt;a href="https://help.nextcloud.com/t/table-oc-filecache-extended-corrupt/123149">Table &lt;code>oc_filecache_extended&lt;/code> corrupt?&lt;/a>&lt;/p>
-&lt;br>
 &lt;p>摘錄連結內的錯誤訊息：&lt;/p>
-&lt;pre tabindex="0">&lt;code>Thread pointer: 0x8548068d8
+&lt;pre>&lt;code>Thread pointer: 0x8548068d8
 Attempting backtrace. You can use the following information to find out
 where mysqld died. If you see no messages after this, something went
 terribly wrong...
@@ -963,33 +857,37 @@ Some pointers may be invalid and cause the dump to abort.
 Query (0x85484dab0): show fields from `oc_cards`
 Connection ID (thread ID): 4
 Status: NOT_KILLED
-&lt;/code>&lt;/pre>&lt;br>
+&lt;/code>&lt;/pre>
 &lt;p>有問題的語句就是這條：&lt;/p>
-&lt;pre tabindex="0">&lt;code>show fields from &amp;lt;TABLE&amp;gt;
-&lt;/code>&lt;/pre>&lt;br>
+&lt;pre>&lt;code>show fields from &amp;lt;TABLE&amp;gt;
+&lt;/code>&lt;/pre>
 &lt;p>執行檢查，但是結果也全部都是 OK&lt;/p>
-&lt;pre tabindex="0">&lt;code>mysqlcheck --all-databases
-&lt;/code>&lt;/pre>&lt;br>
+&lt;pre>&lt;code>mysqlcheck --all-databases
+&lt;/code>&lt;/pre>
 &lt;h2 id="workaround">Workaround&lt;/h2>
 &lt;p>由於這台機器還有人在用，要想辦法趕快讓服務正常。&lt;/p>
 &lt;p>經過多方嘗試，目前有效的做法如下：&lt;/p>
 &lt;ol>
-&lt;li>開啟一台相同設定的新 DB，為了讓他產生好 DB 基本資料&lt;/li>
+&lt;li>
+&lt;p>開啟一台相同設定的新 DB，為了讓他產生好 DB 基本資料&lt;/p>
+&lt;pre>&lt;code> docker run -v ${PWD}/data:/bitnami/mariadb/data -p 3306:3306 -e MARIADB_ROOT_PASSWORD=mypassword -d bitnami/mariadb:10.5.15
+&lt;/code>&lt;/pre>
+&lt;/li>
+&lt;li>
+&lt;p>關閉新 DB&lt;/p>
+&lt;pre>&lt;code> docker stop &amp;lt;db 的 id&amp;gt;
+&lt;/code>&lt;/pre>
+&lt;/li>
+&lt;li>
+&lt;p>複製 DB 資料夾下， &lt;code>ibdata1&lt;/code> 與 &lt;code>owncloud&lt;/code> 的資料夾到新 DB 資料夾下&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>再次啟動新 DB&lt;/p>
+&lt;/li>
 &lt;/ol>
-&lt;pre tabindex="0">&lt;code>docker run -v ${PWD}/data:/bitnami/mariadb/data -p 3306:3306 -e MARIADB_ROOT_PASSWORD=mypassword -d bitnami/mariadb:10.5.15
-&lt;/code>&lt;/pre>&lt;ol start="2">
-&lt;li>關閉新 DB&lt;/li>
-&lt;/ol>
-&lt;pre tabindex="0">&lt;code>docker stop &amp;lt;db 的 id&amp;gt;
-&lt;/code>&lt;/pre>&lt;ol start="3">
-&lt;li>複製 DB 資料夾下， &lt;code>ibdata1&lt;/code> 與 &lt;code>owncloud&lt;/code> 的資料夾到新 DB 資料夾下&lt;/li>
-&lt;li>再次啟動新 DB&lt;/li>
-&lt;/ol>
-&lt;br>
 &lt;p>之後也試著去找出原因，但是連 core file 都沒辦法產生所以沒辦法 GDB。&lt;/p>
-&lt;br>
 &lt;h2 id="參考資料">參考資料&lt;/h2>
 &lt;p>&lt;a href="https://blog.csdn.net/hawht/article/details/84246261">MariaDB Error：1932 Table doesn&amp;rsquo;t exist in engine 的解决方法_u014461454的博客-CSDN博客&lt;/a>&lt;/p>
 &lt;p>&lt;a href="https://blog.path8.net/archives/7608.html">MySQL/MariaDB已被锁表运行中热复制为副本/innodb表错误Table xx doesn&amp;rsquo;t exist in engine处理&lt;/a>&lt;/p>
 &lt;p>&lt;a href="https://dba.stackexchange.com/questions/62989/how-does-innodb-store-tables-in-ibdata-file">How does InnoDB store tables in ibdata file?&lt;/a>&lt;/p>
-- https://krapshsa.github.io/posts/owncloud-mariadb-mysqldump-84758a8c-6502-4c2d-b878-3a97ea0e36a7/ - © 2007 - 2022 krapshsa</description></item></channel></rss>
+- https://krapshsa.github.io/posts/owncloud-mariadb-mysqldump/ - © 2007 - 2022 krapshsa</description></item></channel></rss>

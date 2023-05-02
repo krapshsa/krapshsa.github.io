@@ -1,7 +1,77 @@
-<?xml-stylesheet href="/rss.xsl" type="text/xsl"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>KRAPSHSA'S BLOG</title><link>https://krapshsa.github.io/</link><description>Recent content on KRAPSHSA'S BLOG</description><generator>Hugo -- gohugo.io</generator><language>zh-tw</language><copyright>© 2007 - 2022 krapshsa</copyright><lastBuildDate>Wed, 24 Aug 2022 00:25:00 +0800</lastBuildDate><atom:link href="https://krapshsa.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>在 template literal 中使用函數</title><link>https://krapshsa.github.io/posts/template-literal-bea4efe5-2565-42f7-832f-580089f7807d/</link><pubDate>Tue, 21 Jun 2022 16:18:00 +0800</pubDate><guid>https://krapshsa.github.io/posts/template-literal-bea4efe5-2565-42f7-832f-580089f7807d/</guid><description>KRAPSHSA'S BLOG https://krapshsa.github.io/posts/template-literal-bea4efe5-2565-42f7-832f-580089f7807d/ -&lt;h2 id="起因">起因&lt;/h2>
+<?xml-stylesheet href="/rss.xsl" type="text/xsl"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>KRAPSHSA'S BLOG</title><link>https://krapshsa.github.io/</link><description>Recent content on KRAPSHSA'S BLOG</description><generator>Hugo -- gohugo.io</generator><language>zh-tw</language><copyright>© 2007 - 2022 krapshsa</copyright><lastBuildDate>Tue, 23 Aug 2022 16:25:00 +0000</lastBuildDate><atom:link href="https://krapshsa.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>docker swarm 環境設定 firewalld</title><link>https://krapshsa.github.io/posts/docker-swarm-firewalld/</link><pubDate>Wed, 22 Jun 2022 08:47:00 +0000</pubDate><guid>https://krapshsa.github.io/posts/docker-swarm-firewalld/</guid><description>KRAPSHSA'S BLOG https://krapshsa.github.io/posts/docker-swarm-firewalld/ -&lt;h1 id="docker-swarm-環境設定-firewalld">docker swarm 環境設定 firewalld&lt;/h1>
+&lt;h2 id="起因">起因&lt;/h2>
+&lt;h2 id="事前準備">事前準備&lt;/h2>
+&lt;pre>&lt;code>sudo iptables -t filter -F
+sudo iptables -t filter -X
+sudo iptables -t nat -F
+sudo iptables -t nat -X
+sudo systemctl restart docker
+&lt;/code>&lt;/pre>
+&lt;h2 id="單台">單台&lt;/h2>
+&lt;pre>&lt;code>sudo firewall-cmd --permanent --direct --remove-chain ipv4 filter DOCKER-USER
+sudo firewall-cmd --permanent --direct --remove-rules ipv4 filter DOCKER-USER
+sudo firewall-cmd --permanent --direct --add-chain ipv4 filter DOCKER-USER
+sudo firewall-cmd --permanent --direct --add-rule ipv4 filter DOCKER-USER 0 -p tcp -m multiport --dports 3306,24224 -s 127.0.0.1/32 -j ACCEPT
+sudo firewall-cmd --permanent --direct --add-rule ipv4 filter DOCKER-USER 0 -p tcp -m multiport --dports 3306,24224 -j REJECT
+sudo firewall-cmd --permanent --direct --add-rule ipv4 filter DOCKER-USER 1 -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
+sudo firewall-cmd --permanent --direct --add-rule ipv4 filter DOCKER-USER 1 -j RETURN -s 172.16.70.0/24
+sudo firewall-cmd --permanent --direct --add-rule ipv4 filter DOCKER-USER 1 -p tcp -m multiport --dports 80,443 -j ACCEPT
+sudo firewall-cmd --permanent --direct --add-rule ipv4 filter DOCKER-USER 10 -j REJECT
+&lt;/code>&lt;/pre>
+&lt;p>&lt;code>/etc/firewalld/direct.xml&lt;/code>&lt;/p>
+&lt;pre>&lt;code>&amp;lt;?xml version=&amp;quot;1.0&amp;quot; encoding=&amp;quot;utf-8&amp;quot;?&amp;gt;
+&amp;lt;direct&amp;gt;
+&amp;lt;chain ipv=&amp;quot;ipv4&amp;quot; table=&amp;quot;filter&amp;quot; chain=&amp;quot;DOCKER-USER&amp;quot;/&amp;gt;
+&amp;lt;rule ipv=&amp;quot;ipv4&amp;quot; table=&amp;quot;filter&amp;quot; chain=&amp;quot;DOCKER-USER&amp;quot; priority=&amp;quot;0&amp;quot;&amp;gt;-p tcp -m multiport --dports 3306,24224 -s 127.0.0.1/32 -j ACCEPT&amp;lt;/rule&amp;gt;
+&amp;lt;rule ipv=&amp;quot;ipv4&amp;quot; table=&amp;quot;filter&amp;quot; chain=&amp;quot;DOCKER-USER&amp;quot; priority=&amp;quot;0&amp;quot;&amp;gt;-p tcp -m multiport --dports 3306,24224 -j REJECT&amp;lt;/rule&amp;gt;
+&amp;lt;rule ipv=&amp;quot;ipv4&amp;quot; table=&amp;quot;filter&amp;quot; chain=&amp;quot;DOCKER-USER&amp;quot; priority=&amp;quot;1&amp;quot;&amp;gt;-m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT&amp;lt;/rule&amp;gt;
+&amp;lt;rule ipv=&amp;quot;ipv4&amp;quot; table=&amp;quot;filter&amp;quot; chain=&amp;quot;DOCKER-USER&amp;quot; priority=&amp;quot;1&amp;quot;&amp;gt;-j RETURN -s 172.16.70.0/24&amp;lt;/rule&amp;gt;
+&amp;lt;rule ipv=&amp;quot;ipv4&amp;quot; table=&amp;quot;filter&amp;quot; chain=&amp;quot;DOCKER-USER&amp;quot; priority=&amp;quot;1&amp;quot;&amp;gt;-p tcp -m multiport --dports 80,443 -j ACCEPT&amp;lt;/rule&amp;gt;
+&amp;lt;rule ipv=&amp;quot;ipv4&amp;quot; table=&amp;quot;filter&amp;quot; chain=&amp;quot;DOCKER-USER&amp;quot; priority=&amp;quot;10&amp;quot;&amp;gt;-j REJECT&amp;lt;/rule&amp;gt;
+&amp;lt;/direct&amp;gt;
+&lt;/code>&lt;/pre>
+&lt;h2 id="多台">多台&lt;/h2>
+&lt;pre>&lt;code>sudo firewall-cmd --permanent --direct --remove-chain ipv4 filter DOCKER-USER
+sudo firewall-cmd --permanent --direct --remove-rules ipv4 filter DOCKER-USER
+sudo firewall-cmd --permanent --direct --add-chain ipv4 filter DOCKER-USER
+sudo firewall-cmd --permanent --direct --add-rule ipv4 filter DOCKER-USER 0 -p tcp -m multiport --dports 2376,2377,7946,3306,24224 -s 127.0.0.1/32,172.16.21.162/32,172.16.21.163/32,172.16.21.164/32 -j ACCEPT
+sudo firewall-cmd --permanent --direct --add-rule ipv4 filter DOCKER-USER 0 -p udp -m multiport --dports 4789,7946 -s 127.0.0.1/32,172.16.21.162/32,172.16.21.163/32,172.16.21.164/32 -j ACCEPT
+sudo firewall-cmd --permanent --direct --add-rule ipv4 filter DOCKER-USER 0 -p tcp -m multiport --dports 3306,24224,2376,2377,7946 -j REJECT
+sudo firewall-cmd --permanent --direct --add-rule ipv4 filter DOCKER-USER 0 -p udp -m multiport --dports 4789,7946 -j REJECT
+sudo firewall-cmd --permanent --direct --add-rule ipv4 filter DOCKER-USER 1 -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
+sudo firewall-cmd --permanent --direct --add-rule ipv4 filter DOCKER-USER 1 -j RETURN -s 172.16.70.0/24
+sudo firewall-cmd --permanent --direct --add-rule ipv4 filter DOCKER-USER 1 -p tcp -m multiport --dports 80,443 -j ACCEPT
+sudo firewall-cmd --permanent --direct --add-rule ipv4 filter DOCKER-USER 10 -j REJECT
+&lt;/code>&lt;/pre>
+&lt;p>&lt;code>/etc/firewalld/direct.xml&lt;/code>&lt;/p>
+&lt;pre>&lt;code>&amp;lt;?xml version=&amp;quot;1.0&amp;quot; encoding=&amp;quot;utf-8&amp;quot;?&amp;gt;
+&amp;lt;direct&amp;gt;
+&amp;lt;chain ipv=&amp;quot;ipv4&amp;quot; table=&amp;quot;filter&amp;quot; chain=&amp;quot;DOCKER-USER&amp;quot;/&amp;gt;
+&amp;lt;rule ipv=&amp;quot;ipv4&amp;quot; table=&amp;quot;filter&amp;quot; chain=&amp;quot;DOCKER-USER&amp;quot; priority=&amp;quot;0&amp;quot;&amp;gt;-p tcp -m multiport --dports 2376,2377,7946,3306,24224 -s 127.0.0.1/32,172.16.21.162/32,172.16.21.163/32,172.16.21.164/32 -j ACCEPT&amp;lt;/rule&amp;gt;
+&amp;lt;rule ipv=&amp;quot;ipv4&amp;quot; table=&amp;quot;filter&amp;quot; chain=&amp;quot;DOCKER-USER&amp;quot; priority=&amp;quot;0&amp;quot;&amp;gt;-p udp -m multiport --dports 4789,7946 -s 127.0.0.1/32,172.16.21.162/32,172.16.21.163/32,172.16.21.164/32 -j ACCEPT&amp;lt;/rule&amp;gt;
+&amp;lt;rule ipv=&amp;quot;ipv4&amp;quot; table=&amp;quot;filter&amp;quot; chain=&amp;quot;DOCKER-USER&amp;quot; priority=&amp;quot;0&amp;quot;&amp;gt;-p tcp -m multiport --dports 3306,24224,2376,2377,7946 -j REJECT&amp;lt;/rule&amp;gt;
+&amp;lt;rule ipv=&amp;quot;ipv4&amp;quot; table=&amp;quot;filter&amp;quot; chain=&amp;quot;DOCKER-USER&amp;quot; priority=&amp;quot;0&amp;quot;&amp;gt;-p udp -m multiport --dports 4789,7946 -j REJECT&amp;lt;/rule&amp;gt;
+&amp;lt;rule ipv=&amp;quot;ipv4&amp;quot; table=&amp;quot;filter&amp;quot; chain=&amp;quot;DOCKER-USER&amp;quot; priority=&amp;quot;1&amp;quot;&amp;gt;-m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT&amp;lt;/rule&amp;gt;
+&amp;lt;rule ipv=&amp;quot;ipv4&amp;quot; table=&amp;quot;filter&amp;quot; chain=&amp;quot;DOCKER-USER&amp;quot; priority=&amp;quot;1&amp;quot;&amp;gt;-j RETURN -s 172.16.70.0/24&amp;lt;/rule&amp;gt;
+&amp;lt;rule ipv=&amp;quot;ipv4&amp;quot; table=&amp;quot;filter&amp;quot; chain=&amp;quot;DOCKER-USER&amp;quot; priority=&amp;quot;1&amp;quot;&amp;gt;-p tcp -m multiport --dports 80,443 -j ACCEPT&amp;lt;/rule&amp;gt;
+&amp;lt;rule ipv=&amp;quot;ipv4&amp;quot; table=&amp;quot;filter&amp;quot; chain=&amp;quot;DOCKER-USER&amp;quot; priority=&amp;quot;10&amp;quot;&amp;gt;-j REJECT&amp;lt;/rule&amp;gt;
+&amp;lt;/direct&amp;gt;
+&lt;/code>&lt;/pre>
+&lt;h2 id="重啟">重啟&lt;/h2>
+&lt;pre>&lt;code>sudo firewall-cmd --reload
+&lt;/code>&lt;/pre>
+&lt;h2 id="持久化">持久化&lt;/h2>
+&lt;pre>&lt;code>sudo cat /etc/firewalld/direct.xml
+&lt;/code>&lt;/pre>
+&lt;h2 id="參考資料">參考資料&lt;/h2>
+&lt;p>&lt;a href="https://zhuanlan.zhihu.com/p/371683318">使用 Firewalld 保护 Docker 端口&lt;/a>&lt;/p>
+&lt;p>&lt;a href="https://holywhite.com/archives/489">如何正確給 Docker 配置 firewalld，以及 Docker 強行覆蓋 iptables 的安全隱患&lt;/a>&lt;/p>
+&lt;p>&lt;a href="https://serverfault.com/questions/6989/iptables-multiple-source-ips-in-single-rule">iptables multiple source IPs in single rule&lt;/a>&lt;/p>
+- https://krapshsa.github.io/posts/docker-swarm-firewalld/ - © 2007 - 2022 krapshsa</description></item><item><title>在 template literal 中使用函數</title><link>https://krapshsa.github.io/posts/template-literal/</link><pubDate>Tue, 21 Jun 2022 08:18:00 +0000</pubDate><guid>https://krapshsa.github.io/posts/template-literal/</guid><description>KRAPSHSA'S BLOG https://krapshsa.github.io/posts/template-literal/ -&lt;h1 id="在-template-literal-中使用函數">在 template literal 中使用函數&lt;/h1>
+&lt;h2 id="起因">起因&lt;/h2>
 &lt;p>在 Code Review 的時候，同事原本是使用多次字串相接&lt;/p>
-&lt;pre tabindex="0">&lt;code>const object1 = {
-a: &amp;#39;somestring&amp;#39;,
+&lt;pre>&lt;code>const object1 = {
+a: 'somestring',
 b: 42
 };
 let html = `&amp;lt;ul&amp;gt;`;
@@ -9,19 +79,19 @@ for (const [key, value] of Object.entries(object1)) {
 html += `&amp;lt;li&amp;gt;${key}: ${value}&amp;lt;/li&amp;gt;`;
 }
 html += `&amp;lt;/ul&amp;gt;`;
-&lt;/code>&lt;/pre>&lt;p>後來想要表達出 html 的階層結構，想用使用巢狀的方式使用 template literal&lt;/p>
-&lt;br>
+&lt;/code>&lt;/pre>
+&lt;p>後來想要表達出 html 的階層結構，想用使用巢狀的方式使用 template literal&lt;/p>
 &lt;h2 id="解方">解方&lt;/h2>
 &lt;p>要用 function 來做的話可以使用 IIFE&lt;/p>
-&lt;pre tabindex="0">&lt;code>const object1 = {
-a: &amp;#39;somestring&amp;#39;,
+&lt;pre>&lt;code>const object1 = {
+a: 'somestring',
 b: 42
 };
 let html = `
 &amp;lt;ul&amp;gt;
 ${
 (function(){
-let list = &amp;#39;&amp;#39;;
+let list = '';
 for (const [key, value] of Object.entries(object1)) {
 list += `&amp;lt;li&amp;gt;${key}: ${value}&amp;lt;/li&amp;gt;`;
 }
@@ -30,10 +100,10 @@ return list;
 }
 &amp;lt;/ul&amp;gt;
 `;
-&lt;/code>&lt;/pre>&lt;p>以我簡化的例子來說，使用 IIFE 看起來變得更複雜了，&lt;/p>
+&lt;/code>&lt;/pre>
+&lt;p>以我簡化的例子來說，使用 IIFE 看起來變得更複雜了，&lt;/p>
 &lt;p>但是用在比較長的 &lt;code>html&lt;/code> 來說比較能看出結構&lt;/p>
 &lt;p>&lt;a href="https://jsfiddle.net/4h2n9L8t/">JSFiddle&lt;/a>&lt;/p>
-&lt;br>
 &lt;h2 id="參考資料">參考資料&lt;/h2>
 &lt;p>&lt;a href="https://flaviocopes.com/javascript-iife/">JavaScript Immediately-invoked Function Expressions (IIFE)&lt;/a>&lt;/p>
-- https://krapshsa.github.io/posts/template-literal-bea4efe5-2565-42f7-832f-580089f7807d/ - © 2007 - 2022 krapshsa</description></item></channel></rss>
+- https://krapshsa.github.io/posts/template-literal/ - © 2007 - 2022 krapshsa</description></item></channel></rss>

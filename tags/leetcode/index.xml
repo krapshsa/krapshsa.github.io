@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>leetcode on KRAPSHSA'S BLOG</title><link>https://krapshsa.github.io/tags/leetcode/</link><description>Recent content in leetcode on KRAPSHSA'S BLOG</description><generator>Hugo -- gohugo.io</generator><language>zh-tw</language><copyright>© 2007 - 2022 krapshsa</copyright><lastBuildDate>Tue, 23 Aug 2022 16:25:00 +0000</lastBuildDate><atom:link href="https://krapshsa.github.io/tags/leetcode/index.xml" rel="self" type="application/rss+xml"/><item><title>Grind 75 Week 2 回顧</title><link>https://krapshsa.github.io/posts/grind-75-week-2/</link><pubDate>Tue, 23 Aug 2022 16:25:00 +0000</pubDate><guid>https://krapshsa.github.io/posts/grind-75-week-2/</guid><description>Grind 75 Week 2 回顧 小心得 有一些題目第一次寫，寫不出來了。例如 Climbing Stairs
+Implement Queue using Stacks Stack: FILO Queue: FIFO 需要倒轉 Stack 的內容 把 Stack pop 的內容 push 到另外一個 Stack 就完成了倒轉 → 所以需要兩個 Stack 要保證順序性，所以倒轉的過程只能發生在用來放倒轉元素的 Stack 為空的時候 First Bad Version 又是 Binary Search，要小心邊界問題以及重複問題
+可以去看 Week 1 的 Binary Search， Carl 的影片很清楚
+個人認為左閉右開區間很難懂，還是使用左閉右閉，即 left right 都是搜索範圍
+Ransom Note map 解
+Climbing Stairs 第 n 階的上樓方法是：
+第 (n-1) 階 + 1 → 上到第 (n-1) 階的方法數 第 (n-2) 階 + 2 → 上道第 (n-2) 階的方法數 第 (n-2) 階 + 1 + 1 → 已經被算過了不重複算 Longest Palindrome map 紀錄有多少成對的字元</description></item><item><title>Grind 75 Week 1 回顧</title><link>https://krapshsa.github.io/posts/grind-75-week-1/</link><pubDate>Sat, 20 Aug 2022 06:27:00 +0000</pubDate><guid>https://krapshsa.github.io/posts/grind-75-week-1/</guid><description>Grind 75 Week 1 回顧 小心得 Week 1 的題目都是 Easy，(除了 53. Maximum Subarray 現在難度被重新評級為 Medium)
+雖然不至於寫不出來，但是還是有很容易寫錯的題目。
+發現我對於臨界值的掌握有點差：
+經常發生越界 不知道可以剪枝 (有時候會遞迴重複項目) Two Sum 暴力法，用兩個 Loop 嘗試各種組合
+Valid Parentheses Stack，成對的就 pop 掉，不然就塞進 Stack 內
+Merge Two Sorted Lists 相同大小無順序，就把兩個 List 都輪流遍歷就可以了
+終止條件是 List 都為空就做完了
+Best Time to Buy and Sell Stock 買點是各個可能的谷底，在從左到右的過程中，如果遇到更低的價格，就更新潛在最佳買點。
+但是這題沒有要求是哪個點，所以就計算最大利潤存起來就好。
+Valid Palindrome 題目寫：
+Alphanumeric characters include letters and numbers.
+我漏掉了數字，WA 一次，這題我花比較多時間，因為第一次寫 Go 不知道到底要怎麼判斷字符。
+Invert Binary Tree 遞迴交換，新的右邊是舊的左邊 invertTree，左邊也是同樣道理。
+Valid Anagram 用 hasmap 存出現頻率</description></item></channel></rss>

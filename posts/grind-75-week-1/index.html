@@ -1,0 +1,112 @@
+<!doctype html><html><head><title>Grind 75 Week 1 回顧</title><meta charset=utf-8><meta name=X-UA-Compatible content="IE=edge"><meta name=google-site-verification content><meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0" name=viewport><meta content="telephone=no" name=format-detection><meta name=description content><meta name=renderer content="webkit"><meta name=theme-color content="#ffffff"><meta property="og:title" content="Grind 75 Week 1 回顧"><meta property="og:description" content="Grind 75 Week 1 回顧 小心得 Week 1 的題目都是 Easy，(除了 53. Maximum Subarray 現在難度被重新評級為 Medium)
+雖然不至於寫不出來，但是還是有很容易寫錯的題目。
+發現我對於臨界值的掌握有點差：
+經常發生越界 不知道可以剪枝 (有時候會遞迴重複項目) Two Sum 暴力法，用兩個 Loop 嘗試各種組合
+Valid Parentheses Stack，成對的就 pop 掉，不然就塞進 Stack 內
+Merge Two Sorted Lists 相同大小無順序，就把兩個 List 都輪流遍歷就可以了
+終止條件是 List 都為空就做完了
+Best Time to Buy and Sell Stock 買點是各個可能的谷底，在從左到右的過程中，如果遇到更低的價格，就更新潛在最佳買點。
+但是這題沒有要求是哪個點，所以就計算最大利潤存起來就好。
+Valid Palindrome 題目寫：
+Alphanumeric characters include letters and numbers.
+我漏掉了數字，WA 一次，這題我花比較多時間，因為第一次寫 Go 不知道到底要怎麼判斷字符。
+Invert Binary Tree 遞迴交換，新的右邊是舊的左邊 invertTree，左邊也是同樣道理。
+Valid Anagram 用 hasmap 存出現頻率"><meta property="og:type" content="article"><meta property="og:url" content="https://krapshsa.github.io/posts/grind-75-week-1/"><meta property="article:section" content="posts"><meta property="article:published_time" content="2022-08-20T06:27:00+00:00"><meta property="article:modified_time" content="2022-08-20T06:27:00+00:00"><meta property="og:site_name" content="My Blog"><meta name=twitter:card content="summary"><meta name=twitter:title content="Grind 75 Week 1 回顧"><meta name=twitter:description content="Grind 75 Week 1 回顧 小心得 Week 1 的題目都是 Easy，(除了 53. Maximum Subarray 現在難度被重新評級為 Medium)
+雖然不至於寫不出來，但是還是有很容易寫錯的題目。
+發現我對於臨界值的掌握有點差：
+經常發生越界 不知道可以剪枝 (有時候會遞迴重複項目) Two Sum 暴力法，用兩個 Loop 嘗試各種組合
+Valid Parentheses Stack，成對的就 pop 掉，不然就塞進 Stack 內
+Merge Two Sorted Lists 相同大小無順序，就把兩個 List 都輪流遍歷就可以了
+終止條件是 List 都為空就做完了
+Best Time to Buy and Sell Stock 買點是各個可能的谷底，在從左到右的過程中，如果遇到更低的價格，就更新潛在最佳買點。
+但是這題沒有要求是哪個點，所以就計算最大利潤存起來就好。
+Valid Palindrome 題目寫：
+Alphanumeric characters include letters and numbers.
+我漏掉了數字，WA 一次，這題我花比較多時間，因為第一次寫 Go 不知道到底要怎麼判斷字符。
+Invert Binary Tree 遞迴交換，新的右邊是舊的左邊 invertTree，左邊也是同樣道理。
+Valid Anagram 用 hasmap 存出現頻率"><link type=text/css rel=stylesheet href=/vendor/css/bootstrap.min.css><link rel=stylesheet href=/scss/journal.min.c5d92f380bf10f6849c7ac487c7df2b22c081e0851e5339224f1ae29210b20d2.css integrity="sha256-xdkvOAvxD2hJx6xIfH3ysiwIHghR5TOSJPGuKSELINI=" media=screen><link rel=stylesheet href=/scss/dark-mode.min.9f8d8c2df9285089d141edd4a50cb7506c7948e6ab79a29968dced1bd0ab7d22.css integrity="sha256-n42MLfkoUInRQe3UpQy3UGx5SOareaKZaNztG9CrfSI=" media=screen><script src=/vendor/js/loadCSS.js></script>
+<script>loadCSS("https://fonts.googleapis.com/css?family=Fira+Mono|Material+Icons")</script><script src=/js/toc.js></script>
+<link rel=stylesheet href=https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css><script src=https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js></script>
+<script src=/vendor/js/md5.min.js></script>
+<script>var gitalk=new Gitalk({clientID:"your client id",clientSecret:"your client secret",repo:"repo name",owner:"user",admin:["user"],id:md5(location.pathname),distractionFreeMode:"false"});window.onload=function(){gitalk.render("gitalk-container")}</script></head><body><div id=app><div id=sideContainer class=side-container><a class="a-block nav-head false" href=https://krapshsa.github.io/><div class=nav-title>KRAPSHSA'S BLOG</div></a><div class=nav-link-list><a class="a-block nav-link-item active" href=/posts>Archive</a>
+<a class="a-block nav-link-item false" href=/categories>Categories</a>
+<a class="a-block nav-link-item false" href=/tags>Tags</a>
+<a class="a-block nav-link-item false" href=/index.xml>RSS Feed</a></div><div class=nav-footer>Hugo Theme <a href=https://github.com/amazingrise/hugo-theme-diary>Diary</a> by <a href=https://risehere.net/>Rise</a><br>Ported from <a href=https://mak1t0.cc/ target=_blank rel="noreferrer noopener">Makito</a>'s <a href=https://github.com/SumiMakito/hexo-theme-journal/ target=_blank rel="noreferrer noopener">Journal.</a><br><br>&copy;
+© 2007 - 2022 krapshsa</div></div><div id=extraContainer class=extra-container><div class="toc animated-visibility" :class="{ invisible: scrollY <= 140 }"><div class=toc-content><center>- CATALOG -</center><ul><li><a href=#grind-75-week-1-%e5%9b%9e%e9%a1%a7 onclick="onNavClick(`#grind-75-week-1-回顧-nav`)" id=grind-75-week-1-回顧-nav>Grind 75 Week 1 回顧</a></li><ul><li><a href=#%e5%b0%8f%e5%bf%83%e5%be%97 onclick="onNavClick(`#小心得-nav`)" id=小心得-nav>小心得</a></li><li><a href=#two-sumhttpsleetcodecomproblemstwo-sum onclick="onNavClick(`#two-sumhttpsleetcodecomproblemstwo-sum-nav`)" id=two-sumhttpsleetcodecomproblemstwo-sum-nav>Two Sum</a></li><li><a href=#valid-parentheseshttpsleetcodecomproblemsvalid-parentheses onclick="onNavClick(`#valid-parentheseshttpsleetcodecomproblemsvalid-parentheses-nav`)" id=valid-parentheseshttpsleetcodecomproblemsvalid-parentheses-nav>Valid Parentheses</a></li><li><a href=#merge-two-sorted-listshttpsleetcodecomproblemsmerge-two-sorted-lists onclick="onNavClick(`#merge-two-sorted-listshttpsleetcodecomproblemsmerge-two-sorted-lists-nav`)" id=merge-two-sorted-listshttpsleetcodecomproblemsmerge-two-sorted-lists-nav>Merge Two Sorted Lists</a></li><li><a href=#best-time-to-buy-and-sell-stockhttpsleetcodecomproblemsbest-time-to-buy-and-sell-stock onclick="onNavClick(`#best-time-to-buy-and-sell-stockhttpsleetcodecomproblemsbest-time-to-buy-and-sell-stock-nav`)" id=best-time-to-buy-and-sell-stockhttpsleetcodecomproblemsbest-time-to-buy-and-sell-stock-nav>Best Time to Buy and Sell Stock</a></li><li><a href=#valid-palindromehttpsleetcodecomproblemsvalid-palindrome onclick="onNavClick(`#valid-palindromehttpsleetcodecomproblemsvalid-palindrome-nav`)" id=valid-palindromehttpsleetcodecomproblemsvalid-palindrome-nav>Valid Palindrome</a></li><li><a href=#invert-binary-treehttpsleetcodecomproblemsinvert-binary-tree onclick="onNavClick(`#invert-binary-treehttpsleetcodecomproblemsinvert-binary-tree-nav`)" id=invert-binary-treehttpsleetcodecomproblemsinvert-binary-tree-nav>Invert Binary Tree</a></li><li><a href=#valid-anagramhttpsleetcodecomproblemsvalid-anagram onclick="onNavClick(`#valid-anagramhttpsleetcodecomproblemsvalid-anagram-nav`)" id=valid-anagramhttpsleetcodecomproblemsvalid-anagram-nav>Valid Anagram</a></li><li><a href=#binary-searchhttpsleetcodecomproblemsbinary-search onclick="onNavClick(`#binary-searchhttpsleetcodecomproblemsbinary-search-nav`)" id=binary-searchhttpsleetcodecomproblemsbinary-search-nav>Binary Search</a></li><li><a href=#flood-fillhttpsleetcodecomproblemsflood-fill onclick="onNavClick(`#flood-fillhttpsleetcodecomproblemsflood-fill-nav`)" id=flood-fillhttpsleetcodecomproblemsflood-fill-nav>Flood Fill</a></li><li><a href=#maximum-subarray25ae9972307340bca1b30ddf7ae7fb41 onclick="onNavClick(`#maximum-subarray25ae9972307340bca1b30ddf7ae7fb41-nav`)" id=maximum-subarray25ae9972307340bca1b30ddf7ae7fb41-nav>Maximum Subarray</a></li><li><a href=#lowest-common-ancestor-of-a-binary-search-treehttpsleetcodecomproblemslowest-common-ancestor-of-a-binary-search-tree onclick="onNavClick(`#lowest-common-ancestor-of-a-binary-search-treehttpsleetcodecomproblemslowest-common-ancestor-of-a-binary-search-tree-nav`)" id=lowest-common-ancestor-of-a-binary-search-treehttpsleetcodecomproblemslowest-common-ancestor-of-a-binary-search-tree-nav>Lowest Common Ancestor of a Binary Search Tree</a></li><li><a href=#balanced-binary-treehttpsleetcodecomproblemsbalanced-binary-tree onclick="onNavClick(`#balanced-binary-treehttpsleetcodecomproblemsbalanced-binary-tree-nav`)" id=balanced-binary-treehttpsleetcodecomproblemsbalanced-binary-tree-nav>Balanced Binary Tree</a></li><li><a href=#linked-list-cyclehttpsleetcodecomproblemslinked-list-cycle onclick="onNavClick(`#linked-list-cyclehttpsleetcodecomproblemslinked-list-cycle-nav`)" id=linked-list-cyclehttpsleetcodecomproblemslinked-list-cycle-nav>Linked List Cycle</a></li></ul></div></div><div class=pagination><a id=globalBackToTop class="pagination-action animated-visibility" href=#top :class="{ invisible: scrollY == 0 }"><i class="material-icons pagination-action-icon">keyboard_arrow_up</i></a>
+<a type=button class=pagination-action id=darkModeToggleButton><span class="material-icons pagination-action-icon" id=darkModeToggleIcon>dark_mode</span></a></div></div><div class=single-column-drawer-container id=drawer v-bind:class="{ 'single-column-drawer-container-active': isDrawerOpen }"><div class=drawer-content><div class=drawer-menu><a class="a-block drawer-menu-item active" href=/posts>Archive</a>
+<a class="a-block drawer-menu-item false" href=/categories>Categories</a>
+<a class="a-block drawer-menu-item false" href=/tags>Tags</a>
+<a class="a-block drawer-menu-item false" href=/index.xml>RSS Feed</a><div class=toc><div class=toc-content><center>- CATALOG -</center><ul><li><a href=#grind-75-week-1-%e5%9b%9e%e9%a1%a7 onclick="onNavClick(`#grind-75-week-1-回顧-nav`)" id=grind-75-week-1-回顧-nav>Grind 75 Week 1 回顧</a></li><ul><li><a href=#%e5%b0%8f%e5%bf%83%e5%be%97 onclick="onNavClick(`#小心得-nav`)" id=小心得-nav>小心得</a></li><li><a href=#two-sumhttpsleetcodecomproblemstwo-sum onclick="onNavClick(`#two-sumhttpsleetcodecomproblemstwo-sum-nav`)" id=two-sumhttpsleetcodecomproblemstwo-sum-nav>Two Sum</a></li><li><a href=#valid-parentheseshttpsleetcodecomproblemsvalid-parentheses onclick="onNavClick(`#valid-parentheseshttpsleetcodecomproblemsvalid-parentheses-nav`)" id=valid-parentheseshttpsleetcodecomproblemsvalid-parentheses-nav>Valid Parentheses</a></li><li><a href=#merge-two-sorted-listshttpsleetcodecomproblemsmerge-two-sorted-lists onclick="onNavClick(`#merge-two-sorted-listshttpsleetcodecomproblemsmerge-two-sorted-lists-nav`)" id=merge-two-sorted-listshttpsleetcodecomproblemsmerge-two-sorted-lists-nav>Merge Two Sorted Lists</a></li><li><a href=#best-time-to-buy-and-sell-stockhttpsleetcodecomproblemsbest-time-to-buy-and-sell-stock onclick="onNavClick(`#best-time-to-buy-and-sell-stockhttpsleetcodecomproblemsbest-time-to-buy-and-sell-stock-nav`)" id=best-time-to-buy-and-sell-stockhttpsleetcodecomproblemsbest-time-to-buy-and-sell-stock-nav>Best Time to Buy and Sell Stock</a></li><li><a href=#valid-palindromehttpsleetcodecomproblemsvalid-palindrome onclick="onNavClick(`#valid-palindromehttpsleetcodecomproblemsvalid-palindrome-nav`)" id=valid-palindromehttpsleetcodecomproblemsvalid-palindrome-nav>Valid Palindrome</a></li><li><a href=#invert-binary-treehttpsleetcodecomproblemsinvert-binary-tree onclick="onNavClick(`#invert-binary-treehttpsleetcodecomproblemsinvert-binary-tree-nav`)" id=invert-binary-treehttpsleetcodecomproblemsinvert-binary-tree-nav>Invert Binary Tree</a></li><li><a href=#valid-anagramhttpsleetcodecomproblemsvalid-anagram onclick="onNavClick(`#valid-anagramhttpsleetcodecomproblemsvalid-anagram-nav`)" id=valid-anagramhttpsleetcodecomproblemsvalid-anagram-nav>Valid Anagram</a></li><li><a href=#binary-searchhttpsleetcodecomproblemsbinary-search onclick="onNavClick(`#binary-searchhttpsleetcodecomproblemsbinary-search-nav`)" id=binary-searchhttpsleetcodecomproblemsbinary-search-nav>Binary Search</a></li><li><a href=#flood-fillhttpsleetcodecomproblemsflood-fill onclick="onNavClick(`#flood-fillhttpsleetcodecomproblemsflood-fill-nav`)" id=flood-fillhttpsleetcodecomproblemsflood-fill-nav>Flood Fill</a></li><li><a href=#maximum-subarray25ae9972307340bca1b30ddf7ae7fb41 onclick="onNavClick(`#maximum-subarray25ae9972307340bca1b30ddf7ae7fb41-nav`)" id=maximum-subarray25ae9972307340bca1b30ddf7ae7fb41-nav>Maximum Subarray</a></li><li><a href=#lowest-common-ancestor-of-a-binary-search-treehttpsleetcodecomproblemslowest-common-ancestor-of-a-binary-search-tree onclick="onNavClick(`#lowest-common-ancestor-of-a-binary-search-treehttpsleetcodecomproblemslowest-common-ancestor-of-a-binary-search-tree-nav`)" id=lowest-common-ancestor-of-a-binary-search-treehttpsleetcodecomproblemslowest-common-ancestor-of-a-binary-search-tree-nav>Lowest Common Ancestor of a Binary Search Tree</a></li><li><a href=#balanced-binary-treehttpsleetcodecomproblemsbalanced-binary-tree onclick="onNavClick(`#balanced-binary-treehttpsleetcodecomproblemsbalanced-binary-tree-nav`)" id=balanced-binary-treehttpsleetcodecomproblemsbalanced-binary-tree-nav>Balanced Binary Tree</a></li><li><a href=#linked-list-cyclehttpsleetcodecomproblemslinked-list-cycle onclick="onNavClick(`#linked-list-cyclehttpsleetcodecomproblemslinked-list-cycle-nav`)" id=linked-list-cyclehttpsleetcodecomproblemslinked-list-cycle-nav>Linked List Cycle</a></li></ul></div></div></div></div></div><transition name=fade><div id=drawer-mask v-bind:class="{ 'single-column-drawer-mask': mounted }" v-if=isDrawerOpen v-on:click=toggleDrawer></div></transition><nav id=navBar class="navbar sticky-top navbar-light single-column-nav-container"><div id=navBackground class=nav-background></div><div class="container container-narrow nav-content"><button id=nav_dropdown_btn class=nav-dropdown-toggle type=button v-on:click=toggleDrawer>
+<i class=material-icons>menu</i></button>
+<a id=navTitle class=navbar-brand href=https://krapshsa.github.io/>KRAPSHSA'S BLOG</a>
+<button type=button class=nav-darkmode-toggle id=darkModeToggleButton2>
+<i class=material-icons id=darkModeToggleIcon2>dark_mode</i></button></div></nav><div class=single-column-header-container id=pageHead v-bind:style="{ transform: 'translateZ(0px) translateY('+.3*scrollY+'px)', opacity: 1-navOpacity }"><a href=https://krapshsa.github.io/><div class=single-column-header-title>KRAPSHSA'S BLOG</div></a></div><div id=content><div id=streamContainer class=stream-container><div class="post-list-container post-list-container-shadow"><div class=post><div class=post-head-wrapper-text-only><div class=post-title>Grind 75 Week 1 回顧<div class=post-meta><time itemprop=datePublished>2022-08-20 06:27</time>
+<i class=material-icons>label</i>
+<a href=/tags/leetcode>leetcode</a>
+&nbsp;</div></div></div><div class=post-body-wrapper><div class=post-body v-pre><h1 id=grind-75-week-1-回顧>Grind 75 Week 1 回顧</h1><hr><h2 id=小心得>小心得</h2><p>Week 1 的題目都是 Easy，(除了 53. Maximum Subarray 現在難度被重新評級為 Medium)</p><p>雖然不至於寫不出來，但是還是有很容易寫錯的題目。</p><p>發現我對於臨界值的掌握有點差：</p><ol><li>經常發生越界</li><li>不知道可以剪枝 (有時候會遞迴重複項目)</li></ol><h2 id=two-sumhttpsleetcodecomproblemstwo-sum><a href=https://leetcode.com/problems/two-sum>Two Sum</a></h2><p>暴力法，用兩個 Loop 嘗試各種組合</p><h2 id=valid-parentheseshttpsleetcodecomproblemsvalid-parentheses><a href=https://leetcode.com/problems/valid-parentheses>Valid Parentheses</a></h2><p>Stack，成對的就 pop 掉，不然就塞進 Stack 內</p><h2 id=merge-two-sorted-listshttpsleetcodecomproblemsmerge-two-sorted-lists><a href=https://leetcode.com/problems/merge-two-sorted-lists>Merge Two Sorted Lists</a></h2><p>相同大小無順序，就把兩個 List 都輪流遍歷就可以了</p><p>終止條件是 List 都為空就做完了</p><h2 id=best-time-to-buy-and-sell-stockhttpsleetcodecomproblemsbest-time-to-buy-and-sell-stock><a href=https://leetcode.com/problems/best-time-to-buy-and-sell-stock>Best Time to Buy and Sell Stock</a></h2><p>買點是各個可能的谷底，在從左到右的過程中，如果遇到更低的價格，就更新潛在最佳買點。</p><p>但是這題沒有要求是哪個點，所以就計算最大利潤存起來就好。</p><h2 id=valid-palindromehttpsleetcodecomproblemsvalid-palindrome><a href=https://leetcode.com/problems/valid-palindrome>Valid Palindrome</a></h2><p>題目寫：</p><blockquote><p>Alphanumeric characters include letters and numbers.</p></blockquote><p>我漏掉了數字，WA 一次，這題我花比較多時間，因為第一次寫 Go 不知道到底要怎麼判斷字符。</p><h2 id=invert-binary-treehttpsleetcodecomproblemsinvert-binary-tree><a href=https://leetcode.com/problems/invert-binary-tree>Invert Binary Tree</a></h2><p>遞迴交換，新的右邊是舊的左邊 <code>invertTree</code>，左邊也是同樣道理。</p><h2 id=valid-anagramhttpsleetcodecomproblemsvalid-anagram><a href=https://leetcode.com/problems/valid-anagram>Valid Anagram</a></h2><p>用 hasmap 存出現頻率</p><p>延伸題目是 unicode 怎麼辦？用 go 寫很容易，做一個 key 是 rune 的 map 就好了</p><pre><code>letterMap := make(map[rune]int)
+</code></pre><h2 id=binary-searchhttpsleetcodecomproblemsbinary-search><a href=https://leetcode.com/problems/binary-search>Binary Search</a></h2><p>心態打擊，逢寫必錯</p><p>推薦看一下 Carl 大大的手撕二分法</p><p><a href=https://www.bilibili.com/video/BV1fA4y1o715>手把手带你撕出正确的二分法 | 二分查找法 | 二分搜索法 | LeetCode：704. 二分查找_哔哩哔哩_bilibili</a></p><p>學習重點：</p><ul><li>循環不變量</li><li>區間</li></ul><p>這題我使用左閉右閉區間，也就是終止條件應該是 <code>left ≤ right</code></p><p>並解用過的區間就不應該再用了，不然會導致無窮的做下去</p><h2 id=flood-fillhttpsleetcodecomproblemsflood-fill><a href=https://leetcode.com/problems/flood-fill>Flood Fill</a></h2><p>我把指定的點的上下左右丟進 queue 裡面，再拿出來處理。</p><p>要注意邊界，以及不要重複做。</p><h2 id=maximum-subarray25ae9972307340bca1b30ddf7ae7fb41><a href=/25ae9972307340bca1b30ddf7ae7fb41>Maximum Subarray</a></h2><p>一個解的左邊元素以及右邊元素只有可能是：</p><ol><li>空的</li><li>和是負的 → 若是正的，可以加起來形成更大的 subarray</li></ol><p>想法是從左到右找，並且紀錄：</p><ol><li>最大的和 → 可能解</li><li>現在的和 → 可能可以貢獻到解 → 一旦為負就表示不可能是解一部分 → 重置要貢獻的和</li></ol><p>Edge Case：全部都是負的</p><p>WA</p><pre><code>func maxSubArray(nums []int) int {
+	maxSum := nums[0]
+	curSum := 0
+
+	for i := 0; i &lt; len(nums); i++ {
+		curSum += nums[i]
+		if curSum &lt; 0 {
+			curSum = 0
+			continue
+		}
+
+		if curSum &gt; maxSum {
+			maxSum = curSum
+		}
+	}
+
+	return maxSum
+}
+</code></pre><p>AC1</p><pre><code>func maxSubArray(nums []int) int {
+	maxSum := nums[0]
+	curSum := 0
+
+	for i := 0; i &lt; len(nums); i++ {
+		curSum += nums[i]
+		if curSum &gt; maxSum {
+			maxSum = curSum
+		}
+		if curSum &lt; 0 {
+			curSum = 0
+		}
+	}
+
+	return maxSum
+}
+</code></pre><p>AC2</p><pre><code>func maxSubArray(nums []int) int {
+	maxSum := nums[0]
+	curSum := nums[0]
+
+	for i := 1; i &lt; len(nums); i++ {
+    if curSum &lt; 0 {
+			curSum = nums[i]
+    } else {
+      curSum += nums[i]
+    }
+
+		if curSum &gt; maxSum {
+			maxSum = curSum
+		}
+	}
+
+	return maxSum
+}
+</code></pre><h2 id=lowest-common-ancestor-of-a-binary-search-treehttpsleetcodecomproblemslowest-common-ancestor-of-a-binary-search-tree><a href=https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-search-tree>Lowest Common Ancestor of a Binary Search Tree</a></h2><p>給兩個點 p, q 在過程中，如果我找到一個點：</p><ol><li>其中一個是 p 或 q → 高的是 ancestor</li><li>p, q 在不同邊 → 該點是 ancestor</li></ol><p>另外一個想法是：</p><ol><li><p>都在左側 → 左邊那個點是可能的 ancestor，往左找</p></li><li><p>都在右側 → 右邊那個點是可能的 ancestor，往右找</p></li><li><p>其他：找到了</p><p>func lowestCommonAncestor(root, p, q *TreeNode) *TreeNode {<br>lowest := root</p><pre><code> for true {
+ 	if lowest.Val &gt; p.Val &amp;&amp; lowest.Val &gt; q.Val {
+ 		lowest = lowest.Left
+ 	} else if lowest.Val &lt; p.Val &amp;&amp; lowest.Val &lt; q.Val {
+ 		lowest = lowest.Right
+ 	} else {
+ 		break
+ 	}
+ }
+
+ return lowest
+</code></pre><p>}</p></li></ol><h2 id=balanced-binary-treehttpsleetcodecomproblemsbalanced-binary-tree><a href=https://leetcode.com/problems/balanced-binary-tree>Balanced Binary Tree</a></h2><p>遞迴：DFS 回傳值為是否 balanced 以及深度</p><h2 id=linked-list-cyclehttpsleetcodecomproblemslinked-list-cycle><a href=https://leetcode.com/problems/linked-list-cycle>Linked List Cycle</a></h2><p>NeetCode 講得很清楚</p><p><a href="https://www.youtube.com/watch?v=gBTe7lFR3vc">Linked List Cycle - Floyd&rsquo;s Tortoise and Hare - Leetcode 141 - Python</a></p><p>沒有 cycle → 最後會走到 nil</p><p>有 cycle → 快慢指針相遇</p><p>這題的延伸題是求解 cycle 的開端</p><hr width=100% id=EOF><p style=color:#777>Last modified on 2022-08-20</p></div></div><nav class=post-pagination><a class=newer-posts href=/posts/grind-75-week-2/>Next<br>Grind 75 Week 2 回顧</a>
+<a class=older-posts href=/posts/ios-dpi-pdf/>Previous<br>iOS 瀏覽器無法瀏覽高 DPI 的 pdf</a></nav><div class=post-comment-wrapper><div id=gitalk-container></div></div></div></div></div></div><div id=single-column-footer>Hugo Theme <a href=https://github.com/amazingrise/hugo-theme-diary>Diary</a> by <a href=https://risehere.net/>Rise</a><br>Ported from <a href=https://mak1t0.cc/ target=_blank rel="noreferrer noopener">Makito</a>'s <a href=https://github.com/SumiMakito/hexo-theme-journal/ target=_blank rel="noreferrer noopener">Journal.</a><br><br>&copy;
+© 2007 - 2022 krapshsa</div></div><script src=/js/journal.js></script></body></html>
