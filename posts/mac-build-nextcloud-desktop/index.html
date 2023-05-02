@@ -1,0 +1,135 @@
+<!doctype html><html><head><title>Mac Build NextCloud Desktop</title><meta charset=utf-8><meta name=X-UA-Compatible content="IE=edge"><meta name=google-site-verification content><meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0" name=viewport><meta content="telephone=no" name=format-detection><meta name=description content><meta name=renderer content="webkit"><meta name=theme-color content="#ffffff"><meta property="og:title" content="Mac Build NextCloud Desktop"><meta property="og:description" content="Mac Build NextCloud Desktop 前言 照官方的指引，沒有辦法 Build 起來，在此紀錄踩過的坑。
+官方文件 Appendix A: Building the Client — Nextcloud Client Manual 3.8.1 documentation
+System requirements for compiling the desktop client
+坑 qtkeychain 依賴 qt6 Nextcloud 需要用 qt5 去 build，但是用 brew 安裝 qtkeychain 的話，
+最新版本 bottle 內只有 libqt6keychain.dylib 而沒有 libqt5keychain.dylib 。
+解法 從 github 上面抓舊版本的 qtkeychain.rb 來用可以解決：
+homebrew-core/qtkeychain.rb at 11917de6acdc546c28dcf36652f5467c47136a79 · Homebrew/homebrew-core
+下載之後安裝：
+brew install qtkeychain.rb openssl 需要 1.1 版 解法ㄧ 這個在 github 有寫到，但是官網關於環境變數的文件寫錯了："><meta property="og:type" content="article"><meta property="og:url" content="https://krapshsa.github.io/posts/mac-build-nextcloud-desktop/"><meta property="article:section" content="posts"><meta property="article:published_time" content="2023-04-24T02:31:08+00:00"><meta property="article:modified_time" content="2023-04-24T02:31:08+00:00"><meta property="og:site_name" content="My Blog"><meta name=twitter:card content="summary"><meta name=twitter:title content="Mac Build NextCloud Desktop"><meta name=twitter:description content="Mac Build NextCloud Desktop 前言 照官方的指引，沒有辦法 Build 起來，在此紀錄踩過的坑。
+官方文件 Appendix A: Building the Client — Nextcloud Client Manual 3.8.1 documentation
+System requirements for compiling the desktop client
+坑 qtkeychain 依賴 qt6 Nextcloud 需要用 qt5 去 build，但是用 brew 安裝 qtkeychain 的話，
+最新版本 bottle 內只有 libqt6keychain.dylib 而沒有 libqt5keychain.dylib 。
+解法 從 github 上面抓舊版本的 qtkeychain.rb 來用可以解決：
+homebrew-core/qtkeychain.rb at 11917de6acdc546c28dcf36652f5467c47136a79 · Homebrew/homebrew-core
+下載之後安裝：
+brew install qtkeychain.rb openssl 需要 1.1 版 解法ㄧ 這個在 github 有寫到，但是官網關於環境變數的文件寫錯了："><link type=text/css rel=stylesheet href=/vendor/css/bootstrap.min.css><link rel=stylesheet href=/scss/journal.min.c5d92f380bf10f6849c7ac487c7df2b22c081e0851e5339224f1ae29210b20d2.css integrity="sha256-xdkvOAvxD2hJx6xIfH3ysiwIHghR5TOSJPGuKSELINI=" media=screen><link rel=stylesheet href=/scss/dark-mode.min.9f8d8c2df9285089d141edd4a50cb7506c7948e6ab79a29968dced1bd0ab7d22.css integrity="sha256-n42MLfkoUInRQe3UpQy3UGx5SOareaKZaNztG9CrfSI=" media=screen><script src=/vendor/js/loadCSS.js></script>
+<script>loadCSS("https://fonts.googleapis.com/css?family=Fira+Mono|Material+Icons")</script><script src=/js/toc.js></script>
+<link rel=stylesheet href=https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css><script src=https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js></script>
+<script src=/vendor/js/md5.min.js></script>
+<script>var gitalk=new Gitalk({clientID:"your client id",clientSecret:"your client secret",repo:"repo name",owner:"user",admin:["user"],id:md5(location.pathname),distractionFreeMode:"false"});window.onload=function(){gitalk.render("gitalk-container")}</script></head><body><div id=app><div id=sideContainer class=side-container><a class="a-block nav-head false" href=https://krapshsa.github.io/><div class=nav-title>KRAPSHSA'S BLOG</div></a><div class=nav-link-list><a class="a-block nav-link-item active" href=/posts>Archive</a>
+<a class="a-block nav-link-item false" href=/categories>Categories</a>
+<a class="a-block nav-link-item false" href=/tags>Tags</a>
+<a class="a-block nav-link-item false" href=/index.xml>RSS Feed</a></div><div class=nav-footer>Hugo Theme <a href=https://github.com/amazingrise/hugo-theme-diary>Diary</a> by <a href=https://risehere.net/>Rise</a><br>Ported from <a href=https://mak1t0.cc/ target=_blank rel="noreferrer noopener">Makito</a>'s <a href=https://github.com/SumiMakito/hexo-theme-journal/ target=_blank rel="noreferrer noopener">Journal.</a><br><br>&copy;
+© 2007 - 2022 krapshsa</div></div><div id=extraContainer class=extra-container><div class="toc animated-visibility" :class="{ invisible: scrollY <= 140 }"><div class=toc-content><center>- CATALOG -</center><ul><li><a href=#mac-build-nextcloud-desktop onclick="onNavClick(`#mac-build-nextcloud-desktop-nav`)" id=mac-build-nextcloud-desktop-nav>Mac Build NextCloud Desktop</a></li><li><a href=#%e5%89%8d%e8%a8%80 onclick="onNavClick(`#前言-nav`)" id=前言-nav>前言</a></li><li><a href=#%e5%ae%98%e6%96%b9%e6%96%87%e4%bb%b6 onclick="onNavClick(`#官方文件-nav`)" id=官方文件-nav>官方文件</a></li><li><a href=#%e5%9d%91 onclick="onNavClick(`#坑-nav`)" id=坑-nav>坑</a></li><ul><li><a href=#qtkeychain-%e4%be%9d%e8%b3%b4-qt6 onclick="onNavClick(`#qtkeychain-依賴-qt6-nav`)" id=qtkeychain-依賴-qt6-nav>qtkeychain 依賴 qt6</a></li><ul><li><a href=#%e8%a7%a3%e6%b3%95 onclick="onNavClick(`#解法-nav`)" id=解法-nav>解法</a></li></ul><li><a href=#openssl-%e9%9c%80%e8%a6%81-11-%e7%89%88 onclick="onNavClick(`#openssl-需要-11-版-nav`)" id=openssl-需要-11-版-nav>openssl 需要 1.1 版</a></li><ul><li><a href=#%e8%a7%a3%e6%b3%95%e3%84%a7 onclick="onNavClick(`#解法ㄧ-nav`)" id=解法ㄧ-nav>解法ㄧ</a></li><li><a href=#%e8%a7%a3%e6%b3%95%e4%ba%8c onclick="onNavClick(`#解法二-nav`)" id=解法二-nav>解法二</a></li></ul><li><a href=#qt5core-%e6%89%be%e4%b8%8d%e5%88%b0-macx-clangqt5network-%e6%89%be%e4%b8%8d%e5%88%b0-libqgenericbearerdylibqt5gui-%e6%89%be%e4%b8%8d%e5%88%b0-libqcocoadylib-%e7%ad%89 onclick="onNavClick(`#qt5core-找不到-macx-clangqt5network-找不到-libqgenericbearerdylibqt5gui-找不到-libqcocoadylib-等-nav`)" id=qt5core-找不到-macx-clangqt5network-找不到-libqgenericbearerdylibqt5gui-找不到-libqcocoadylib-等-nav>Qt5Core 找不到 macx-clang，Qt5Network 找不到 libqgenericbearer.dylib，Qt5Gui 找不到 libqcocoa.dylib 等</a></li><ul><li><a href=#%e9%8c%af%e8%aa%a4%e8%a8%8a%e6%81%af onclick="onNavClick(`#錯誤訊息-nav`)" id=錯誤訊息-nav>錯誤訊息</a></li><li><a href=#%e8%a7%a3%e6%b3%95-1 onclick="onNavClick(`#解法-1-nav`)" id=解法-1-nav>解法</a></li></ul><li><a href=#%e6%89%be%e4%b8%8d%e5%88%b0-kf5archive onclick="onNavClick(`#找不到-kf5archive-nav`)" id=找不到-kf5archive-nav>找不到 KF5Archive</a></li><ul><li><a href=#%e9%8c%af%e8%aa%a4%e8%a8%8a%e6%81%af-1 onclick="onNavClick(`#錯誤訊息-1-nav`)" id=錯誤訊息-1-nav>錯誤訊息</a></li><li><a href=#%e8%a7%a3%e6%b3%95-2 onclick="onNavClick(`#解法-2-nav`)" id=解法-2-nav>解法</a></li></ul><li><a href=#%e7%bc%ba%e5%b0%91%e8%bd%89-icon-%e7%9a%84%e8%bb%9f%e9%ab%94 onclick="onNavClick(`#缺少轉-icon-的軟體-nav`)" id=缺少轉-icon-的軟體-nav>缺少轉 Icon 的軟體</a></li><ul><li><a href=#%e9%8c%af%e8%aa%a4%e8%a8%8a%e6%81%af-2 onclick="onNavClick(`#錯誤訊息-2-nav`)" id=錯誤訊息-2-nav>錯誤訊息</a></li><li><a href=#%e8%a7%a3%e6%b3%95-3 onclick="onNavClick(`#解法-3-nav`)" id=解法-3-nav>解法</a></li></ul></div></div><div class=pagination><a id=globalBackToTop class="pagination-action animated-visibility" href=#top :class="{ invisible: scrollY == 0 }"><i class="material-icons pagination-action-icon">keyboard_arrow_up</i></a>
+<a type=button class=pagination-action id=darkModeToggleButton><span class="material-icons pagination-action-icon" id=darkModeToggleIcon>dark_mode</span></a></div></div><div class=single-column-drawer-container id=drawer v-bind:class="{ 'single-column-drawer-container-active': isDrawerOpen }"><div class=drawer-content><div class=drawer-menu><a class="a-block drawer-menu-item active" href=/posts>Archive</a>
+<a class="a-block drawer-menu-item false" href=/categories>Categories</a>
+<a class="a-block drawer-menu-item false" href=/tags>Tags</a>
+<a class="a-block drawer-menu-item false" href=/index.xml>RSS Feed</a><div class=toc><div class=toc-content><center>- CATALOG -</center><ul><li><a href=#mac-build-nextcloud-desktop onclick="onNavClick(`#mac-build-nextcloud-desktop-nav`)" id=mac-build-nextcloud-desktop-nav>Mac Build NextCloud Desktop</a></li><li><a href=#%e5%89%8d%e8%a8%80 onclick="onNavClick(`#前言-nav`)" id=前言-nav>前言</a></li><li><a href=#%e5%ae%98%e6%96%b9%e6%96%87%e4%bb%b6 onclick="onNavClick(`#官方文件-nav`)" id=官方文件-nav>官方文件</a></li><li><a href=#%e5%9d%91 onclick="onNavClick(`#坑-nav`)" id=坑-nav>坑</a></li><ul><li><a href=#qtkeychain-%e4%be%9d%e8%b3%b4-qt6 onclick="onNavClick(`#qtkeychain-依賴-qt6-nav`)" id=qtkeychain-依賴-qt6-nav>qtkeychain 依賴 qt6</a></li><ul><li><a href=#%e8%a7%a3%e6%b3%95 onclick="onNavClick(`#解法-nav`)" id=解法-nav>解法</a></li></ul><li><a href=#openssl-%e9%9c%80%e8%a6%81-11-%e7%89%88 onclick="onNavClick(`#openssl-需要-11-版-nav`)" id=openssl-需要-11-版-nav>openssl 需要 1.1 版</a></li><ul><li><a href=#%e8%a7%a3%e6%b3%95%e3%84%a7 onclick="onNavClick(`#解法ㄧ-nav`)" id=解法ㄧ-nav>解法ㄧ</a></li><li><a href=#%e8%a7%a3%e6%b3%95%e4%ba%8c onclick="onNavClick(`#解法二-nav`)" id=解法二-nav>解法二</a></li></ul><li><a href=#qt5core-%e6%89%be%e4%b8%8d%e5%88%b0-macx-clangqt5network-%e6%89%be%e4%b8%8d%e5%88%b0-libqgenericbearerdylibqt5gui-%e6%89%be%e4%b8%8d%e5%88%b0-libqcocoadylib-%e7%ad%89 onclick="onNavClick(`#qt5core-找不到-macx-clangqt5network-找不到-libqgenericbearerdylibqt5gui-找不到-libqcocoadylib-等-nav`)" id=qt5core-找不到-macx-clangqt5network-找不到-libqgenericbearerdylibqt5gui-找不到-libqcocoadylib-等-nav>Qt5Core 找不到 macx-clang，Qt5Network 找不到 libqgenericbearer.dylib，Qt5Gui 找不到 libqcocoa.dylib 等</a></li><ul><li><a href=#%e9%8c%af%e8%aa%a4%e8%a8%8a%e6%81%af onclick="onNavClick(`#錯誤訊息-nav`)" id=錯誤訊息-nav>錯誤訊息</a></li><li><a href=#%e8%a7%a3%e6%b3%95-1 onclick="onNavClick(`#解法-1-nav`)" id=解法-1-nav>解法</a></li></ul><li><a href=#%e6%89%be%e4%b8%8d%e5%88%b0-kf5archive onclick="onNavClick(`#找不到-kf5archive-nav`)" id=找不到-kf5archive-nav>找不到 KF5Archive</a></li><ul><li><a href=#%e9%8c%af%e8%aa%a4%e8%a8%8a%e6%81%af-1 onclick="onNavClick(`#錯誤訊息-1-nav`)" id=錯誤訊息-1-nav>錯誤訊息</a></li><li><a href=#%e8%a7%a3%e6%b3%95-2 onclick="onNavClick(`#解法-2-nav`)" id=解法-2-nav>解法</a></li></ul><li><a href=#%e7%bc%ba%e5%b0%91%e8%bd%89-icon-%e7%9a%84%e8%bb%9f%e9%ab%94 onclick="onNavClick(`#缺少轉-icon-的軟體-nav`)" id=缺少轉-icon-的軟體-nav>缺少轉 Icon 的軟體</a></li><ul><li><a href=#%e9%8c%af%e8%aa%a4%e8%a8%8a%e6%81%af-2 onclick="onNavClick(`#錯誤訊息-2-nav`)" id=錯誤訊息-2-nav>錯誤訊息</a></li><li><a href=#%e8%a7%a3%e6%b3%95-3 onclick="onNavClick(`#解法-3-nav`)" id=解法-3-nav>解法</a></li></ul></div></div></div></div></div><transition name=fade><div id=drawer-mask v-bind:class="{ 'single-column-drawer-mask': mounted }" v-if=isDrawerOpen v-on:click=toggleDrawer></div></transition><nav id=navBar class="navbar sticky-top navbar-light single-column-nav-container"><div id=navBackground class=nav-background></div><div class="container container-narrow nav-content"><button id=nav_dropdown_btn class=nav-dropdown-toggle type=button v-on:click=toggleDrawer>
+<i class=material-icons>menu</i></button>
+<a id=navTitle class=navbar-brand href=https://krapshsa.github.io/>KRAPSHSA'S BLOG</a>
+<button type=button class=nav-darkmode-toggle id=darkModeToggleButton2>
+<i class=material-icons id=darkModeToggleIcon2>dark_mode</i></button></div></nav><div class=single-column-header-container id=pageHead v-bind:style="{ transform: 'translateZ(0px) translateY('+.3*scrollY+'px)', opacity: 1-navOpacity }"><a href=https://krapshsa.github.io/><div class=single-column-header-title>KRAPSHSA'S BLOG</div></a></div><div id=content><div id=streamContainer class=stream-container><div class="post-list-container post-list-container-shadow"><div class=post><div class=post-head-wrapper-text-only><div class=post-title>Mac Build NextCloud Desktop<div class=post-meta><time itemprop=datePublished>2023-04-24 02:31</time></div></div></div><div class=post-body-wrapper><div class=post-body v-pre><h1 id=mac-build-nextcloud-desktop>Mac Build NextCloud Desktop</h1><hr><h1 id=前言>前言</h1><p>照官方的指引，沒有辦法 Build 起來，在此紀錄踩過的坑。</p><h1 id=官方文件>官方文件</h1><p><a href=https://docs.nextcloud.com/desktop/3.8/building.html#macos-development-build>Appendix A: Building the Client — Nextcloud Client Manual 3.8.1 documentation</a></p><p><a href=https://github.com/nextcloud/desktop/wiki/System-requirements-for-compiling-the-desktop-client>System requirements for compiling the desktop client</a></p><h1 id=坑>坑</h1><h2 id=qtkeychain-依賴-qt6><code>qtkeychain</code> 依賴 qt6</h2><p><code>Nextcloud</code> 需要用 qt5 去 build，但是用 <code>brew</code> 安裝 <code>qtkeychain</code> 的話，</p><p>最新版本 bottle 內只有 <code>libqt6keychain.dylib</code> 而沒有 <code>libqt5keychain.dylib</code> 。</p><h3 id=解法>解法</h3><p>從 <code>github</code> 上面抓舊版本的 <code>qtkeychain.rb</code> 來用可以解決：</p><p><a href=https://github.com/Homebrew/homebrew-core/blob/11917de6acdc546c28dcf36652f5467c47136a79/Formula/qtkeychain.rb>homebrew-core/qtkeychain.rb at 11917de6acdc546c28dcf36652f5467c47136a79 · Homebrew/homebrew-core</a></p><p>下載之後安裝：</p><pre><code>brew install qtkeychain.rb
+</code></pre><h2 id=openssl-需要-11-版>openssl 需要 1.1 版</h2><h3 id=解法ㄧ>解法ㄧ</h3><p>這個在 github 有寫到，但是官網關於環境變數的文件寫錯了：</p><p><code>.nextcloud_build_variables</code></p><p>官網的：</p><pre><code>export OPENSSL_ROOT_DIR=$(brew --prefix openssl)
+</code></pre><p>要改成：</p><pre><code>export OPENSSL_ROOT_DIR=$(brew --prefix openssl@1.1)
+</code></pre><h3 id=解法二>解法二</h3><p>但是我不喜歡第一個做法，所以我這樣做：</p><p><code>cmake</code> 加上參數</p><pre><code>-DOPENSSL_ROOT_DIR=$(brew --prefix openssl@1.1)
+</code></pre><p>完整指令 (在 build 資料夾內下)</p><pre><code>cmake -DOPENSSL_ROOT_DIR=$(brew --prefix openssl@1.1) -DCMAKE_PREFIX_PATH=/opt/homebrew/opt/qt@5/lib/cmake -DCMAKE_BUILD_TYPE=&quot;Debug&quot; ..
+</code></pre><ul><li>問題四：inkscape<ul><li>brew install inkscape</li></ul></li></ul><h2 id=qt5core-找不到-macx-clangqt5network-找不到-libqgenericbearerdylibqt5gui-找不到-libqcocoadylib-等>Qt5Core 找不到 <code>macx-clang</code>，Qt5Network 找不到 <code>libqgenericbearer.dylib</code>，Qt5Gui 找不到 <code>libqcocoa.dylib</code> 等</h2><h3 id=錯誤訊息>錯誤訊息</h3><pre><code>CMake Error at /opt/homebrew/lib/cmake/Qt5Core/Qt5CoreConfig.cmake:14 (message):
+  The imported target &quot;Qt5::Core&quot; references the file
+
+     &quot;/opt/homebrew/.//mkspecs/macx-clang&quot;
+
+  but this file does not exist.  Possible reasons include:
+
+  * The file was deleted, renamed, or moved to another location.
+
+  * An install or uninstall procedure did not complete successfully.
+
+  * The installation package was faulty and contained
+
+     &quot;/opt/homebrew/lib/cmake/Qt5Core/Qt5CoreConfigExtras.cmake&quot;
+
+  but not all the files it references.
+
+Call Stack (most recent call first):
+  /opt/homebrew/lib/cmake/Qt5Core/Qt5CoreConfigExtras.cmake:56 (_qt5_Core_check_file_exists)
+  /opt/homebrew/lib/cmake/Qt5Core/Qt5CoreConfig.cmake:227 (include)
+  src/CMakeLists.txt:9 (find_package)
+
+
+CMake Error at /opt/homebrew/lib/cmake/Qt5Network/Qt5NetworkConfig.cmake:14 (message):
+  The imported target &quot;Qt5::Network&quot; references the file
+
+     &quot;/opt/homebrew/plugins/bearer/libqgenericbearer.dylib&quot;
+
+  but this file does not exist.  Possible reasons include:
+
+  * The file was deleted, renamed, or moved to another location.
+
+  * An install or uninstall procedure did not complete successfully.
+
+  * The installation package was faulty and contained
+
+     &quot;/opt/homebrew/lib/cmake/Qt5Network/Qt5Network_QGenericEnginePlugin.cmake&quot;
+
+  but not all the files it references.
+
+Call Stack (most recent call first):
+  /opt/homebrew/lib/cmake/Qt5Network/Qt5NetworkConfig.cmake:214 (_qt5_Network_check_file_exists)
+  /opt/homebrew/lib/cmake/Qt5Network/Qt5Network_QGenericEnginePlugin.cmake:5 (_populate_Network_plugin_properties)
+  /opt/homebrew/lib/cmake/Qt5Network/Qt5NetworkConfig.cmake:223 (include)
+  src/CMakeLists.txt:15 (find_package)
+
+
+CMake Error at /opt/homebrew/lib/cmake/Qt5Gui/Qt5GuiConfig.cmake:14 (message):
+  The imported target &quot;Qt5::Gui&quot; references the file
+
+     &quot;/opt/homebrew/plugins/platforms/libqcocoa.dylib&quot;
+
+  but this file does not exist.  Possible reasons include:
+
+  * The file was deleted, renamed, or moved to another location.
+
+  * An install or uninstall procedure did not complete successfully.
+
+  * The installation package was faulty and contained
+
+     &quot;/opt/homebrew/lib/cmake/Qt5Gui/Qt5Gui_QCocoaIntegrationPlugin.cmake&quot;
+
+  but not all the files it references.
+
+Call Stack (most recent call first):
+  /opt/homebrew/lib/cmake/Qt5Gui/Qt5GuiConfig.cmake:214 (_qt5_Gui_check_file_exists)
+  /opt/homebrew/lib/cmake/Qt5Gui/Qt5Gui_QCocoaIntegrationPlugin.cmake:5 (_populate_Gui_plugin_properties)
+  /opt/homebrew/lib/cmake/Qt5Gui/Qt5GuiConfig.cmake:223 (include)
+  /opt/homebrew/lib/cmake/Qt5Quick/Qt5QuickConfig.cmake:93 (find_package)
+  /opt/homebrew/lib/cmake/Qt5WebEngineCore/Qt5WebEngineCoreConfig.cmake:93 (find_package)
+  /opt/homebrew/lib/cmake/Qt5WebEngineWidgets/Qt5WebEngineWidgetsConfig.cmake:93 (find_package)
+  src/CMakeLists.txt:33 (find_package)
+</code></pre><h3 id=解法-1>解法</h3><p><code>cmake</code> 加上參數</p><pre><code>-DCMAKE_PREFIX_PATH=$(brew --prefix qt5)/lib/cmake
+</code></pre><p>完整指令 (在 build 資料夾內下)</p><pre><code>cmake -DOPENSSL_ROOT_DIR=$(brew --prefix openssl@1.1) -DCMAKE_PREFIX_PATH=/opt/homebrew/opt/qt@5/lib/cmake -DCMAKE_BUILD_TYPE=&quot;Debug&quot; ..
+</code></pre><h2 id=找不到-kf5archive>找不到 <code>KF5Archive</code></h2><p>官方沒說要裝這個，但 Mac 版好像真用不到這個模組？</p><p>也許可以參照 <code>argp.h</code> 的處理方式，讓她跳過，但是我選擇先不改他的 <code>CMakeLists.txt</code></p><h3 id=錯誤訊息-1>錯誤訊息</h3><pre><code>CMake Error at src/gui/CMakeLists.txt:3 (find_package):
+  By not providing &quot;FindKF5Archive.cmake&quot; in CMAKE_MODULE_PATH this project
+  has asked CMake to find a package configuration file provided by
+  &quot;KF5Archive&quot;, but CMake did not find one.
+
+  Could not find a package configuration file provided by &quot;KF5Archive&quot; with
+  any of the following names:
+
+    KF5ArchiveConfig.cmake
+    kf5archive-config.cmake
+
+  Add the installation prefix of &quot;KF5Archive&quot; to CMAKE_PREFIX_PATH or set
+  &quot;KF5Archive_DIR&quot; to a directory containing one of the above files.  If
+  &quot;KF5Archive&quot; provides a separate development package or SDK, be sure it has
+  been installed.
+</code></pre><h3 id=解法-2>解法</h3><pre><code>brew install karchive
+</code></pre><h2 id=缺少轉-icon-的軟體>缺少轉 Icon 的軟體</h2><h3 id=錯誤訊息-2>錯誤訊息</h3><pre><code>CMake Error at cmake/modules/GenerateIconsUtils.cmake:6 (find_program):
+  Could not find SVG_CONVERTER using the following names: inkscape,
+  inkscape.exe, rsvg-convert
+Call Stack (most recent call first):
+  src/gui/CMakeLists.txt:366 (include)
+</code></pre><h3 id=解法-3>解法</h3><p>我目前是用 <code>inkscape</code> 這個軟體處理，但是他會在圖形介面上開啟，轉完後自動關閉。<br>在 SSH 登入的情況下能不能動不知道。</p><pre><code>brew install inkscape</code></pre><hr width=100% id=EOF><p style=color:#777>Last modified on 2023-04-24</p></div></div><nav class=post-pagination><a class=newer-posts>Next<br>No newer posts.</a>
+<a class=older-posts href=/posts/grind-75-week-2/>Previous<br>Grind 75 Week 2 回顧</a></nav><div class=post-comment-wrapper><div id=gitalk-container></div></div></div></div></div></div><div id=single-column-footer>Hugo Theme <a href=https://github.com/amazingrise/hugo-theme-diary>Diary</a> by <a href=https://risehere.net/>Rise</a><br>Ported from <a href=https://mak1t0.cc/ target=_blank rel="noreferrer noopener">Makito</a>'s <a href=https://github.com/SumiMakito/hexo-theme-journal/ target=_blank rel="noreferrer noopener">Journal.</a><br><br>&copy;
+© 2007 - 2022 krapshsa</div></div><script src=/js/journal.js></script></body></html>

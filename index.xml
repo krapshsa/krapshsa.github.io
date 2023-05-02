@@ -1,4 +1,132 @@
-<?xml-stylesheet href="/rss.xsl" type="text/xsl"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>KRAPSHSA'S BLOG</title><link>https://krapshsa.github.io/</link><description>Recent content on KRAPSHSA'S BLOG</description><generator>Hugo -- gohugo.io</generator><language>zh-tw</language><copyright>© 2007 - 2022 krapshsa</copyright><lastBuildDate>Tue, 23 Aug 2022 16:25:00 +0000</lastBuildDate><atom:link href="https://krapshsa.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>Grind 75 Week 2 回顧</title><link>https://krapshsa.github.io/posts/grind-75-week-2/</link><pubDate>Tue, 23 Aug 2022 16:25:00 +0000</pubDate><guid>https://krapshsa.github.io/posts/grind-75-week-2/</guid><description>KRAPSHSA'S BLOG https://krapshsa.github.io/posts/grind-75-week-2/ -&lt;h1 id="grind-75-week-2-回顧">Grind 75 Week 2 回顧&lt;/h1>
+<?xml-stylesheet href="/rss.xsl" type="text/xsl"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>KRAPSHSA'S BLOG</title><link>https://krapshsa.github.io/</link><description>Recent content on KRAPSHSA'S BLOG</description><generator>Hugo -- gohugo.io</generator><language>zh-tw</language><copyright>© 2007 - 2022 krapshsa</copyright><lastBuildDate>Mon, 24 Apr 2023 02:31:08 +0000</lastBuildDate><atom:link href="https://krapshsa.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>Mac Build NextCloud Desktop</title><link>https://krapshsa.github.io/posts/mac-build-nextcloud-desktop/</link><pubDate>Mon, 24 Apr 2023 02:31:08 +0000</pubDate><guid>https://krapshsa.github.io/posts/mac-build-nextcloud-desktop/</guid><description>KRAPSHSA'S BLOG https://krapshsa.github.io/posts/mac-build-nextcloud-desktop/ -&lt;h1 id="mac-build-nextcloud-desktop">Mac Build NextCloud Desktop&lt;/h1>
+&lt;hr>
+&lt;h1 id="前言">前言&lt;/h1>
+&lt;p>照官方的指引，沒有辦法 Build 起來，在此紀錄踩過的坑。&lt;/p>
+&lt;h1 id="官方文件">官方文件&lt;/h1>
+&lt;p>&lt;a href="https://docs.nextcloud.com/desktop/3.8/building.html#macos-development-build">Appendix A: Building the Client — Nextcloud Client Manual 3.8.1 documentation&lt;/a>&lt;/p>
+&lt;p>&lt;a href="https://github.com/nextcloud/desktop/wiki/System-requirements-for-compiling-the-desktop-client">System requirements for compiling the desktop client&lt;/a>&lt;/p>
+&lt;h1 id="坑">坑&lt;/h1>
+&lt;h2 id="qtkeychain-依賴-qt6">&lt;code>qtkeychain&lt;/code> 依賴 qt6&lt;/h2>
+&lt;p>&lt;code>Nextcloud&lt;/code> 需要用 qt5 去 build，但是用 &lt;code>brew&lt;/code> 安裝 &lt;code>qtkeychain&lt;/code> 的話，&lt;/p>
+&lt;p>最新版本 bottle 內只有 &lt;code>libqt6keychain.dylib&lt;/code> 而沒有 &lt;code>libqt5keychain.dylib&lt;/code> 。&lt;/p>
+&lt;h3 id="解法">解法&lt;/h3>
+&lt;p>從 &lt;code>github&lt;/code> 上面抓舊版本的 &lt;code>qtkeychain.rb&lt;/code> 來用可以解決：&lt;/p>
+&lt;p>&lt;a href="https://github.com/Homebrew/homebrew-core/blob/11917de6acdc546c28dcf36652f5467c47136a79/Formula/qtkeychain.rb">homebrew-core/qtkeychain.rb at 11917de6acdc546c28dcf36652f5467c47136a79 · Homebrew/homebrew-core&lt;/a>&lt;/p>
+&lt;p>下載之後安裝：&lt;/p>
+&lt;pre>&lt;code>brew install qtkeychain.rb
+&lt;/code>&lt;/pre>
+&lt;h2 id="openssl-需要-11-版">openssl 需要 1.1 版&lt;/h2>
+&lt;h3 id="解法ㄧ">解法ㄧ&lt;/h3>
+&lt;p>這個在 github 有寫到，但是官網關於環境變數的文件寫錯了：&lt;/p>
+&lt;p>&lt;code>.nextcloud_build_variables&lt;/code>&lt;/p>
+&lt;p>官網的：&lt;/p>
+&lt;pre>&lt;code>export OPENSSL_ROOT_DIR=$(brew --prefix openssl)
+&lt;/code>&lt;/pre>
+&lt;p>要改成：&lt;/p>
+&lt;pre>&lt;code>export OPENSSL_ROOT_DIR=$(brew --prefix openssl@1.1)
+&lt;/code>&lt;/pre>
+&lt;h3 id="解法二">解法二&lt;/h3>
+&lt;p>但是我不喜歡第一個做法，所以我這樣做：&lt;/p>
+&lt;p>&lt;code>cmake&lt;/code> 加上參數&lt;/p>
+&lt;pre>&lt;code>-DOPENSSL_ROOT_DIR=$(brew --prefix openssl@1.1)
+&lt;/code>&lt;/pre>
+&lt;p>完整指令 (在 build 資料夾內下)&lt;/p>
+&lt;pre>&lt;code>cmake -DOPENSSL_ROOT_DIR=$(brew --prefix openssl@1.1) -DCMAKE_PREFIX_PATH=/opt/homebrew/opt/qt@5/lib/cmake -DCMAKE_BUILD_TYPE=&amp;quot;Debug&amp;quot; ..
+&lt;/code>&lt;/pre>
+&lt;ul>
+&lt;li>問題四：inkscape
+&lt;ul>
+&lt;li>brew install inkscape&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;h2 id="qt5core-找不到-macx-clangqt5network-找不到-libqgenericbearerdylibqt5gui-找不到-libqcocoadylib-等">Qt5Core 找不到 &lt;code>macx-clang&lt;/code>，Qt5Network 找不到 &lt;code>libqgenericbearer.dylib&lt;/code>，Qt5Gui 找不到 &lt;code>libqcocoa.dylib&lt;/code> 等&lt;/h2>
+&lt;h3 id="錯誤訊息">錯誤訊息&lt;/h3>
+&lt;pre>&lt;code>CMake Error at /opt/homebrew/lib/cmake/Qt5Core/Qt5CoreConfig.cmake:14 (message):
+The imported target &amp;quot;Qt5::Core&amp;quot; references the file
+&amp;quot;/opt/homebrew/.//mkspecs/macx-clang&amp;quot;
+but this file does not exist. Possible reasons include:
+* The file was deleted, renamed, or moved to another location.
+* An install or uninstall procedure did not complete successfully.
+* The installation package was faulty and contained
+&amp;quot;/opt/homebrew/lib/cmake/Qt5Core/Qt5CoreConfigExtras.cmake&amp;quot;
+but not all the files it references.
+Call Stack (most recent call first):
+/opt/homebrew/lib/cmake/Qt5Core/Qt5CoreConfigExtras.cmake:56 (_qt5_Core_check_file_exists)
+/opt/homebrew/lib/cmake/Qt5Core/Qt5CoreConfig.cmake:227 (include)
+src/CMakeLists.txt:9 (find_package)
+CMake Error at /opt/homebrew/lib/cmake/Qt5Network/Qt5NetworkConfig.cmake:14 (message):
+The imported target &amp;quot;Qt5::Network&amp;quot; references the file
+&amp;quot;/opt/homebrew/plugins/bearer/libqgenericbearer.dylib&amp;quot;
+but this file does not exist. Possible reasons include:
+* The file was deleted, renamed, or moved to another location.
+* An install or uninstall procedure did not complete successfully.
+* The installation package was faulty and contained
+&amp;quot;/opt/homebrew/lib/cmake/Qt5Network/Qt5Network_QGenericEnginePlugin.cmake&amp;quot;
+but not all the files it references.
+Call Stack (most recent call first):
+/opt/homebrew/lib/cmake/Qt5Network/Qt5NetworkConfig.cmake:214 (_qt5_Network_check_file_exists)
+/opt/homebrew/lib/cmake/Qt5Network/Qt5Network_QGenericEnginePlugin.cmake:5 (_populate_Network_plugin_properties)
+/opt/homebrew/lib/cmake/Qt5Network/Qt5NetworkConfig.cmake:223 (include)
+src/CMakeLists.txt:15 (find_package)
+CMake Error at /opt/homebrew/lib/cmake/Qt5Gui/Qt5GuiConfig.cmake:14 (message):
+The imported target &amp;quot;Qt5::Gui&amp;quot; references the file
+&amp;quot;/opt/homebrew/plugins/platforms/libqcocoa.dylib&amp;quot;
+but this file does not exist. Possible reasons include:
+* The file was deleted, renamed, or moved to another location.
+* An install or uninstall procedure did not complete successfully.
+* The installation package was faulty and contained
+&amp;quot;/opt/homebrew/lib/cmake/Qt5Gui/Qt5Gui_QCocoaIntegrationPlugin.cmake&amp;quot;
+but not all the files it references.
+Call Stack (most recent call first):
+/opt/homebrew/lib/cmake/Qt5Gui/Qt5GuiConfig.cmake:214 (_qt5_Gui_check_file_exists)
+/opt/homebrew/lib/cmake/Qt5Gui/Qt5Gui_QCocoaIntegrationPlugin.cmake:5 (_populate_Gui_plugin_properties)
+/opt/homebrew/lib/cmake/Qt5Gui/Qt5GuiConfig.cmake:223 (include)
+/opt/homebrew/lib/cmake/Qt5Quick/Qt5QuickConfig.cmake:93 (find_package)
+/opt/homebrew/lib/cmake/Qt5WebEngineCore/Qt5WebEngineCoreConfig.cmake:93 (find_package)
+/opt/homebrew/lib/cmake/Qt5WebEngineWidgets/Qt5WebEngineWidgetsConfig.cmake:93 (find_package)
+src/CMakeLists.txt:33 (find_package)
+&lt;/code>&lt;/pre>
+&lt;h3 id="解法-1">解法&lt;/h3>
+&lt;p>&lt;code>cmake&lt;/code> 加上參數&lt;/p>
+&lt;pre>&lt;code>-DCMAKE_PREFIX_PATH=$(brew --prefix qt5)/lib/cmake
+&lt;/code>&lt;/pre>
+&lt;p>完整指令 (在 build 資料夾內下)&lt;/p>
+&lt;pre>&lt;code>cmake -DOPENSSL_ROOT_DIR=$(brew --prefix openssl@1.1) -DCMAKE_PREFIX_PATH=/opt/homebrew/opt/qt@5/lib/cmake -DCMAKE_BUILD_TYPE=&amp;quot;Debug&amp;quot; ..
+&lt;/code>&lt;/pre>
+&lt;h2 id="找不到-kf5archive">找不到 &lt;code>KF5Archive&lt;/code>&lt;/h2>
+&lt;p>官方沒說要裝這個，但 Mac 版好像真用不到這個模組？&lt;/p>
+&lt;p>也許可以參照 &lt;code>argp.h&lt;/code> 的處理方式，讓她跳過，但是我選擇先不改他的 &lt;code>CMakeLists.txt&lt;/code>&lt;/p>
+&lt;h3 id="錯誤訊息-1">錯誤訊息&lt;/h3>
+&lt;pre>&lt;code>CMake Error at src/gui/CMakeLists.txt:3 (find_package):
+By not providing &amp;quot;FindKF5Archive.cmake&amp;quot; in CMAKE_MODULE_PATH this project
+has asked CMake to find a package configuration file provided by
+&amp;quot;KF5Archive&amp;quot;, but CMake did not find one.
+Could not find a package configuration file provided by &amp;quot;KF5Archive&amp;quot; with
+any of the following names:
+KF5ArchiveConfig.cmake
+kf5archive-config.cmake
+Add the installation prefix of &amp;quot;KF5Archive&amp;quot; to CMAKE_PREFIX_PATH or set
+&amp;quot;KF5Archive_DIR&amp;quot; to a directory containing one of the above files. If
+&amp;quot;KF5Archive&amp;quot; provides a separate development package or SDK, be sure it has
+been installed.
+&lt;/code>&lt;/pre>
+&lt;h3 id="解法-2">解法&lt;/h3>
+&lt;pre>&lt;code>brew install karchive
+&lt;/code>&lt;/pre>
+&lt;h2 id="缺少轉-icon-的軟體">缺少轉 Icon 的軟體&lt;/h2>
+&lt;h3 id="錯誤訊息-2">錯誤訊息&lt;/h3>
+&lt;pre>&lt;code>CMake Error at cmake/modules/GenerateIconsUtils.cmake:6 (find_program):
+Could not find SVG_CONVERTER using the following names: inkscape,
+inkscape.exe, rsvg-convert
+Call Stack (most recent call first):
+src/gui/CMakeLists.txt:366 (include)
+&lt;/code>&lt;/pre>
+&lt;h3 id="解法-3">解法&lt;/h3>
+&lt;p>我目前是用 &lt;code>inkscape&lt;/code> 這個軟體處理，但是他會在圖形介面上開啟，轉完後自動關閉。&lt;br>
+在 SSH 登入的情況下能不能動不知道。&lt;/p>
+&lt;pre>&lt;code>brew install inkscape&lt;/code>&lt;/pre>
+- https://krapshsa.github.io/posts/mac-build-nextcloud-desktop/ - © 2007 - 2022 krapshsa</description></item><item><title>Grind 75 Week 2 回顧</title><link>https://krapshsa.github.io/posts/grind-75-week-2/</link><pubDate>Tue, 23 Aug 2022 16:25:00 +0000</pubDate><guid>https://krapshsa.github.io/posts/grind-75-week-2/</guid><description>KRAPSHSA'S BLOG https://krapshsa.github.io/posts/grind-75-week-2/ -&lt;h1 id="grind-75-week-2-回顧">Grind 75 Week 2 回顧&lt;/h1>
 &lt;hr>
 &lt;h2 id="小心得">小心得&lt;/h2>
 &lt;p>有一些題目第一次寫，寫不出來了。例如 &lt;a href="https://leetcode.com/problems/climbing-stairs">Climbing Stairs&lt;/a>&lt;/p>
@@ -838,56 +966,4 @@ exit 1
 fi
 }
 down&lt;/code>&lt;/pre>
-- https://krapshsa.github.io/posts/container-stack-log-driver-docker-stack-rm/ - © 2007 - 2022 krapshsa</description></item><item><title>OwnCloud MariaDB mysqldump 失敗</title><link>https://krapshsa.github.io/posts/owncloud-mariadb-mysqldump/</link><pubDate>Wed, 27 Jul 2022 06:58:00 +0000</pubDate><guid>https://krapshsa.github.io/posts/owncloud-mariadb-mysqldump/</guid><description>KRAPSHSA'S BLOG https://krapshsa.github.io/posts/owncloud-mariadb-mysqldump/ -&lt;h1 id="owncloud-mariadb-mysqldump-失敗">OwnCloud MariaDB mysqldump 失敗&lt;/h1>
-&lt;h2 id="起因">起因&lt;/h2>
-&lt;p>近期遭遇 &lt;code>mysqldump&lt;/code> 備份 OwnCloud 的 DB 結果 crash 的問題&lt;/p>
-&lt;p>google 了一下發現 NextCloud 也有人發生類似的問題&lt;/p>
-&lt;p>&lt;a href="https://help.nextcloud.com/t/table-oc-filecache-extended-corrupt/123149">Table &lt;code>oc_filecache_extended&lt;/code> corrupt?&lt;/a>&lt;/p>
-&lt;p>摘錄連結內的錯誤訊息：&lt;/p>
-&lt;pre>&lt;code>Thread pointer: 0x8548068d8
-Attempting backtrace. You can use the following information to find out
-where mysqld died. If you see no messages after this, something went
-terribly wrong...
-stack_bottom = 0x7fffdf76cf38 thread_stack 0x3c000
-0x12fcbfc &amp;lt;my_print_stacktrace+0x3c&amp;gt; at /usr/local/libexec/mariadbd
-0xc6330f &amp;lt;handle_fatal_signal+0x28f&amp;gt; at /usr/local/libexec/mariadbd
-0x8018f7de0 &amp;lt;pthread_sigmask+0x530&amp;gt; at /lib/libthr.so.3
-Trying to get some variables.
-Some pointers may be invalid and cause the dump to abort.
-Query (0x85484dab0): show fields from `oc_cards`
-Connection ID (thread ID): 4
-Status: NOT_KILLED
-&lt;/code>&lt;/pre>
-&lt;p>有問題的語句就是這條：&lt;/p>
-&lt;pre>&lt;code>show fields from &amp;lt;TABLE&amp;gt;
-&lt;/code>&lt;/pre>
-&lt;p>執行檢查，但是結果也全部都是 OK&lt;/p>
-&lt;pre>&lt;code>mysqlcheck --all-databases
-&lt;/code>&lt;/pre>
-&lt;h2 id="workaround">Workaround&lt;/h2>
-&lt;p>由於這台機器還有人在用，要想辦法趕快讓服務正常。&lt;/p>
-&lt;p>經過多方嘗試，目前有效的做法如下：&lt;/p>
-&lt;ol>
-&lt;li>
-&lt;p>開啟一台相同設定的新 DB，為了讓他產生好 DB 基本資料&lt;/p>
-&lt;pre>&lt;code> docker run -v ${PWD}/data:/bitnami/mariadb/data -p 3306:3306 -e MARIADB_ROOT_PASSWORD=mypassword -d bitnami/mariadb:10.5.15
-&lt;/code>&lt;/pre>
-&lt;/li>
-&lt;li>
-&lt;p>關閉新 DB&lt;/p>
-&lt;pre>&lt;code> docker stop &amp;lt;db 的 id&amp;gt;
-&lt;/code>&lt;/pre>
-&lt;/li>
-&lt;li>
-&lt;p>複製 DB 資料夾下， &lt;code>ibdata1&lt;/code> 與 &lt;code>owncloud&lt;/code> 的資料夾到新 DB 資料夾下&lt;/p>
-&lt;/li>
-&lt;li>
-&lt;p>再次啟動新 DB&lt;/p>
-&lt;/li>
-&lt;/ol>
-&lt;p>之後也試著去找出原因，但是連 core file 都沒辦法產生所以沒辦法 GDB。&lt;/p>
-&lt;h2 id="參考資料">參考資料&lt;/h2>
-&lt;p>&lt;a href="https://blog.csdn.net/hawht/article/details/84246261">MariaDB Error：1932 Table doesn&amp;rsquo;t exist in engine 的解决方法_u014461454的博客-CSDN博客&lt;/a>&lt;/p>
-&lt;p>&lt;a href="https://blog.path8.net/archives/7608.html">MySQL/MariaDB已被锁表运行中热复制为副本/innodb表错误Table xx doesn&amp;rsquo;t exist in engine处理&lt;/a>&lt;/p>
-&lt;p>&lt;a href="https://dba.stackexchange.com/questions/62989/how-does-innodb-store-tables-in-ibdata-file">How does InnoDB store tables in ibdata file?&lt;/a>&lt;/p>
-- https://krapshsa.github.io/posts/owncloud-mariadb-mysqldump/ - © 2007 - 2022 krapshsa</description></item></channel></rss>
+- https://krapshsa.github.io/posts/container-stack-log-driver-docker-stack-rm/ - © 2007 - 2022 krapshsa</description></item></channel></rss>

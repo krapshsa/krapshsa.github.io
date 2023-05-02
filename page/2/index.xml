@@ -1,4 +1,56 @@
-<?xml-stylesheet href="/rss.xsl" type="text/xsl"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>KRAPSHSA'S BLOG</title><link>https://krapshsa.github.io/</link><description>Recent content on KRAPSHSA'S BLOG</description><generator>Hugo -- gohugo.io</generator><language>zh-tw</language><copyright>© 2007 - 2022 krapshsa</copyright><lastBuildDate>Tue, 23 Aug 2022 16:25:00 +0000</lastBuildDate><atom:link href="https://krapshsa.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>docker swarm 環境設定 firewalld</title><link>https://krapshsa.github.io/posts/docker-swarm-firewalld/</link><pubDate>Wed, 22 Jun 2022 08:47:00 +0000</pubDate><guid>https://krapshsa.github.io/posts/docker-swarm-firewalld/</guid><description>KRAPSHSA'S BLOG https://krapshsa.github.io/posts/docker-swarm-firewalld/ -&lt;h1 id="docker-swarm-環境設定-firewalld">docker swarm 環境設定 firewalld&lt;/h1>
+<?xml-stylesheet href="/rss.xsl" type="text/xsl"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>KRAPSHSA'S BLOG</title><link>https://krapshsa.github.io/</link><description>Recent content on KRAPSHSA'S BLOG</description><generator>Hugo -- gohugo.io</generator><language>zh-tw</language><copyright>© 2007 - 2022 krapshsa</copyright><lastBuildDate>Mon, 24 Apr 2023 02:31:08 +0000</lastBuildDate><atom:link href="https://krapshsa.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>OwnCloud MariaDB mysqldump 失敗</title><link>https://krapshsa.github.io/posts/owncloud-mariadb-mysqldump/</link><pubDate>Wed, 27 Jul 2022 06:58:00 +0000</pubDate><guid>https://krapshsa.github.io/posts/owncloud-mariadb-mysqldump/</guid><description>KRAPSHSA'S BLOG https://krapshsa.github.io/posts/owncloud-mariadb-mysqldump/ -&lt;h1 id="owncloud-mariadb-mysqldump-失敗">OwnCloud MariaDB mysqldump 失敗&lt;/h1>
+&lt;h2 id="起因">起因&lt;/h2>
+&lt;p>近期遭遇 &lt;code>mysqldump&lt;/code> 備份 OwnCloud 的 DB 結果 crash 的問題&lt;/p>
+&lt;p>google 了一下發現 NextCloud 也有人發生類似的問題&lt;/p>
+&lt;p>&lt;a href="https://help.nextcloud.com/t/table-oc-filecache-extended-corrupt/123149">Table &lt;code>oc_filecache_extended&lt;/code> corrupt?&lt;/a>&lt;/p>
+&lt;p>摘錄連結內的錯誤訊息：&lt;/p>
+&lt;pre>&lt;code>Thread pointer: 0x8548068d8
+Attempting backtrace. You can use the following information to find out
+where mysqld died. If you see no messages after this, something went
+terribly wrong...
+stack_bottom = 0x7fffdf76cf38 thread_stack 0x3c000
+0x12fcbfc &amp;lt;my_print_stacktrace+0x3c&amp;gt; at /usr/local/libexec/mariadbd
+0xc6330f &amp;lt;handle_fatal_signal+0x28f&amp;gt; at /usr/local/libexec/mariadbd
+0x8018f7de0 &amp;lt;pthread_sigmask+0x530&amp;gt; at /lib/libthr.so.3
+Trying to get some variables.
+Some pointers may be invalid and cause the dump to abort.
+Query (0x85484dab0): show fields from `oc_cards`
+Connection ID (thread ID): 4
+Status: NOT_KILLED
+&lt;/code>&lt;/pre>
+&lt;p>有問題的語句就是這條：&lt;/p>
+&lt;pre>&lt;code>show fields from &amp;lt;TABLE&amp;gt;
+&lt;/code>&lt;/pre>
+&lt;p>執行檢查，但是結果也全部都是 OK&lt;/p>
+&lt;pre>&lt;code>mysqlcheck --all-databases
+&lt;/code>&lt;/pre>
+&lt;h2 id="workaround">Workaround&lt;/h2>
+&lt;p>由於這台機器還有人在用，要想辦法趕快讓服務正常。&lt;/p>
+&lt;p>經過多方嘗試，目前有效的做法如下：&lt;/p>
+&lt;ol>
+&lt;li>
+&lt;p>開啟一台相同設定的新 DB，為了讓他產生好 DB 基本資料&lt;/p>
+&lt;pre>&lt;code> docker run -v ${PWD}/data:/bitnami/mariadb/data -p 3306:3306 -e MARIADB_ROOT_PASSWORD=mypassword -d bitnami/mariadb:10.5.15
+&lt;/code>&lt;/pre>
+&lt;/li>
+&lt;li>
+&lt;p>關閉新 DB&lt;/p>
+&lt;pre>&lt;code> docker stop &amp;lt;db 的 id&amp;gt;
+&lt;/code>&lt;/pre>
+&lt;/li>
+&lt;li>
+&lt;p>複製 DB 資料夾下， &lt;code>ibdata1&lt;/code> 與 &lt;code>owncloud&lt;/code> 的資料夾到新 DB 資料夾下&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>再次啟動新 DB&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;p>之後也試著去找出原因，但是連 core file 都沒辦法產生所以沒辦法 GDB。&lt;/p>
+&lt;h2 id="參考資料">參考資料&lt;/h2>
+&lt;p>&lt;a href="https://blog.csdn.net/hawht/article/details/84246261">MariaDB Error：1932 Table doesn&amp;rsquo;t exist in engine 的解决方法_u014461454的博客-CSDN博客&lt;/a>&lt;/p>
+&lt;p>&lt;a href="https://blog.path8.net/archives/7608.html">MySQL/MariaDB已被锁表运行中热复制为副本/innodb表错误Table xx doesn&amp;rsquo;t exist in engine处理&lt;/a>&lt;/p>
+&lt;p>&lt;a href="https://dba.stackexchange.com/questions/62989/how-does-innodb-store-tables-in-ibdata-file">How does InnoDB store tables in ibdata file?&lt;/a>&lt;/p>
+- https://krapshsa.github.io/posts/owncloud-mariadb-mysqldump/ - © 2007 - 2022 krapshsa</description></item><item><title>docker swarm 環境設定 firewalld</title><link>https://krapshsa.github.io/posts/docker-swarm-firewalld/</link><pubDate>Wed, 22 Jun 2022 08:47:00 +0000</pubDate><guid>https://krapshsa.github.io/posts/docker-swarm-firewalld/</guid><description>KRAPSHSA'S BLOG https://krapshsa.github.io/posts/docker-swarm-firewalld/ -&lt;h1 id="docker-swarm-環境設定-firewalld">docker swarm 環境設定 firewalld&lt;/h1>
 &lt;h2 id="起因">起因&lt;/h2>
 &lt;h2 id="事前準備">事前準備&lt;/h2>
 &lt;pre>&lt;code>sudo iptables -t filter -F
