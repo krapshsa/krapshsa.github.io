@@ -14,6 +14,8 @@ google 了一下發現 NextCloud 也有人發生類似的問題
 
 [Table `oc_filecache_extended` corrupt?](https://help.nextcloud.com/t/table-oc-filecache-extended-corrupt/123149)
 
+{{< br >}}
+
 摘錄連結內的錯誤訊息：
 
     Thread pointer: 0x8548068d8
@@ -32,13 +34,19 @@ google 了一下發現 NextCloud 也有人發生類似的問題
     Connection ID (thread ID): 4
     Status: NOT_KILLED
 
+{{< br >}}
+
 有問題的語句就是這條：
 
     show fields from <TABLE>
 
+{{< br >}}
+
 執行檢查，但是結果也全部都是 OK
 
     mysqlcheck --all-databases
+
+{{< br >}}
 
 ## Workaround
 
@@ -55,7 +63,11 @@ google 了一下發現 NextCloud 也有人發生類似的問題
 3. 複製 DB 資料夾下， `ibdata1` 與 `owncloud` 的資料夾到新 DB 資料夾下
 4. 再次啟動新 DB
 
+{{< br >}}
+
 之後也試著去找出原因，但是連 core file 都沒辦法產生所以沒辦法 GDB。
+
+{{< br >}}
 
 ## 參考資料
 

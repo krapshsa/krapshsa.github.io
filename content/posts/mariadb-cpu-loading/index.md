@@ -14,6 +14,8 @@ tags: [mariadb]
 
 為了要可以比較精準地改善問題，做了一些研 (goo) 究 (gle)。
 
+{{< br >}}
+
 ## 症狀
 
 1. 用 TOP 只看得到 CPU 吃滿，但是記憶體的狀況是 OK 的
@@ -24,6 +26,8 @@ tags: [mariadb]
     ![](Screen_Shot_2022-08-04_at_6-4c435945-644d-404e-81b1-f95682c8e20e.54.25_PM.png)
 3. 約好停服務之後，不管三七二十一先 `OPTIMIZE TABLE` 也沒有用
 4. 卡住的前幾名都是 UPDATE，一度懷疑是寫入的問題，但是實際找一個測試資料 Insert / Update 都很快，把這個 UPDATE 相關的 Code 拔掉也沒有用。
+
+{{< br >}}
 
 ## 修復流程
 
@@ -40,6 +44,8 @@ tags: [mariadb]
 1. 單從 pid 只會看到 process 很忙，看不出是哪個 command 很忙，因為是 multi-thread。
 2. 想辦法找到 thread id ，看看是哪個 thread 在忙。
 3. 有 thread id 之後就可以用， `performance_schema.threads` 找到 `THREAD_OS_ID` 對應的 Command。
+
+{{< br >}}
 
 ### 我的流程
 
@@ -76,6 +82,8 @@ tags: [mariadb]
 
 SLA 未達承諾是要被罰的，當時這個方法有用就先頂著用了。
 
+{{< br >}}
+
 ## 事後諸葛
 
 在現場時憑著一股直覺，覺得用到 `fid` + `path` 就去建構這兩個的聯合索引，
@@ -93,6 +101,8 @@ SLA 未達承諾是要被罰的，當時這個方法有用就先頂著用了。
 
 1. 只建 `path` 可不可以 → 基數算大，所以想嘗試
 2. 反過來建成 `path` + `fid` 會不會更好 → 基數大的放前面，想試試看
+
+{{< br >}}
 
 ## 參考資料
 

@@ -16,6 +16,8 @@ tags: [C]
 
 但是 C 我已經忘得差不多了，想找一個簡單可以做到類似效果的方法。
 
+{{< br >}}
+
 ## 目前解法
 
 不囉唆，先上 code
@@ -29,14 +31,20 @@ tags: [C]
     ![](c-mock-9adcb40d-b2d3-4874-9829-170784e9f812.png)
 2. 我想要不改變 `foo.c` ，讓測試 (`main.c` ) 可以不去真的用到 `config_load()` 
 
+{{< br >}}
+
 其實這就相當於寫測試：
 
  `main()` 是 Test，而 `foo.c` 的 `foo()` 是我的 SUT (System Under Test)。
+
+{{< br >}}
 
 手法就是 Wrap，根據 `ld` 的 Man Page：
 
 > `--wrap=symbol`
 >        Use a wrapper function for symbol.  Any undefined reference to symbol will be resolved to "`__wrap_symbol`".  Any undefined reference to "`__real_symbol`" will be resolved to symbol.
+
+{{< br >}}
 
 操作步驟：
 
@@ -46,6 +54,8 @@ tags: [C]
 
 2. Caller 可以使用加上 `__real_` 開頭的函式，就可以呼叫到原始的實作 (Optional)。
 3. 編譯的參數加上 `-Wl,--wrap=<symbol>`
+
+{{< br >}}
 
 可以用 nm 指令看一下編出來的 `.o`
 
@@ -68,6 +78,8 @@ U: 表示這個 symbol 是 undefined
                      U foo
     0000000000000011 T main
                      U puts
+
+{{< br >}}
 
 ## 常犯錯誤
 
@@ -104,6 +116,8 @@ U: 表示這個 symbol 是 undefined
 所以這告訴我們實作 & 寫測試的時候把要 Mock 的東西切出去，
 
 就可以用這個手法來替換掉實作，也就是說要把相依但是職責不應該屬於我的 Code 另外放。
+
+{{< br >}}
 
 ## 另外一個方法： `#ifndef ... #define ... #endif`
 
@@ -154,11 +168,15 @@ U: 表示這個 symbol 是 undefined
     clean:
     	rm *.o main
 
+{{< br >}}
+
 應該是可以搭配 Target-specific Variable Values 編出 production / development 的 `foo.o`
 
 感謝大神同事給的參考資料：
 
 [Target-specific (GNU make)](https://www.gnu.org/software/make/manual/html_node/Target_002dspecific.html)
+
+{{< br >}}
 
 ## 參考資料
 

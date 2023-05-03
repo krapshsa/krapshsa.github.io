@@ -26,6 +26,8 @@ tags: [javascript]
 
 後來想要表達出 html 的階層結構，想用使用巢狀的方式使用 template literal
 
+{{< br >}}
+
 ## 解方
 
 要用 function 來做的話可以使用 IIFE
@@ -55,6 +57,8 @@ tags: [javascript]
 但是用在比較長的 `html` 來說比較能看出結構
 
 [JSFiddle](https://jsfiddle.net/4h2n9L8t/)
+
+{{< br >}}
 
 ## 參考資料
 

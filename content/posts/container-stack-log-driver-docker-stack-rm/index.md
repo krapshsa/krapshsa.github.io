@@ -18,6 +18,8 @@ tags: [docker]
 
 猜測因為沒辦法保證 `fluentd` 在最後一個關閉導致出錯了。
 
+{{< br >}}
+
 ## 重製步驟
 
 1. 移除 docker stack
@@ -33,6 +35,8 @@ tags: [docker]
     ID                          NAME                          IMAGE                        NODE                    DESIRED STATE   CURRENT STATE                ERROR     PORTS
     5fllkwthpur60gzgeqq4cow48   i1i65yn2b35jqsfqk7gb9y7l8.1   my-clamav:2022-0406-145048   localhost.localdomain   Remove          Running about a minute ago
 
+{{< br >}}
+
 檢查系統的 Log，有出現如下訊息 (我是 CentOS)：
 
     sudo cat /var/log/messages | grep 3c902d2962f7
@@ -46,6 +50,8 @@ tags: [docker]
     Jul 28 11:12:19 localhost dockerd[1271313]: time="2022-07-28T11:12:19.902248293+08:00" level=error msg="Error getting service 3c902d2962f7: service 3c902d2962f7 not found"
     Jul 28 11:12:19 localhost dockerd[1271313]: time="2022-07-28T11:12:19.905022331+08:00" level=error msg="Error getting task 3c902d2962f7: task 3c902d2962f7 not found"
     Jul 28 11:12:19 localhost dockerd[1271313]: time="2022-07-28T11:12:19.906474336+08:00" level=error msg="Error getting node 3c902d2962f7: node 3c902d2962f7 not found"
+
+{{< br >}}
 
 ## 猜測
 
@@ -74,6 +80,8 @@ tags: [docker]
 接著移除掉整個 stack。
 
 但是發現儘管 `docker ps` 看到 container 還在，但 pid 已經找不到了。
+
+{{< br >}}
 
 ## Workaround
 
@@ -127,3 +135,5 @@ tags: [docker]
     }
     
     down
+
+{{< br >}}

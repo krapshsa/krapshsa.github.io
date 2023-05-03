@@ -16,6 +16,8 @@ JetBrains IDE 會自動偵測有沒有 Git ，在 Windows 上如果沒有先裝�
 
 Git for Windows 自帶了一個很像 Linux 的環境，但是卻很難用它開始進行 C 的開發。
 
+{{< br >}}
+
 ## 古早味做法
 
 [Dev-C++ - 维基百科，自由的百科全书](https://zh.wikipedia.org/zh-tw/Dev-C%2B%2B)
@@ -40,6 +42,8 @@ Code::Blocks 跟 Dev-C++ 是 Windows 上的 C/C++ IDE，
 
 不過概念應該是相同的，有些東西 Windows API 不支援就不能用，例如 `fork()` 。
 
+{{< br >}}
+
 ## 裝 git on windows 跑出來的 MinGW
 
 ![](gw1-fef1084f-cd1b-44fc-aae8-ffbf6efd0094.png)
@@ -53,6 +57,8 @@ Code::Blocks 跟 Dev-C++ 是 Windows 上的 C/C++ IDE，
 但進到 bash 裡面卻發現沒有 make 可以用，於是就想要模仿 Linux 在上面用套件管理器裝一些套件。
 
 但是在找資料的過程中發現，很多人都說，git for windows 是搭建在 MSYS / MSYS2 上面，那 MSYS 又是什麼？
+
+{{< br >}}
 
 ## MSYS2
 
@@ -80,6 +86,8 @@ Code::Blocks 跟 Dev-C++ 是 Windows 上的 C/C++ IDE，
 - MinGW - 移植的 GCC 編譯器與工具鏈，屬於 Windows 原生。
 - MSYS2 - 基於 Cygwin 改寫，屬於模擬 POSIX
 
+{{< br >}}
+
 MSYS2 可以用 `pacman` 作為套件管理工具，但是 Git for Windows 上沒有。如果裝 Git for Windows SDK  的話就會有，但是很肥。
 
 有嘗試著下載安裝包直接裝在系統上，不過卡了一個 zstd 很麻煩，但那就是另外一個故事了。
@@ -87,6 +95,8 @@ MSYS2 可以用 `pacman` 作為套件管理工具，但是 Git for Windows 上�
 最後我自己裝了 MSYS2 ，跟 Git 分開來，就可以順利的編譯了。
 
 不過好像還有另外一個選擇，以前在學校有看老師用過，就是剛剛提到的 Cygwin。
+
+{{< br >}}
 
 ## 更像 Unix 的環境 - Cygwin
 
@@ -101,6 +111,8 @@ MSYS2 可以用 `pacman` 作為套件管理工具，但是 Git for Windows 上�
 > * a DLL (cygwin1.dll) which provides substantial POSIX API functionality.
 - 一個 GNU 和開源工具的大集合，在 Windows 上提供類似 Linux 發行版的功能
 - `cygwin1.dll` 提供大量 POSIX API 的功能
+
+{{< br >}}
 
 > Cygwin is not:
 > * a way to run native Linux apps on Windows. You must rebuild your application *from source* if you want it to run on Windows.
@@ -124,6 +136,8 @@ MSYS2 可以用 `pacman` 作為套件管理工具，但是 Git for Windows 上�
 
 ![](81Ywze2ijaL-a9de5dc3-85a0-4348-99b0-6e26fe4b45e3.jpg)
 
+{{< br >}}
+
 ## 關係圖
 
 Stack Overflow 上大神整理好的關係圖，我覺得很清楚
@@ -131,6 +145,8 @@ Stack Overflow 上大神整理好的關係圖，我覺得很清楚
 ![](apNVx-5bde4d7b-cfe8-403f-b9ba-f1a06680519a.png)
 
 出處：[https://stackoverflow.com/questions/25019057/how-are-msys-msys2-and-msysgit-related-to-each-other](https://stackoverflow.com/questions/25019057/how-are-msys-msys2-and-msysgit-related-to-each-other)
+
+{{< br >}}
 
 ## 也許是更好的方案：WSL2
 
@@ -152,6 +168,8 @@ Stack Overflow 上大神整理好的關係圖，我覺得很清楚
 正確的姿勢應該是連 IDE 都裝在 WSL 裡面，就可以解決很多 Windows 跟 WSL 溝通得困難。
 
 如果 Server 不夠強，或是怕桌機太閒了可以試試看這個方法，應該可以解決掉很多問題 (例如：不能用 rsync ，權限不一樣，換行符號不一樣 …)
+
+{{< br >}}
 
 ## 番外：在 Git Bash 上裝額外的東西是很麻煩的
 
@@ -177,6 +195,8 @@ Stack Overflow 上大神整理好的關係圖，我覺得很清楚
 - libxxhash
 
     [Package: libxxhash - MSYS2 Packages](https://packages.msys2.org/package/libxxhash?repo=msys&variant=x86_64)
+
+{{< br >}}
 
 ## 參考資料
 

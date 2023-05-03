@@ -8,6 +8,8 @@ tags: [docker]
 
 ## 起因
 
+{{< br >}}
+
 ## 事前準備
 
     sudo iptables -t filter -F
@@ -15,6 +17,8 @@ tags: [docker]
     sudo iptables -t nat -F
     sudo iptables -t nat -X
     sudo systemctl restart docker
+
+{{< br >}}
 
 ## 單台
 
@@ -40,6 +44,8 @@ tags: [docker]
       <rule ipv="ipv4" table="filter" chain="DOCKER-USER" priority="1">-p tcp -m multiport --dports 80,443 -j ACCEPT</rule>
       <rule ipv="ipv4" table="filter" chain="DOCKER-USER" priority="10">-j REJECT</rule>
     </direct>
+
+{{< br >}}
 
 ## 多台
 
@@ -70,13 +76,19 @@ tags: [docker]
       <rule ipv="ipv4" table="filter" chain="DOCKER-USER" priority="10">-j REJECT</rule>
     </direct>
 
+{{< br >}}
+
 ## 重啟
 
     sudo firewall-cmd --reload
 
+{{< br >}}
+
 ## 持久化
 
     sudo cat /etc/firewalld/direct.xml
+
+{{< br >}}
 
 ## 參考資料
 

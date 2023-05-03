@@ -14,6 +14,8 @@ tags: [C]
 
 想說幫他加上一些測試案例，幫助之後要使用的人。
 
+{{< br >}}
+
 ## 環境
 
 ### 建置方法
@@ -24,6 +26,8 @@ tags: [C]
 
 其他是這個 C lib 需要的其他 Lib，跟底下範例無關
 
+{{< br >}}
+
 `Dockerfile`
 
     FROM oraclelinux:8.6
@@ -31,6 +35,8 @@ tags: [C]
     RUN yum install -y gcc make pcre pcre-devel
     RUN yum --enablerepo=ol8_codeready_builder install -y glibc glibc-common glibc-devel glibc-headers glibc-static
     RUN rpm -ivh https://github.com/samber/criterion-rpm-package/releases/download/2.3.3/libcriterion-devel-2.3.3-2.el7.x86_64.rpm
+
+{{< br >}}
 
 ## Code
 
@@ -47,6 +53,8 @@ tags: [C]
     
     extern void sutFree(Result **ppResult);
     #endif //TEST_CRITERION_SUT_H
+
+{{< br >}}
 
 `sut.c`
 
@@ -72,6 +80,8 @@ tags: [C]
             *ppResult = NULL;
         }
     }
+
+{{< br >}}
 
 `test.c`
 
@@ -126,6 +136,8 @@ tags: [C]
         returnValueShouldBeFailed();
     }
 
+{{< br >}}
+
 `Makefile`
 
     CC = gcc -Wall
@@ -143,20 +155,28 @@ tags: [C]
     clean:
     	rm -f *.o
 
+{{< br >}}
+
 ## 結果
 
     ./test
     [====] Synthesis: Tested: 2 | Passing: 2 | Failing: 0 | Crashing: 0
 
+{{< br >}}
+
 ## 簡易說明
 
 [Getting started - Criterion 2.4.1-rc-1-g56f8f1a-dirty documentation](https://criterion.readthedocs.io/en/master/starter.html?highlight=suite#configuration-reference)
+
+{{< br >}}
 
 ### Test 基本用法
 
     Test(suite_name, test_name, .init = setup, .fini = teardown) {
         // test contents
     }
+
+{{< br >}}
 
 ### Test Suite 基本用法
 
@@ -169,6 +189,8 @@ tags: [C]
     
     Test(suite_name, test_2) {
     }
+
+{{< br >}}
 
 我實際上是這樣用：
 
@@ -183,5 +205,7 @@ tags: [C]
     }
 
 因為大家的初始化跟銷毀都一樣，不需要在 `Test` 裡面重複寫
+
+{{< br >}}
 
 ## 參考資料

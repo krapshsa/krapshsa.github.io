@@ -19,13 +19,19 @@ Week 1 的題目都是 Easy，(除了 53. Maximum Subarray 現在難度被重新
 1. 經常發生越界
 2. 不知道可以剪枝 (有時候會遞迴重複項目)
 
+{{< br >}}
+
 ## [Two Sum](https://leetcode.com/problems/two-sum)
 
 暴力法，用兩個 Loop 嘗試各種組合
 
+{{< br >}}
+
 ## [Valid Parentheses](https://leetcode.com/problems/valid-parentheses)
 
 Stack，成對的就 pop 掉，不然就塞進 Stack 內
+
+{{< br >}}
 
 ## [Merge Two Sorted Lists](https://leetcode.com/problems/merge-two-sorted-lists)
 
@@ -33,11 +39,15 @@ Stack，成對的就 pop 掉，不然就塞進 Stack 內
 
 終止條件是 List 都為空就做完了
 
+{{< br >}}
+
 ## [Best Time to Buy and Sell Stock](https://leetcode.com/problems/best-time-to-buy-and-sell-stock)
 
 買點是各個可能的谷底，在從左到右的過程中，如果遇到更低的價格，就更新潛在最佳買點。
 
 但是這題沒有要求是哪個點，所以就計算最大利潤存起來就好。
+
+{{< br >}}
 
 ## [Valid Palindrome](https://leetcode.com/problems/valid-palindrome)
 
@@ -47,9 +57,13 @@ Stack，成對的就 pop 掉，不然就塞進 Stack 內
 
 我漏掉了數字，WA 一次，這題我花比較多時間，因為第一次寫 Go 不知道到底要怎麼判斷字符。
 
+{{< br >}}
+
 ## [Invert Binary Tree](https://leetcode.com/problems/invert-binary-tree)
 
 遞迴交換，新的右邊是舊的左邊 `invertTree`，左邊也是同樣道理。
+
+{{< br >}}
 
 ## [Valid Anagram](https://leetcode.com/problems/valid-anagram)
 
@@ -58,6 +72,8 @@ Stack，成對的就 pop 掉，不然就塞進 Stack 內
 延伸題目是 unicode 怎麼辦？用 go 寫很容易，做一個 key 是 rune 的 map 就好了
 
     letterMap := make(map[rune]int)
+
+{{< br >}}
 
 ## [Binary Search](https://leetcode.com/problems/binary-search)
 
@@ -76,11 +92,15 @@ Stack，成對的就 pop 掉，不然就塞進 Stack 內
 
 並解用過的區間就不應該再用了，不然會導致無窮的做下去
 
+{{< br >}}
+
 ## [Flood Fill](https://leetcode.com/problems/flood-fill)
 
 我把指定的點的上下左右丟進 queue 裡面，再拿出來處理。
 
 要注意邊界，以及不要重複做。
+
+{{< br >}}
 
 ## [Maximum Subarray](/25ae9972307340bca1b30ddf7ae7fb41)
 
@@ -186,9 +206,13 @@ AC2
     	return lowest
     }
 
+{{< br >}}
+
 ## [Balanced Binary Tree](https://leetcode.com/problems/balanced-binary-tree)
 
 遞迴：DFS 回傳值為是否 balanced 以及深度
+
+{{< br >}}
 
 ## [Linked List Cycle](https://leetcode.com/problems/linked-list-cycle)
 
