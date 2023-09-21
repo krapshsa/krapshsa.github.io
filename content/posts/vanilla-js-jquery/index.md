@@ -24,7 +24,7 @@ tags: [javascript]
 
 {{< br >}}
 
-現在需要對這兩種系統的進行測試，並且在：
+現在需要對這兩種情境都進行測試，並且在：
 
 1. CI (linux container 中) console 可以執行
 2. IDE 可以執行
@@ -58,7 +58,8 @@ tags: [javascript]
         ├── new.js
         └── test
             ├── legacy.test.js
-    				└── new.test.js
+            └── new.test.js
+    
 
 {{< br >}}
 
@@ -85,9 +86,9 @@ tags: [javascript]
 
 {{< br >}}
 
-### **`babel/preset-env`**
+### `babel/preset-env`
 
-儘管是前端的 code ，但是是用 `Node.js` 去跑，而 `Node.js` 不支援 ES6 的 **`import`** 和 **`export`**
+儘管是前端的 code ，但是是用 `Node.js` 去跑，而 `Node.js` 不支援 ES6 的 `import` 和 `export`
 
 (當時的版本是這樣，我不知道現在最新版怎麼樣了)
 
@@ -163,9 +164,9 @@ tags: [javascript]
         }
     }
 
-`legacy.js` 會污染全域產生一個 `Share` 的 Object
+`legacy.js` 會污染全域產生一個 `Share` 的 Object。
 
-我這邊的功能是顯示分享給別人或被分享
+這邊的功能是顯示分享給別人或被分享，測試一下不同情境能不能正確顯示。
 
 {{< br >}}
 
@@ -216,7 +217,7 @@ tags: [javascript]
     1. 可能會蓋掉全域變數之類的東西
 2. 依賴必須先被處理，例如我有用到 `Settings` 所以我比需在一個更早的時機點 (我這邊是 Setup) 去建構好他的依賴。
 
-我必須自己建構一段 `html` 來讓他操作，因為 document 現在就是空空如也。
+我必須自己建構一段 `html` 來讓他操作，因為 document 還是空的。
 
 {{< br >}}
 
