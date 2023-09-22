@@ -72,7 +72,7 @@ Stack，成對的就 pop 掉，不然就塞進 Stack 內
 延伸題目是 unicode 怎麼辦？用 go 寫很容易，做一個 key 是 rune 的 map 就好了
 
 ```Go
-    letterMap := make(map[rune]int)
+letterMap := make(map[rune]int)
 ```
 
 {{< br >}}
@@ -121,68 +121,68 @@ Edge Case：全部都是負的
 WA
 
 ```Go
-    func maxSubArray(nums []int) int {
-    	maxSum := nums[0]
-    	curSum := 0
-    
-    	for i := 0; i < len(nums); i++ {
-    		curSum += nums[i]
-    		if curSum < 0 {
-    			curSum = 0
-    			continue
-    		}
-    
-    		if curSum > maxSum {
-    			maxSum = curSum
-    		}
-    	}
-    
-    	return maxSum
-    }
+func maxSubArray(nums []int) int {
+	maxSum := nums[0]
+	curSum := 0
+
+	for i := 0; i < len(nums); i++ {
+		curSum += nums[i]
+		if curSum < 0 {
+			curSum = 0
+			continue
+		}
+
+		if curSum > maxSum {
+			maxSum = curSum
+		}
+	}
+
+	return maxSum
+}
 ```
 
 AC1
 
 ```Go
-    func maxSubArray(nums []int) int {
-    	maxSum := nums[0]
-    	curSum := 0
-    
-    	for i := 0; i < len(nums); i++ {
-    		curSum += nums[i]
-    		if curSum > maxSum {
-    			maxSum = curSum
-    		}
-    		if curSum < 0 {
-    			curSum = 0
-    		}
-    	}
-    
-    	return maxSum
-    }
+func maxSubArray(nums []int) int {
+	maxSum := nums[0]
+	curSum := 0
+
+	for i := 0; i < len(nums); i++ {
+		curSum += nums[i]
+		if curSum > maxSum {
+			maxSum = curSum
+		}
+		if curSum < 0 {
+			curSum = 0
+		}
+	}
+
+	return maxSum
+}
 ```
 
 AC2
 
 ```Go
-    func maxSubArray(nums []int) int {
-    	maxSum := nums[0]
-    	curSum := nums[0]
-    
-    	for i := 1; i < len(nums); i++ {
-        if curSum < 0 {
-    			curSum = nums[i]
-        } else {
-          curSum += nums[i]
-        }
-    
-    		if curSum > maxSum {
-    			maxSum = curSum
-    		}
-    	}
-    
-    	return maxSum
+func maxSubArray(nums []int) int {
+	maxSum := nums[0]
+	curSum := nums[0]
+
+	for i := 1; i < len(nums); i++ {
+    if curSum < 0 {
+			curSum = nums[i]
+    } else {
+      curSum += nums[i]
     }
+
+		if curSum > maxSum {
+			maxSum = curSum
+		}
+	}
+
+	return maxSum
+}
 ```
 
 ## [Lowest Common Ancestor of a Binary Search Tree](https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-search-tree)
@@ -198,21 +198,21 @@ AC2
 2. 都在右側 → 右邊那個點是可能的 ancestor，往右找
 3. 其他：找到了
 ```Go
-    func lowestCommonAncestor(root, p, q *TreeNode) *TreeNode {
-    	lowest := root
-    
-    	for true {
-    		if lowest.Val > p.Val && lowest.Val > q.Val {
-    			lowest = lowest.Left
-    		} else if lowest.Val < p.Val && lowest.Val < q.Val {
-    			lowest = lowest.Right
-    		} else {
-    			break
-    		}
-    	}
-    
-    	return lowest
-    }
+func lowestCommonAncestor(root, p, q *TreeNode) *TreeNode {
+	lowest := root
+
+	for true {
+		if lowest.Val > p.Val && lowest.Val > q.Val {
+			lowest = lowest.Left
+		} else if lowest.Val < p.Val && lowest.Val < q.Val {
+			lowest = lowest.Right
+		} else {
+			break
+		}
+	}
+
+	return lowest
+}
 ```
 
 {{< br >}}

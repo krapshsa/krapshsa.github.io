@@ -17,13 +17,13 @@ tags: [javascript]
 引入 JS 的方式就是傳統的 `<script>` 標籤：
 
 ```HTML
-    <script type="text/javascript" src="/assests/legacy.js"></script>
+<script type="text/javascript" src="/assests/legacy.js"></script>
 ```
 
 部分新功能則是用上了 js module：
 
 ```HTML
-    <script type="module" src="/assets/new.js"></script>
+<script type="module" src="/assets/new.js"></script>
 ```
 
 {{< br >}}
@@ -52,19 +52,19 @@ tags: [javascript]
 ## 專案架構
 
 ```JavaScript
-    src/
-    ├── package.json
-    ├── .babelrc
-    ├── jest.config.js
-    ├── jest.setup.js
-    └── assets
-        ├── jquery-3.6.4.min.js
-        ├── legacy.js
-        ├── new.js
-        └── test
-            ├── legacy.test.js
-            └── new.test.js
-    
+src/
+├── package.json
+├── .babelrc
+├── jest.config.js
+├── jest.setup.js
+└── assets
+    ├── jquery-3.6.4.min.js
+    ├── legacy.js
+    ├── new.js
+    └── test
+        ├── legacy.test.js
+        └── new.test.js
+
 ```
 
 {{< br >}}
@@ -74,20 +74,20 @@ tags: [javascript]
 ## `package.json`
 
 ```JSON
-    {
-      "name": "OOXX",
-      "version": "1.0.0",
-      "license": "MIT",
-      "scripts": {
-        "test": "jest"
-      },
-      "devDependencies": {
-        "@babel/preset-env": "^7.20.2",
-        "jest": "^29.3.1",
-        "jest-environment-jsdom": "^29.3.1",
-        "@jest/globals": "^29.3.1"
-      }
-    }
+{
+  "name": "OOXX",
+  "version": "1.0.0",
+  "license": "MIT",
+  "scripts": {
+    "test": "jest"
+  },
+  "devDependencies": {
+    "@babel/preset-env": "^7.20.2",
+    "jest": "^29.3.1",
+    "jest-environment-jsdom": "^29.3.1",
+    "@jest/globals": "^29.3.1"
+  }
+}
 ```
 
 接下來大致解說一下我選用了哪些套件及其原因。
@@ -113,9 +113,9 @@ tags: [javascript]
 ## `.babelrc`
 
 ```JSON
-    {
-      "presets": ["@babel/preset-env"]
-    }
+{
+  "presets": ["@babel/preset-env"]
+}
 ```
 
 {{< br >}}
@@ -123,13 +123,13 @@ tags: [javascript]
 ## `jest.config.js`
 
 ```JavaScript
-    module.exports = {
-        "testEnvironment": "jsdom",
-        "setupFilesAfterEnv": ['./jest.setup.js'],
-        "testMatch": [
-            "<rootDir>/assets/test/**/*.test.js"
-        ]
-    };
+module.exports = {
+    "testEnvironment": "jsdom",
+    "setupFilesAfterEnv": ['./jest.setup.js'],
+    "testMatch": [
+        "<rootDir>/assets/test/**/*.test.js"
+    ]
+};
 ```
 
 {{< br >}}
@@ -137,16 +137,16 @@ tags: [javascript]
 ## `jest.setup.js`
 
 ```JavaScript
-    import $ from './assets/jquery-3.6.4.min.js';
-    
-    global.$ = $;
-    global.jQuery = $;
-    global.Settings = {};
-    
-    // mock t()
-    global.t = function (app, text, vars) {
-        return text;
-    }
+import $ from './assets/jquery-3.6.4.min.js';
+
+global.$ = $;
+global.jQuery = $;
+global.Settings = {};
+
+// mock t()
+global.t = function (app, text, vars) {
+    return text;
+}
 ```
 1. 注入 `jQuery` 讓我操作前端 dom 的 code 可以正常執行。
 2. 注入 `Settings` 這個是我們產品中一定要引入的 js 會產生的全域變數，在這邊造假掉
@@ -159,25 +159,25 @@ tags: [javascript]
 ## `legacy.js`
 
 ```JavaScript
-    Share = {
-        statuses: [],
-    
-        updateInfo: function () {
-            let statuses = this.statuses;
-    
-            $('#tbl > tbody  > tr').each(function() {
-              let html;
-    
-              if (Settings.currentUser == setatuses.sharer) {
-                  html = `Shared to <span>${statuses.sharee}</span>`;
-              } else {
-                  html = `Shared from <span>${statuses.sharer}</span>`;
-              }
-    
-    					$(this).children('.info').html(html)
-            });
-        }
+Share = {
+    statuses: [],
+
+    updateInfo: function () {
+        let statuses = this.statuses;
+
+        $('#tbl > tbody  > tr').each(function() {
+          let html;
+
+          if (Settings.currentUser == setatuses.sharer) {
+              html = `Shared to <span>${statuses.sharee}</span>`;
+          } else {
+              html = `Shared from <span>${statuses.sharer}</span>`;
+          }
+
+					$(this).children('.info').html(html)
+        });
     }
+}
 ```
 
 `legacy.js` 會污染全域產生一個 `Share` 的 Object。
@@ -189,42 +189,42 @@ tags: [javascript]
 ## `legacy.test.js`
 
 ```JavaScript
-    import '../legacy.js';
-    import {expect} from "@jest/globals";
-    
-    describe('test share icon', () => {
-        beforeEach(() => {
-            Share.statuses = {
-                "sharer": "user001",
-                "sharee": "user002"
-            };
-    
-            document.body.innerHTML = `
-                <table id="tbl">
-                    <tbody>
-                    <tr><td class="info"></td></tr>
-                    </tbody>
-                </table>`;
-        });
-    
-        test('render sharer', () => {
-            Settings.currentUser = 'user001';
-    
-            Share.updateInfo();
-    
-            expect($('.info').html())
-                .toEqual(`Shared to <span>user002</span>`);
-        });
-    
-        test('render sharee', () => {
-            Settings.currentUser = 'user002';
-    
-            Share.updateInfo();
-    
-            expect($('.info').html())
-                .toEqual(`Shared from <span>user001</span>`);
-        });
+import '../legacy.js';
+import {expect} from "@jest/globals";
+
+describe('test share icon', () => {
+    beforeEach(() => {
+        Share.statuses = {
+            "sharer": "user001",
+            "sharee": "user002"
+        };
+
+        document.body.innerHTML = `
+            <table id="tbl">
+                <tbody>
+                <tr><td class="info"></td></tr>
+                </tbody>
+            </table>`;
     });
+
+    test('render sharer', () => {
+        Settings.currentUser = 'user001';
+
+        Share.updateInfo();
+
+        expect($('.info').html())
+            .toEqual(`Shared to <span>user002</span>`);
+    });
+
+    test('render sharee', () => {
+        Settings.currentUser = 'user002';
+
+        Share.updateInfo();
+
+        expect($('.info').html())
+            .toEqual(`Shared from <span>user001</span>`);
+    });
+});
 ```
 
 `import '../legacy.js` 就相當於使用 `<script>` 去引入 `javascript`
@@ -244,48 +244,48 @@ tags: [javascript]
 ## `new.js`
 
 ```JavaScript
-    export function renderEngineInfo(engineInfo) {
-        $('#engine_version').html(engineInfo.engineVersion);
-        $('#virus_version').html(engineInfo.virusVersion);
-        $('#virus_time').html(engineInfo.virusLastUpdateTime);
-    }
+export function renderEngineInfo(engineInfo) {
+    $('#engine_version').html(engineInfo.engineVersion);
+    $('#virus_version').html(engineInfo.virusVersion);
+    $('#virus_time').html(engineInfo.virusLastUpdateTime);
+}
 ```
 
 ## `new.test.js`
 
 ```JavaScript
-    import {renderEngineInfo} from "../new";
-    import {describe, expect, test} from '@jest/globals';
-    
-    describe('render test', () => {
-        beforeEach(() => {
-            document.body.innerHTML = `
-                <div id="test-div">
-                    <div id="engine_version"></div>
-                    <div id="virus_version"></div>
-                    <div id="virus_time"></div>
-                </div>`;
-        });
-    
-        test('render engine info', () => {
-            let engineInfo = {
-                engineVersion: 'v1',
-                virusVersion: 'v2',
-                virusLastUpdateTime: '123456789',
-            };
-            let result = `
-                <div id="engine_version">${engineInfo.engineVersion}</div>
-                <div id="virus_version">${engineInfo.virusVersion}</div>
-                <div id="virus_time">${engineInfo.virusLastUpdateTime}</div>`;
-    
-            renderEngineInfo(engineInfo);
-    
-            let actual = document.querySelector('#test-div').innerHTML;
-    
-            expect(actual.replace(/[\r\n]/gm, ''))
-                .toEqual(result.replace(/[\r\n]/gm, ''));
-        });
+import {renderEngineInfo} from "../new";
+import {describe, expect, test} from '@jest/globals';
+
+describe('render test', () => {
+    beforeEach(() => {
+        document.body.innerHTML = `
+            <div id="test-div">
+                <div id="engine_version"></div>
+                <div id="virus_version"></div>
+                <div id="virus_time"></div>
+            </div>`;
     });
+
+    test('render engine info', () => {
+        let engineInfo = {
+            engineVersion: 'v1',
+            virusVersion: 'v2',
+            virusLastUpdateTime: '123456789',
+        };
+        let result = `
+            <div id="engine_version">${engineInfo.engineVersion}</div>
+            <div id="virus_version">${engineInfo.virusVersion}</div>
+            <div id="virus_time">${engineInfo.virusLastUpdateTime}</div>`;
+
+        renderEngineInfo(engineInfo);
+
+        let actual = document.querySelector('#test-div').innerHTML;
+
+        expect(actual.replace(/[\r\n]/gm, ''))
+            .toEqual(result.replace(/[\r\n]/gm, ''));
+    });
+});
 ```
 
 這沒什麼好解釋的，就是引入模組進行測試，我們現在的目標就是盡量模組化。
@@ -297,23 +297,23 @@ tags: [javascript]
 `oc.js`
 
 ```JavaScript
-    OC = {};
+OC = {};
 ```
 
 `share.js`
 
 ```JavaScript
-    OC.Share = {
-        doSomeThing: function() { ... }
-    };
+OC.Share = {
+    doSomeThing: function() { ... }
+};
 ```
 
 `foo.js`
 
 ```JavaScript
-    OC.Foo = {
-        doSomeThing: function () { ... }
-    }
+OC.Foo = {
+    doSomeThing: function () { ... }
+}
 ```
 
 如此一來就不會有覆蓋的問題，但還是有順序跟污染的問題。

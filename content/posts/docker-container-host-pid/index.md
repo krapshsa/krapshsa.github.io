@@ -22,10 +22,10 @@ tags: [docker]
 ### 從 host 的 pid 取得 container 內 pid
 
 1. 要知道是哪一個 container，假設 pid 是 `371817`
-```Bash
+    ```Bash
     cat /proc/371817/cgroup
-```
-```Bash
+    ```
+    ```Bash
     12:hugetlb:/docker/5796a153bb04dc86dec3348772719d3e7bf44bfa9c327e969f6b72ff878498ed
     11:rdma:/docker/5796a153bb04dc86dec3348772719d3e7bf44bfa9c327e969f6b72ff878498ed
     10:memory:/docker/5796a153bb04dc86dec3348772719d3e7bf44bfa9c327e969f6b72ff878498ed
@@ -38,17 +38,17 @@ tags: [docker]
     3:perf_event:/docker/5796a153bb04dc86dec3348772719d3e7bf44bfa9c327e969f6b72ff878498ed
     2:cpu,cpuacct:/docker/5796a153bb04dc86dec3348772719d3e7bf44bfa9c327e969f6b72ff878498ed
     1:name=systemd:/docker/5796a153bb04dc86dec3348772719d3e7bf44bfa9c327e969f6b72ff878498ed
-```
+    ```
 
     這樣就知道是 `5796a153bb04dc86dec3348772719d3e7bf44bfa9c327e969f6b72ff878498ed` 這個容器
 
 2. 從  `/proc` 取得 container 內的 pid
-```Bash
+    ```Bash
     grep -i nspid /proc/371817/status
-```
-```Bash
+    ```
+    ```Bash
     NSpid:	371817	8
-```
+    ```
 
     這樣就知道是 `8`
 
@@ -57,13 +57,13 @@ tags: [docker]
 懶惰一點：
 
 1. 取得容器 id
-```Bash
+    ```Bash
     pid=371817; cat /proc/$pid/cgroup | grep "docker" | head -n 1 | awk -F'/' '{print $3}'
-```
+    ```
 2. 取得容器內 pid
-```Bash
+    ```Bash
     pid=371817; grep -i nspid /proc/$pid/status | awk '{print $3}'
-```
+    ```
 
 {{< br >}}
 
@@ -74,14 +74,14 @@ tags: [docker]
 假設 id 是 `5796a153bb04`
 
 ```Bash
-    docker top 5796a153bb04
+docker top 5796a153bb04
 ```
 ```Bash
-    UID                 PID                 PPID                C                   STIME               TTY                 TIME                CMD
-    root                371763              371744              0                   Sep20               ?                   00:00:05            php-fpm: master process (/usr/local/etc/php-fpm.conf)
-    webmail             371816              371763              0                   Sep20               ?                   00:00:49            php-fpm: pool www
-    webmail             371817              371763              0                   Sep20               ?                   00:00:54            php-fpm: pool www
-    webmail             371843              371763              0                   Sep20               ?                   00:00:49            php-fpm: pool www
+UID                 PID                 PPID                C                   STIME               TTY                 TIME                CMD
+root                371763              371744              0                   Sep20               ?                   00:00:05            php-fpm: master process (/usr/local/etc/php-fpm.conf)
+webmail             371816              371763              0                   Sep20               ?                   00:00:49            php-fpm: pool www
+webmail             371817              371763              0                   Sep20               ?                   00:00:54            php-fpm: pool www
+webmail             371843              371763              0                   Sep20               ?                   00:00:49            php-fpm: pool www
 ```
 
 再結合第一點去過濾出真正的 pid 是哪一個
@@ -91,13 +91,13 @@ tags: [docker]
 假設容器內 pid 是 `8` 
 
 ```Bash
-    docker top 5796a153bb04 | tail -n +2 | awk '{print $2}' | xargs -I {} grep -i nspid /proc/{}/status
+docker top 5796a153bb04 | tail -n +2 | awk '{print $2}' | xargs -I {} grep -i nspid /proc/{}/status
 ```
 ```Bash
-    NSpid:	371763	1
-    NSpid:	371816	7
-    NSpid:	371817	8
-    NSpid:	371843	9
+NSpid:	371763	1
+NSpid:	371816	7
+NSpid:	371817	8
+NSpid:	371843	9
 ```
 
 這樣就知道是 `371817`
@@ -107,7 +107,7 @@ tags: [docker]
 懶惰一點：
 
 ```Bash
-    pid=8; docker top 5796a153bb04 | tail -n +2 | awk '{print $2}' | xargs -I {} grep -i nspid /proc/{}/status | awk -v pid="$pid" '$3 == pid {print $2}'
+pid=8; docker top 5796a153bb04 | tail -n +2 | awk '{print $2}' | xargs -I {} grep -i nspid /proc/{}/status | awk -v pid="$pid" '$3 == pid {print $2}'
 ```
 
 {{< br >}}

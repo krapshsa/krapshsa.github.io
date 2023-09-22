@@ -182,7 +182,7 @@ Stack Overflow 上大神整理好的關係圖，我覺得很清楚
 我們可以去 github 下載 windows 版的 `zstd.exe` 就可以在 zstd 的目錄中，從 cmd 解開得到 tar 檔：
 
 ```Bash
-    .\zstd.exe -d rsync-3.2.3-2-x86_64.pkg.tar.zst
+.\zstd.exe -d rsync-3.2.3-2-x86_64.pkg.tar.zst
 ```
 
 [Releases · facebook/zstd](https://github.com/facebook/zstd/releases)

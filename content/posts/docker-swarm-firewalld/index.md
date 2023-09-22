@@ -13,11 +13,11 @@ tags: [docker]
 ## 事前準備
 
 ```Bash
-    sudo iptables -t filter -F
-    sudo iptables -t filter -X
-    sudo iptables -t nat -F
-    sudo iptables -t nat -X
-    sudo systemctl restart docker
+sudo iptables -t filter -F
+sudo iptables -t filter -X
+sudo iptables -t nat -F
+sudo iptables -t nat -X
+sudo systemctl restart docker
 ```
 
 {{< br >}}
@@ -25,30 +25,30 @@ tags: [docker]
 ## 單台
 
 ```Bash
-    sudo firewall-cmd --permanent --direct --remove-chain ipv4 filter DOCKER-USER
-    sudo firewall-cmd --permanent --direct --remove-rules ipv4 filter DOCKER-USER
-    sudo firewall-cmd --permanent --direct --add-chain ipv4 filter DOCKER-USER
-    sudo firewall-cmd --permanent --direct --add-rule ipv4 filter DOCKER-USER 0 -p tcp -m multiport --dports 3306,24224 -s 127.0.0.1/32 -j ACCEPT
-    sudo firewall-cmd --permanent --direct --add-rule ipv4 filter DOCKER-USER 0 -p tcp -m multiport --dports 3306,24224 -j REJECT
-    sudo firewall-cmd --permanent --direct --add-rule ipv4 filter DOCKER-USER 1 -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
-    sudo firewall-cmd --permanent --direct --add-rule ipv4 filter DOCKER-USER 1 -j RETURN -s 172.16.70.0/24
-    sudo firewall-cmd --permanent --direct --add-rule ipv4 filter DOCKER-USER 1 -p tcp -m multiport --dports 80,443 -j ACCEPT
-    sudo firewall-cmd --permanent --direct --add-rule ipv4 filter DOCKER-USER 10 -j REJECT
+sudo firewall-cmd --permanent --direct --remove-chain ipv4 filter DOCKER-USER
+sudo firewall-cmd --permanent --direct --remove-rules ipv4 filter DOCKER-USER
+sudo firewall-cmd --permanent --direct --add-chain ipv4 filter DOCKER-USER
+sudo firewall-cmd --permanent --direct --add-rule ipv4 filter DOCKER-USER 0 -p tcp -m multiport --dports 3306,24224 -s 127.0.0.1/32 -j ACCEPT
+sudo firewall-cmd --permanent --direct --add-rule ipv4 filter DOCKER-USER 0 -p tcp -m multiport --dports 3306,24224 -j REJECT
+sudo firewall-cmd --permanent --direct --add-rule ipv4 filter DOCKER-USER 1 -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
+sudo firewall-cmd --permanent --direct --add-rule ipv4 filter DOCKER-USER 1 -j RETURN -s 172.16.70.0/24
+sudo firewall-cmd --permanent --direct --add-rule ipv4 filter DOCKER-USER 1 -p tcp -m multiport --dports 80,443 -j ACCEPT
+sudo firewall-cmd --permanent --direct --add-rule ipv4 filter DOCKER-USER 10 -j REJECT
 ```
 
 `/etc/firewalld/direct.xml`
 
 ```XML
-    <?xml version="1.0" encoding="utf-8"?>
-    <direct>
-      <chain ipv="ipv4" table="filter" chain="DOCKER-USER"/>
-      <rule ipv="ipv4" table="filter" chain="DOCKER-USER" priority="0">-p tcp -m multiport --dports 3306,24224 -s 127.0.0.1/32 -j ACCEPT</rule>
-      <rule ipv="ipv4" table="filter" chain="DOCKER-USER" priority="0">-p tcp -m multiport --dports 3306,24224 -j REJECT</rule>
-      <rule ipv="ipv4" table="filter" chain="DOCKER-USER" priority="1">-m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT</rule>
-      <rule ipv="ipv4" table="filter" chain="DOCKER-USER" priority="1">-j RETURN -s 172.16.70.0/24</rule>
-      <rule ipv="ipv4" table="filter" chain="DOCKER-USER" priority="1">-p tcp -m multiport --dports 80,443 -j ACCEPT</rule>
-      <rule ipv="ipv4" table="filter" chain="DOCKER-USER" priority="10">-j REJECT</rule>
-    </direct>
+<?xml version="1.0" encoding="utf-8"?>
+<direct>
+  <chain ipv="ipv4" table="filter" chain="DOCKER-USER"/>
+  <rule ipv="ipv4" table="filter" chain="DOCKER-USER" priority="0">-p tcp -m multiport --dports 3306,24224 -s 127.0.0.1/32 -j ACCEPT</rule>
+  <rule ipv="ipv4" table="filter" chain="DOCKER-USER" priority="0">-p tcp -m multiport --dports 3306,24224 -j REJECT</rule>
+  <rule ipv="ipv4" table="filter" chain="DOCKER-USER" priority="1">-m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT</rule>
+  <rule ipv="ipv4" table="filter" chain="DOCKER-USER" priority="1">-j RETURN -s 172.16.70.0/24</rule>
+  <rule ipv="ipv4" table="filter" chain="DOCKER-USER" priority="1">-p tcp -m multiport --dports 80,443 -j ACCEPT</rule>
+  <rule ipv="ipv4" table="filter" chain="DOCKER-USER" priority="10">-j REJECT</rule>
+</direct>
 ```
 
 {{< br >}}
@@ -56,34 +56,34 @@ tags: [docker]
 ## 多台
 
 ```Bash
-    sudo firewall-cmd --permanent --direct --remove-chain ipv4 filter DOCKER-USER
-    sudo firewall-cmd --permanent --direct --remove-rules ipv4 filter DOCKER-USER
-    sudo firewall-cmd --permanent --direct --add-chain ipv4 filter DOCKER-USER
-    sudo firewall-cmd --permanent --direct --add-rule ipv4 filter DOCKER-USER 0 -p tcp -m multiport --dports 2376,2377,7946,3306,24224 -s 127.0.0.1/32,172.16.21.162/32,172.16.21.163/32,172.16.21.164/32 -j ACCEPT
-    sudo firewall-cmd --permanent --direct --add-rule ipv4 filter DOCKER-USER 0 -p udp -m multiport --dports 4789,7946 -s 127.0.0.1/32,172.16.21.162/32,172.16.21.163/32,172.16.21.164/32 -j ACCEPT
-    sudo firewall-cmd --permanent --direct --add-rule ipv4 filter DOCKER-USER 0 -p tcp -m multiport --dports 3306,24224,2376,2377,7946 -j REJECT
-    sudo firewall-cmd --permanent --direct --add-rule ipv4 filter DOCKER-USER 0 -p udp -m multiport --dports 4789,7946 -j REJECT
-    sudo firewall-cmd --permanent --direct --add-rule ipv4 filter DOCKER-USER 1 -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
-    sudo firewall-cmd --permanent --direct --add-rule ipv4 filter DOCKER-USER 1 -j RETURN -s 172.16.70.0/24
-    sudo firewall-cmd --permanent --direct --add-rule ipv4 filter DOCKER-USER 1 -p tcp -m multiport --dports 80,443 -j ACCEPT
-    sudo firewall-cmd --permanent --direct --add-rule ipv4 filter DOCKER-USER 10 -j REJECT
+sudo firewall-cmd --permanent --direct --remove-chain ipv4 filter DOCKER-USER
+sudo firewall-cmd --permanent --direct --remove-rules ipv4 filter DOCKER-USER
+sudo firewall-cmd --permanent --direct --add-chain ipv4 filter DOCKER-USER
+sudo firewall-cmd --permanent --direct --add-rule ipv4 filter DOCKER-USER 0 -p tcp -m multiport --dports 2376,2377,7946,3306,24224 -s 127.0.0.1/32,172.16.21.162/32,172.16.21.163/32,172.16.21.164/32 -j ACCEPT
+sudo firewall-cmd --permanent --direct --add-rule ipv4 filter DOCKER-USER 0 -p udp -m multiport --dports 4789,7946 -s 127.0.0.1/32,172.16.21.162/32,172.16.21.163/32,172.16.21.164/32 -j ACCEPT
+sudo firewall-cmd --permanent --direct --add-rule ipv4 filter DOCKER-USER 0 -p tcp -m multiport --dports 3306,24224,2376,2377,7946 -j REJECT
+sudo firewall-cmd --permanent --direct --add-rule ipv4 filter DOCKER-USER 0 -p udp -m multiport --dports 4789,7946 -j REJECT
+sudo firewall-cmd --permanent --direct --add-rule ipv4 filter DOCKER-USER 1 -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
+sudo firewall-cmd --permanent --direct --add-rule ipv4 filter DOCKER-USER 1 -j RETURN -s 172.16.70.0/24
+sudo firewall-cmd --permanent --direct --add-rule ipv4 filter DOCKER-USER 1 -p tcp -m multiport --dports 80,443 -j ACCEPT
+sudo firewall-cmd --permanent --direct --add-rule ipv4 filter DOCKER-USER 10 -j REJECT
 ```
 
 `/etc/firewalld/direct.xml`
 
 ```XML
-    <?xml version="1.0" encoding="utf-8"?>
-    <direct>
-      <chain ipv="ipv4" table="filter" chain="DOCKER-USER"/>
-      <rule ipv="ipv4" table="filter" chain="DOCKER-USER" priority="0">-p tcp -m multiport --dports 2376,2377,7946,3306,24224 -s 127.0.0.1/32,172.16.21.162/32,172.16.21.163/32,172.16.21.164/32 -j ACCEPT</rule>
-      <rule ipv="ipv4" table="filter" chain="DOCKER-USER" priority="0">-p udp -m multiport --dports 4789,7946 -s 127.0.0.1/32,172.16.21.162/32,172.16.21.163/32,172.16.21.164/32 -j ACCEPT</rule>
-      <rule ipv="ipv4" table="filter" chain="DOCKER-USER" priority="0">-p tcp -m multiport --dports 3306,24224,2376,2377,7946 -j REJECT</rule>
-      <rule ipv="ipv4" table="filter" chain="DOCKER-USER" priority="0">-p udp -m multiport --dports 4789,7946 -j REJECT</rule>
-      <rule ipv="ipv4" table="filter" chain="DOCKER-USER" priority="1">-m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT</rule>
-      <rule ipv="ipv4" table="filter" chain="DOCKER-USER" priority="1">-j RETURN -s 172.16.70.0/24</rule>
-      <rule ipv="ipv4" table="filter" chain="DOCKER-USER" priority="1">-p tcp -m multiport --dports 80,443 -j ACCEPT</rule>
-      <rule ipv="ipv4" table="filter" chain="DOCKER-USER" priority="10">-j REJECT</rule>
-    </direct>
+<?xml version="1.0" encoding="utf-8"?>
+<direct>
+  <chain ipv="ipv4" table="filter" chain="DOCKER-USER"/>
+  <rule ipv="ipv4" table="filter" chain="DOCKER-USER" priority="0">-p tcp -m multiport --dports 2376,2377,7946,3306,24224 -s 127.0.0.1/32,172.16.21.162/32,172.16.21.163/32,172.16.21.164/32 -j ACCEPT</rule>
+  <rule ipv="ipv4" table="filter" chain="DOCKER-USER" priority="0">-p udp -m multiport --dports 4789,7946 -s 127.0.0.1/32,172.16.21.162/32,172.16.21.163/32,172.16.21.164/32 -j ACCEPT</rule>
+  <rule ipv="ipv4" table="filter" chain="DOCKER-USER" priority="0">-p tcp -m multiport --dports 3306,24224,2376,2377,7946 -j REJECT</rule>
+  <rule ipv="ipv4" table="filter" chain="DOCKER-USER" priority="0">-p udp -m multiport --dports 4789,7946 -j REJECT</rule>
+  <rule ipv="ipv4" table="filter" chain="DOCKER-USER" priority="1">-m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT</rule>
+  <rule ipv="ipv4" table="filter" chain="DOCKER-USER" priority="1">-j RETURN -s 172.16.70.0/24</rule>
+  <rule ipv="ipv4" table="filter" chain="DOCKER-USER" priority="1">-p tcp -m multiport --dports 80,443 -j ACCEPT</rule>
+  <rule ipv="ipv4" table="filter" chain="DOCKER-USER" priority="10">-j REJECT</rule>
+</direct>
 ```
 
 {{< br >}}
@@ -91,7 +91,7 @@ tags: [docker]
 ## 重啟
 
 ```Bash
-    sudo firewall-cmd --reload
+sudo firewall-cmd --reload
 ```
 
 {{< br >}}
@@ -99,7 +99,7 @@ tags: [docker]
 ## 持久化
 
 ```Bash
-    sudo cat /etc/firewalld/direct.xml
+sudo cat /etc/firewalld/direct.xml
 ```
 
 {{< br >}}

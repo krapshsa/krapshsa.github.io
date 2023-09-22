@@ -31,11 +31,11 @@ tags: [C]
 `Dockerfile`
 
 ```Docker
-    FROM oraclelinux:8.6
-    
-    RUN yum install -y gcc make pcre pcre-devel
-    RUN yum --enablerepo=ol8_codeready_builder install -y glibc glibc-common glibc-devel glibc-headers glibc-static
-    RUN rpm -ivh https://github.com/samber/criterion-rpm-package/releases/download/2.3.3/libcriterion-devel-2.3.3-2.el7.x86_64.rpm
+FROM oraclelinux:8.6
+
+RUN yum install -y gcc make pcre pcre-devel
+RUN yum --enablerepo=ol8_codeready_builder install -y glibc glibc-common glibc-devel glibc-headers glibc-static
+RUN rpm -ivh https://github.com/samber/criterion-rpm-package/releases/download/2.3.3/libcriterion-devel-2.3.3-2.el7.x86_64.rpm
 ```
 
 {{< br >}}
@@ -45,17 +45,17 @@ tags: [C]
 `sut.h`
 
 ```C
-    #ifndef TEST_CRITERION_SUT_H
-    #define TEST_CRITERION_SUT_H
-    typedef struct result
-    {
-        char *begin;
-    } Result;
-    
-    extern int doSomething(char *pContent, Result **ppResult);
-    
-    extern void sutFree(Result **ppResult);
-    #endif //TEST_CRITERION_SUT_H
+#ifndef TEST_CRITERION_SUT_H
+#define TEST_CRITERION_SUT_H
+typedef struct result
+{
+    char *begin;
+} Result;
+
+extern int doSomething(char *pContent, Result **ppResult);
+
+extern void sutFree(Result **ppResult);
+#endif //TEST_CRITERION_SUT_H
 ```
 
 {{< br >}}
@@ -63,28 +63,28 @@ tags: [C]
 `sut.c`
 
 ```C
-    #include <stdlib.h>
-    #include <string.h>
-    #include "sut.h"
-    
-    int doSomething(char *pContent, Result **ppResult)
-    {
-        if (0 == strcmp(pContent, "INPUT_1")) {
-            *ppResult = (Result*)malloc(sizeof(Result));
-            (*ppResult)->begin = "OUTPUT_1";
-            return 1;
-        }
-    
-        return 0;
+#include <stdlib.h>
+#include <string.h>
+#include "sut.h"
+
+int doSomething(char *pContent, Result **ppResult)
+{
+    if (0 == strcmp(pContent, "INPUT_1")) {
+        *ppResult = (Result*)malloc(sizeof(Result));
+        (*ppResult)->begin = "OUTPUT_1";
+        return 1;
     }
-    
-    void sutFree(Result **ppResult)
-    {
-        if(ppResult != NULL && *ppResult != NULL) {
-            free(*ppResult);
-            *ppResult = NULL;
-        }
+
+    return 0;
+}
+
+void sutFree(Result **ppResult)
+{
+    if(ppResult != NULL && *ppResult != NULL) {
+        free(*ppResult);
+        *ppResult = NULL;
     }
+}
 ```
 
 {{< br >}}
@@ -92,56 +92,56 @@ tags: [C]
 `test.c`
 
 ```C
-    #include <string.h>
-    #include <criterion/criterion.h>
-    #include "sut.h"
-    
-    int ret   = 0;
-    int rule  = -1;
-    Result *s = NULL;
-    
-    void setup(void) {
-        ret  = 0;
-        rule = -1;
-        s    = NULL;
+#include <string.h>
+#include <criterion/criterion.h>
+#include "sut.h"
+
+int ret   = 0;
+int rule  = -1;
+Result *s = NULL;
+
+void setup(void) {
+    ret  = 0;
+    rule = -1;
+    s    = NULL;
+}
+
+void teardown(void) {
+    if (NULL != s) {
+        sutFree(&s);
     }
-    
-    void teardown(void) {
-        if (NULL != s) {
-            sutFree(&s);
-        }
-    }
-    
-    void givenContent(char *content) {
-        ret = doSomething(content, &s);
-    }
-    
-    void returnValueShouldBeSuccess() {
-        cr_assert(ret > 0);
-    }
-    
-    void returnValueShouldBeFailed() {
-        cr_assert(ret <= 0);
-    }
-    
-    void matchContentShouldBe(char *result) {
-        cr_assert_eq(0, strcmp(result, s->begin));
-    }
-    
-    TestSuite(single_rule_suite, .init = setup, .fini = teardown);
-    
-    Test(single_rule_suite, test_success) {
-        givenContent("INPUT_1");
-    
-        returnValueShouldBeSuccess();
-        matchContentShouldBe("OUTPUT_1");
-    }
-    
-    Test(single_rule_suite, test_failed) {
-        givenContent("INPUT_2");
-    
-        returnValueShouldBeFailed();
-    }
+}
+
+void givenContent(char *content) {
+    ret = doSomething(content, &s);
+}
+
+void returnValueShouldBeSuccess() {
+    cr_assert(ret > 0);
+}
+
+void returnValueShouldBeFailed() {
+    cr_assert(ret <= 0);
+}
+
+void matchContentShouldBe(char *result) {
+    cr_assert_eq(0, strcmp(result, s->begin));
+}
+
+TestSuite(single_rule_suite, .init = setup, .fini = teardown);
+
+Test(single_rule_suite, test_success) {
+    givenContent("INPUT_1");
+
+    returnValueShouldBeSuccess();
+    matchContentShouldBe("OUTPUT_1");
+}
+
+Test(single_rule_suite, test_failed) {
+    givenContent("INPUT_2");
+
+    returnValueShouldBeFailed();
+}
 ```
 
 {{< br >}}
@@ -149,20 +149,20 @@ tags: [C]
 `Makefile`
 
 ```Makefile
-    CC = gcc -Wall
-    
-    sut.o: sut.c
-    	${CC} -c sut.c
-    
-    test.o: test.c
-    	${CC} -c test.c
-    
-    test: clean test.o sut.o
-    	${CC} -o test test.o sut.o -lcriterion
-    	./test
-    
-    clean:
-    	rm -f *.o
+CC = gcc -Wall
+
+sut.o: sut.c
+	${CC} -c sut.c
+
+test.o: test.c
+	${CC} -c test.c
+
+test: clean test.o sut.o
+	${CC} -o test test.o sut.o -lcriterion
+	./test
+
+clean:
+	rm -f *.o
 ```
 
 {{< br >}}
@@ -170,8 +170,8 @@ tags: [C]
 ## 結果
 
 ```Bash
-    ./test
-    [====] Synthesis: Tested: 2 | Passing: 2 | Failing: 0 | Crashing: 0
+./test
+[====] Synthesis: Tested: 2 | Passing: 2 | Failing: 0 | Crashing: 0
 ```
 
 {{< br >}}
@@ -185,9 +185,9 @@ tags: [C]
 ### Test 基本用法
 
 ```C
-    Test(suite_name, test_name, .init = setup, .fini = teardown) {
-        // test contents
-    }
+Test(suite_name, test_name, .init = setup, .fini = teardown) {
+    // test contents
+}
 ```
 
 {{< br >}}
@@ -197,13 +197,13 @@ tags: [C]
 官方給出的例子
 
 ```C
-    TestSuite(suite_name, [params...]);
-    
-    Test(suite_name, test_1) {
-    }
-    
-    Test(suite_name, test_2) {
-    }
+TestSuite(suite_name, [params...]);
+
+Test(suite_name, test_1) {
+}
+
+Test(suite_name, test_2) {
+}
 ```
 
 {{< br >}}
@@ -211,15 +211,15 @@ tags: [C]
 我實際上是這樣用：
 
 ```C
-    TestSuite(single_rule_suite, .init = setup, .fini = teardown);
-    
-    Test(single_rule_suite, test_success) {
-        ...
-    }
-    
-    Test(single_rule_suite, test_failed) {
-        ...
-    }
+TestSuite(single_rule_suite, .init = setup, .fini = teardown);
+
+Test(single_rule_suite, test_success) {
+    ...
+}
+
+Test(single_rule_suite, test_failed) {
+    ...
+}
 ```
 
 因為大家的初始化跟銷毀都一樣，不需要在 `Test` 裡面重複寫

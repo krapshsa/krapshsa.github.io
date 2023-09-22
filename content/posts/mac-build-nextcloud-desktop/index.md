@@ -43,7 +43,7 @@ tags: [Nextcloud]
 下載之後安裝：
 
 ```Bash
-    brew install qtkeychain.rb
+brew install qtkeychain.rb
 ```
 
 {{< br >}}
@@ -61,13 +61,13 @@ tags: [Nextcloud]
 官網的：
 
 ```Bash
-    export OPENSSL_ROOT_DIR=$(brew --prefix openssl)
+export OPENSSL_ROOT_DIR=$(brew --prefix openssl)
 ```
 
 要改成：
 
 ```Bash
-    export OPENSSL_ROOT_DIR=$(brew --prefix openssl@1.1)
+export OPENSSL_ROOT_DIR=$(brew --prefix openssl@1.1)
 ```
 
 {{< br >}}
@@ -79,13 +79,13 @@ tags: [Nextcloud]
 `cmake` 加上參數
 
 ```Bash
-    -DOPENSSL_ROOT_DIR=$(brew --prefix openssl@1.1)
+-DOPENSSL_ROOT_DIR=$(brew --prefix openssl@1.1)
 ```
 
 完整指令 (在 build 資料夾內下)
 
 ```Bash
-    cmake -DOPENSSL_ROOT_DIR=$(brew --prefix openssl@1.1) -DCMAKE_PREFIX_PATH=/opt/homebrew/opt/qt@5/lib/cmake -DCMAKE_BUILD_TYPE="Debug" ..
+cmake -DOPENSSL_ROOT_DIR=$(brew --prefix openssl@1.1) -DCMAKE_PREFIX_PATH=/opt/homebrew/opt/qt@5/lib/cmake -DCMAKE_BUILD_TYPE="Debug" ..
 ```
 
 {{< br >}}
@@ -104,80 +104,80 @@ tags: [Nextcloud]
 ### 錯誤訊息
 
 ```Bash
-    CMake Error at /opt/homebrew/lib/cmake/Qt5Core/Qt5CoreConfig.cmake:14 (message):
-      The imported target "Qt5::Core" references the file
-    
-         "/opt/homebrew/.//mkspecs/macx-clang"
-    
-      but this file does not exist.  Possible reasons include:
-    
-      * The file was deleted, renamed, or moved to another location.
-    
-      * An install or uninstall procedure did not complete successfully.
-    
-      * The installation package was faulty and contained
-    
-         "/opt/homebrew/lib/cmake/Qt5Core/Qt5CoreConfigExtras.cmake"
-    
-      but not all the files it references.
-    
-    Call Stack (most recent call first):
-      /opt/homebrew/lib/cmake/Qt5Core/Qt5CoreConfigExtras.cmake:56 (_qt5_Core_check_file_exists)
-      /opt/homebrew/lib/cmake/Qt5Core/Qt5CoreConfig.cmake:227 (include)
-      src/CMakeLists.txt:9 (find_package)
-    
+CMake Error at /opt/homebrew/lib/cmake/Qt5Core/Qt5CoreConfig.cmake:14 (message):
+  The imported target "Qt5::Core" references the file
+
+     "/opt/homebrew/.//mkspecs/macx-clang"
+
+  but this file does not exist.  Possible reasons include:
+
+  * The file was deleted, renamed, or moved to another location.
+
+  * An install or uninstall procedure did not complete successfully.
+
+  * The installation package was faulty and contained
+
+     "/opt/homebrew/lib/cmake/Qt5Core/Qt5CoreConfigExtras.cmake"
+
+  but not all the files it references.
+
+Call Stack (most recent call first):
+  /opt/homebrew/lib/cmake/Qt5Core/Qt5CoreConfigExtras.cmake:56 (_qt5_Core_check_file_exists)
+  /opt/homebrew/lib/cmake/Qt5Core/Qt5CoreConfig.cmake:227 (include)
+  src/CMakeLists.txt:9 (find_package)
+
 ```
 ```Bash
-    CMake Error at /opt/homebrew/lib/cmake/Qt5Network/Qt5NetworkConfig.cmake:14 (message):
-      The imported target "Qt5::Network" references the file
-    
-         "/opt/homebrew/plugins/bearer/libqgenericbearer.dylib"
-    
-      but this file does not exist.  Possible reasons include:
-    
-      * The file was deleted, renamed, or moved to another location.
-    
-      * An install or uninstall procedure did not complete successfully.
-    
-      * The installation package was faulty and contained
-    
-         "/opt/homebrew/lib/cmake/Qt5Network/Qt5Network_QGenericEnginePlugin.cmake"
-    
-      but not all the files it references.
-    
-    Call Stack (most recent call first):
-      /opt/homebrew/lib/cmake/Qt5Network/Qt5NetworkConfig.cmake:214 (_qt5_Network_check_file_exists)
-      /opt/homebrew/lib/cmake/Qt5Network/Qt5Network_QGenericEnginePlugin.cmake:5 (_populate_Network_plugin_properties)
-      /opt/homebrew/lib/cmake/Qt5Network/Qt5NetworkConfig.cmake:223 (include)
-      src/CMakeLists.txt:15 (find_package)
-    
+CMake Error at /opt/homebrew/lib/cmake/Qt5Network/Qt5NetworkConfig.cmake:14 (message):
+  The imported target "Qt5::Network" references the file
+
+     "/opt/homebrew/plugins/bearer/libqgenericbearer.dylib"
+
+  but this file does not exist.  Possible reasons include:
+
+  * The file was deleted, renamed, or moved to another location.
+
+  * An install or uninstall procedure did not complete successfully.
+
+  * The installation package was faulty and contained
+
+     "/opt/homebrew/lib/cmake/Qt5Network/Qt5Network_QGenericEnginePlugin.cmake"
+
+  but not all the files it references.
+
+Call Stack (most recent call first):
+  /opt/homebrew/lib/cmake/Qt5Network/Qt5NetworkConfig.cmake:214 (_qt5_Network_check_file_exists)
+  /opt/homebrew/lib/cmake/Qt5Network/Qt5Network_QGenericEnginePlugin.cmake:5 (_populate_Network_plugin_properties)
+  /opt/homebrew/lib/cmake/Qt5Network/Qt5NetworkConfig.cmake:223 (include)
+  src/CMakeLists.txt:15 (find_package)
+
 ```
 ```Bash
-    CMake Error at /opt/homebrew/lib/cmake/Qt5Gui/Qt5GuiConfig.cmake:14 (message):
-      The imported target "Qt5::Gui" references the file
-    
-         "/opt/homebrew/plugins/platforms/libqcocoa.dylib"
-    
-      but this file does not exist.  Possible reasons include:
-    
-      * The file was deleted, renamed, or moved to another location.
-    
-      * An install or uninstall procedure did not complete successfully.
-    
-      * The installation package was faulty and contained
-    
-         "/opt/homebrew/lib/cmake/Qt5Gui/Qt5Gui_QCocoaIntegrationPlugin.cmake"
-    
-      but not all the files it references.
-    
-    Call Stack (most recent call first):
-      /opt/homebrew/lib/cmake/Qt5Gui/Qt5GuiConfig.cmake:214 (_qt5_Gui_check_file_exists)
-      /opt/homebrew/lib/cmake/Qt5Gui/Qt5Gui_QCocoaIntegrationPlugin.cmake:5 (_populate_Gui_plugin_properties)
-      /opt/homebrew/lib/cmake/Qt5Gui/Qt5GuiConfig.cmake:223 (include)
-      /opt/homebrew/lib/cmake/Qt5Quick/Qt5QuickConfig.cmake:93 (find_package)
-      /opt/homebrew/lib/cmake/Qt5WebEngineCore/Qt5WebEngineCoreConfig.cmake:93 (find_package)
-      /opt/homebrew/lib/cmake/Qt5WebEngineWidgets/Qt5WebEngineWidgetsConfig.cmake:93 (find_package)
-      src/CMakeLists.txt:33 (find_package)
+CMake Error at /opt/homebrew/lib/cmake/Qt5Gui/Qt5GuiConfig.cmake:14 (message):
+  The imported target "Qt5::Gui" references the file
+
+     "/opt/homebrew/plugins/platforms/libqcocoa.dylib"
+
+  but this file does not exist.  Possible reasons include:
+
+  * The file was deleted, renamed, or moved to another location.
+
+  * An install or uninstall procedure did not complete successfully.
+
+  * The installation package was faulty and contained
+
+     "/opt/homebrew/lib/cmake/Qt5Gui/Qt5Gui_QCocoaIntegrationPlugin.cmake"
+
+  but not all the files it references.
+
+Call Stack (most recent call first):
+  /opt/homebrew/lib/cmake/Qt5Gui/Qt5GuiConfig.cmake:214 (_qt5_Gui_check_file_exists)
+  /opt/homebrew/lib/cmake/Qt5Gui/Qt5Gui_QCocoaIntegrationPlugin.cmake:5 (_populate_Gui_plugin_properties)
+  /opt/homebrew/lib/cmake/Qt5Gui/Qt5GuiConfig.cmake:223 (include)
+  /opt/homebrew/lib/cmake/Qt5Quick/Qt5QuickConfig.cmake:93 (find_package)
+  /opt/homebrew/lib/cmake/Qt5WebEngineCore/Qt5WebEngineCoreConfig.cmake:93 (find_package)
+  /opt/homebrew/lib/cmake/Qt5WebEngineWidgets/Qt5WebEngineWidgetsConfig.cmake:93 (find_package)
+  src/CMakeLists.txt:33 (find_package)
 ```
 
 {{< br >}}
@@ -187,13 +187,13 @@ tags: [Nextcloud]
 `cmake` 加上參數
 
 ```Bash
-    -DCMAKE_PREFIX_PATH=$(brew --prefix qt5)/lib/cmake
+-DCMAKE_PREFIX_PATH=$(brew --prefix qt5)/lib/cmake
 ```
 
 完整指令 (在 build 資料夾內下)
 
 ```Bash
-    cmake -DOPENSSL_ROOT_DIR=$(brew --prefix openssl@1.1) -DCMAKE_PREFIX_PATH=/opt/homebrew/opt/qt@5/lib/cmake -DCMAKE_BUILD_TYPE="Debug" ..
+cmake -DOPENSSL_ROOT_DIR=$(brew --prefix openssl@1.1) -DCMAKE_PREFIX_PATH=/opt/homebrew/opt/qt@5/lib/cmake -DCMAKE_BUILD_TYPE="Debug" ..
 ```
 
 {{< br >}}
@@ -209,21 +209,21 @@ tags: [Nextcloud]
 ### 錯誤訊息
 
 ```Bash
-    CMake Error at src/gui/CMakeLists.txt:3 (find_package):
-      By not providing "FindKF5Archive.cmake" in CMAKE_MODULE_PATH this project
-      has asked CMake to find a package configuration file provided by
-      "KF5Archive", but CMake did not find one.
-    
-      Could not find a package configuration file provided by "KF5Archive" with
-      any of the following names:
-    
-        KF5ArchiveConfig.cmake
-        kf5archive-config.cmake
-    
-      Add the installation prefix of "KF5Archive" to CMAKE_PREFIX_PATH or set
-      "KF5Archive_DIR" to a directory containing one of the above files.  If
-      "KF5Archive" provides a separate development package or SDK, be sure it has
-      been installed.
+CMake Error at src/gui/CMakeLists.txt:3 (find_package):
+  By not providing "FindKF5Archive.cmake" in CMAKE_MODULE_PATH this project
+  has asked CMake to find a package configuration file provided by
+  "KF5Archive", but CMake did not find one.
+
+  Could not find a package configuration file provided by "KF5Archive" with
+  any of the following names:
+
+    KF5ArchiveConfig.cmake
+    kf5archive-config.cmake
+
+  Add the installation prefix of "KF5Archive" to CMAKE_PREFIX_PATH or set
+  "KF5Archive_DIR" to a directory containing one of the above files.  If
+  "KF5Archive" provides a separate development package or SDK, be sure it has
+  been installed.
 ```
 
 {{< br >}}
@@ -231,7 +231,7 @@ tags: [Nextcloud]
 ### 解法
 
 ```Bash
-    brew install karchive
+brew install karchive
 ```
 
 {{< br >}}
@@ -241,11 +241,11 @@ tags: [Nextcloud]
 ### 錯誤訊息
 
 ```Bash
-    CMake Error at cmake/modules/GenerateIconsUtils.cmake:6 (find_program):
-      Could not find SVG_CONVERTER using the following names: inkscape,
-      inkscape.exe, rsvg-convert
-    Call Stack (most recent call first):
-      src/gui/CMakeLists.txt:366 (include)
+CMake Error at cmake/modules/GenerateIconsUtils.cmake:6 (find_program):
+  Could not find SVG_CONVERTER using the following names: inkscape,
+  inkscape.exe, rsvg-convert
+Call Stack (most recent call first):
+  src/gui/CMakeLists.txt:366 (include)
 ```
 
 {{< br >}}
@@ -256,7 +256,7 @@ tags: [Nextcloud]
 在 SSH 登入的情況下能不能動不知道。
 
 ```Bash
-    brew install inkscape
+brew install inkscape
 ```
 
 {{< br >}}

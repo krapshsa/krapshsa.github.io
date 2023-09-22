@@ -21,7 +21,7 @@ NextCloud 有一個功能 (PDF Viewer)，
 瀏覽 pdf 的時候會一片空白，並且產生錯誤訊息
 
 ```Makefile
-    Canvas area exceeds the maximum limit (width * height > 16777216).
+Canvas area exceeds the maximum limit (width * height > 16777216).
 ```
 
 {{< br >}}
@@ -41,13 +41,13 @@ NextCloud 有一個功能 (PDF Viewer)，
 搬運 `askubuntu` 的解法，先在 Server Side 用 ghost script 把 DPI 改小就好了：
 
 ```Makefile
-    gs -sDEVICE=pdfwrite \
-    -dCompatibilityLevel=1.4 \
-    -dPDFSETTINGS=/ebook \
-    -dNOPAUSE \
-    -dQUIET \
-    -dBATCH \
-    -sOutputFile=output.pdf input.pdf
+gs -sDEVICE=pdfwrite \
+-dCompatibilityLevel=1.4 \
+-dPDFSETTINGS=/ebook \
+-dNOPAUSE \
+-dQUIET \
+-dBATCH \
+-sOutputFile=output.pdf input.pdf
 ```
 
 {{< br >}}
