@@ -109,3 +109,93 @@ $data = \substr($data, $this->getUnencryptedBlockSize(true));
              }
          }
 ```
+
+{{< br >}}
+
+## 補充資訊 - 測試 `streamWrapper`
+
+1. 先用 `dd` 開出一個測試用的檔案
+    ```Bash
+    dd if=/dev/urandom of=random_data_10.bin bs=1M count=10
+    ```
+2. 實作一個 stream wrapper，我在 `stream_write` 有寫 Log 看看讀到多少資料
+    ```Bash
+    <?php
+    
+    class DebugStreamWrapper {
+        private $realStream;
+    
+        public function stream_open($path, $mode, $options, &$opened_path) {
+            $path = substr($path, strlen('debug//'));
+            $this->realStream = fopen($path, $mode);
+            if ($this->realStream) {
+                return true;
+            }
+    
+            $this->stream_set_option(STREAM_OPTION_WRITE_BUFFER, STREAM_BUFFER_FULL, 8192);
+    
+            return false;
+        }
+    
+        public function stream_read($count) {
+            return fread($this->realStream, $count);
+        }
+    
+        public function stream_write($data) {
+            echo sprintf("length: %d\n", strlen($data));
+            return fwrite($this->realStream, $data);
+        }
+    
+        public function stream_tell() {
+            return ftell($this->realStream);
+        }
+    
+        public function stream_eof() {
+            return feof($this->realStream);
+        }
+    
+        public function stream_seek($offset, $whence) {
+            return fseek($this->realStream, $offset, $whence) === 0;
+        }
+    
+        public function stream_close() {
+            return fclose($this->realStream);
+        }
+    
+        public function stream_set_option($option, $arg1, $arg2) {
+            echo sprintf("option:%s\n", $option);
+    
+            switch ($option) {
+                case STREAM_OPTION_BLOCKING:
+                    return stream_set_blocking($this->realStream, $arg1);
+                case STREAM_OPTION_READ_TIMEOUT:
+                    return stream_set_timeout($this->realStream, $arg1, $arg2);
+                case STREAM_OPTION_WRITE_BUFFER:
+                    return stream_set_write_buffer($this->realStream, $arg1);
+                default:
+                    return false;
+            }
+        }
+    }
+    
+    stream_wrapper_register("debug", "DebugStreamWrapper");
+    
+    $data = file_get_contents('./random_data_10.bin');
+    
+    $file = fopen("debug://var/www/html/random_data.bin_10.enc", "w+");
+    
+    var_dump(stream_get_meta_data($file));
+    
+    fwrite($file, $data);
+    
+    fclose($file);
+    ```
+3. 測試，這樣寫就可以很快在不同環境切換
+    ```Bash
+    docker run -v .:/var/www/html -it php:8.2.10-fpm-bullseye php test.php
+    ```
+    ```Bash
+    docker run -v .:/var/www/html -it php:7.4.33-fpm-bullseye php test.php
+    ```
+
+{{< br >}}
