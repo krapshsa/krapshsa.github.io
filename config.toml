@@ -14,7 +14,7 @@ theme = "diary"
     lineNos = false
     lineNumbersInTable = true
     noClasses = true
-    style = "perldoc"
+    style = "rose-pine"
     tabWidth = 4
   [markup.goldmark]
     [markup.goldmark.renderer]
