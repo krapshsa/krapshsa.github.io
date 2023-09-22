@@ -18,6 +18,7 @@ google 了一下發現 NextCloud 也有人發生類似的問題
 
 摘錄連結內的錯誤訊息：
 
+```Bash
     Thread pointer: 0x8548068d8
     Attempting backtrace. You can use the following information to find out
     where mysqld died. If you see no messages after this, something went
@@ -33,18 +34,23 @@ google 了一下發現 NextCloud 也有人發生類似的問題
     
     Connection ID (thread ID): 4
     Status: NOT_KILLED
+```
 
 {{< br >}}
 
 有問題的語句就是這條：
 
+```Bash
     show fields from <TABLE>
+```
 
 {{< br >}}
 
 執行檢查，但是結果也全部都是 OK
 
+```Bash
     mysqlcheck --all-databases
+```
 
 {{< br >}}
 
@@ -55,11 +61,13 @@ google 了一下發現 NextCloud 也有人發生類似的問題
 經過多方嘗試，目前有效的做法如下：
 
 1. 開啟一台相同設定的新 DB，為了讓他產生好 DB 基本資料
-
-        docker run -v ${PWD}/data:/bitnami/mariadb/data -p 3306:3306 -e MARIADB_ROOT_PASSWORD=mypassword -d bitnami/mariadb:10.5.15
+```Bash
+    docker run -v ${PWD}/data:/bitnami/mariadb/data -p 3306:3306 -e MARIADB_ROOT_PASSWORD=mypassword -d bitnami/mariadb:10.5.15
+```
 2. 關閉新 DB
-
-        docker stop <db 的 id>
+```Bash
+    docker stop <db 的 id>
+```
 3. 複製 DB 資料夾下， `ibdata1` 與 `owncloud` 的資料夾到新 DB 資料夾下
 4. 再次啟動新 DB
 

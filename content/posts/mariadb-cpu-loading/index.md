@@ -53,12 +53,14 @@ tags: [mariadb]
 
 對這些 Query 查看 query plan，最後找到一筆 `SELECT` ，在把服務切斷的狀態下就要四秒。
 
+```Bash
     describe SELECT * FROM problem_table WHERE id=100 AND `path` LIKE '某個關鍵字%';
     +------+-------------+---------------+------+-------------------------------------------------------+-----------------+---------+-------+---------+-------------+
     | id   | select_type | table         | type | possible_keys                                         | key             | key_len | ref   | rows    | Extra       |
     +------+-------------+---------------+------+-------------------------------------------------------+-----------------+---------+-------+---------+-------------+
     |    1 | SIMPLE      | problem_table | ref  | index_1,index_2,index_3                               | index_3         | 4       | const | 4213770 | Using where |
     +------+-------------+---------------+------+-------------------------------------------------------+-----------------+---------+-------+---------+-------------+
+```
 
 看到 `index_3` (被我碼掉了) 是 `fid`+ `extra` 的聯合索引，對 `path` 沒有幫助
 
@@ -66,6 +68,7 @@ tags: [mariadb]
 
 針對 `fid` + `path` 去建 Index，最後就解決問題了：
 
+```Bash
     create index index_4 on problem_table(field_1,field_2(768));
     Query OK, 0 rows affected (1 min 29.487 sec)
     
@@ -79,6 +82,7 @@ tags: [mariadb]
      
     MariaDB [owncloud]> ELECT * FROM problem_table WHERE fid=100 AND `path` LIKE '某個關鍵字%';
     Empty set (0.000 sec)
+```
 
 SLA 未達承諾是要被罰的，當時這個方法有用就先頂著用了。
 

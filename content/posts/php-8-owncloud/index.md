@@ -12,15 +12,19 @@ tags: []
 
 設定 chunk size, buffer 都沒有用：
 
+```PHP
     stream_set_chunk_size($f, 8192);
     stream_set_read_buffer($f, 8192);
     stream_set_write_buffer($f, 8192);
+```
 
 我是舊版的 OwnCloud 自己維護，對應到新版的 code 是這裡：
 
 `encryption/lib/Crypto/Encryption.php`
 
+```PHP
     $data = \substr($data, $this->getUnencryptedBlockSize(true));
+```
 
 因為這個 `$data` 現在不只 8192 bytes 了，最大可能是 chunk size，所以這行很慢。
 
@@ -41,12 +45,14 @@ tags: []
 ## Profiling
 
 1. 設定環境變數
-
-        export XDEBUG_MODE="profile"
+```Bash
+    export XDEBUG_MODE="profile"
     export XDEBUG_CONFIG="profiler_output_name=cachegrind.out.%r.%p.%R"
+```
 2. 上傳檔案觸發加密後收集 cachegrind 檔
-
-        cachegrind.out.0ccd29.7._remote_php_webdav__anydesk_dmg-chunking-2132-1-0.gz
+```Bash
+    cachegrind.out.0ccd29.7._remote_php_webdav__anydesk_dmg-chunking-2132-1-0.gz
+```
 3. PHPStorm > Analyze Xdebug Profiler Snapshot … > 選擇上述的 `.gz`
 
     ![](Screenshot_2023-09-21_at_6-857907ae-9dc0-416a-a405-75b2da1bf3c2.36.37_PM.png)
@@ -59,6 +65,7 @@ tags: []
 
 改指定 offset 來做 `substr`。
 
+```PHP
     -        // While there still remains some data to be processed & written
     -        while (strlen($data) > 0) {
     -            // Remaining length for this iteration, not of the
@@ -101,3 +108,4 @@ tags: []
     +                $remainingLength -= 6126;
                  }
              }
+```

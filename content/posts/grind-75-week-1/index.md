@@ -71,7 +71,9 @@ Stack，成對的就 pop 掉，不然就塞進 Stack 內
 
 延伸題目是 unicode 怎麼辦？用 go 寫很容易，做一個 key 是 rune 的 map 就好了
 
+```Go
     letterMap := make(map[rune]int)
+```
 
 {{< br >}}
 
@@ -118,6 +120,7 @@ Edge Case：全部都是負的
 
 WA
 
+```Go
     func maxSubArray(nums []int) int {
     	maxSum := nums[0]
     	curSum := 0
@@ -136,9 +139,11 @@ WA
     
     	return maxSum
     }
+```
 
 AC1
 
+```Go
     func maxSubArray(nums []int) int {
     	maxSum := nums[0]
     	curSum := 0
@@ -155,9 +160,11 @@ AC1
     
     	return maxSum
     }
+```
 
 AC2
 
+```Go
     func maxSubArray(nums []int) int {
     	maxSum := nums[0]
     	curSum := nums[0]
@@ -176,6 +183,7 @@ AC2
     
     	return maxSum
     }
+```
 
 ## [Lowest Common Ancestor of a Binary Search Tree](https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-search-tree)
 
@@ -189,7 +197,7 @@ AC2
 1. 都在左側 → 左邊那個點是可能的 ancestor，往左找
 2. 都在右側 → 右邊那個點是可能的 ancestor，往右找
 3. 其他：找到了
-
+```Go
     func lowestCommonAncestor(root, p, q *TreeNode) *TreeNode {
     	lowest := root
     
@@ -205,6 +213,7 @@ AC2
     
     	return lowest
     }
+```
 
 {{< br >}}
 

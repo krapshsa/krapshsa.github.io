@@ -30,11 +30,13 @@ tags: [C]
 
 `Dockerfile`
 
+```Docker
     FROM oraclelinux:8.6
     
     RUN yum install -y gcc make pcre pcre-devel
     RUN yum --enablerepo=ol8_codeready_builder install -y glibc glibc-common glibc-devel glibc-headers glibc-static
     RUN rpm -ivh https://github.com/samber/criterion-rpm-package/releases/download/2.3.3/libcriterion-devel-2.3.3-2.el7.x86_64.rpm
+```
 
 {{< br >}}
 
@@ -42,6 +44,7 @@ tags: [C]
 
 `sut.h`
 
+```C
     #ifndef TEST_CRITERION_SUT_H
     #define TEST_CRITERION_SUT_H
     typedef struct result
@@ -53,11 +56,13 @@ tags: [C]
     
     extern void sutFree(Result **ppResult);
     #endif //TEST_CRITERION_SUT_H
+```
 
 {{< br >}}
 
 `sut.c`
 
+```C
     #include <stdlib.h>
     #include <string.h>
     #include "sut.h"
@@ -80,11 +85,13 @@ tags: [C]
             *ppResult = NULL;
         }
     }
+```
 
 {{< br >}}
 
 `test.c`
 
+```C
     #include <string.h>
     #include <criterion/criterion.h>
     #include "sut.h"
@@ -135,11 +142,13 @@ tags: [C]
     
         returnValueShouldBeFailed();
     }
+```
 
 {{< br >}}
 
 `Makefile`
 
+```Makefile
     CC = gcc -Wall
     
     sut.o: sut.c
@@ -154,13 +163,16 @@ tags: [C]
     
     clean:
     	rm -f *.o
+```
 
 {{< br >}}
 
 ## 結果
 
+```Bash
     ./test
     [====] Synthesis: Tested: 2 | Passing: 2 | Failing: 0 | Crashing: 0
+```
 
 {{< br >}}
 
@@ -172,9 +184,11 @@ tags: [C]
 
 ### Test 基本用法
 
+```C
     Test(suite_name, test_name, .init = setup, .fini = teardown) {
         // test contents
     }
+```
 
 {{< br >}}
 
@@ -182,6 +196,7 @@ tags: [C]
 
 官方給出的例子
 
+```C
     TestSuite(suite_name, [params...]);
     
     Test(suite_name, test_1) {
@@ -189,11 +204,13 @@ tags: [C]
     
     Test(suite_name, test_2) {
     }
+```
 
 {{< br >}}
 
 我實際上是這樣用：
 
+```C
     TestSuite(single_rule_suite, .init = setup, .fini = teardown);
     
     Test(single_rule_suite, test_success) {
@@ -203,6 +220,7 @@ tags: [C]
     Test(single_rule_suite, test_failed) {
         ...
     }
+```
 
 因為大家的初始化跟銷毀都一樣，不需要在 `Test` 裡面重複寫
 

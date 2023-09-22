@@ -16,11 +16,15 @@ tags: [javascript]
 
 引入 JS 的方式就是傳統的 `<script>` 標籤：
 
+```HTML
     <script type="text/javascript" src="/assests/legacy.js"></script>
+```
 
 部分新功能則是用上了 js module：
 
+```HTML
     <script type="module" src="/assets/new.js"></script>
+```
 
 {{< br >}}
 
@@ -47,6 +51,7 @@ tags: [javascript]
 
 ## 專案架構
 
+```JavaScript
     src/
     ├── package.json
     ├── .babelrc
@@ -60,6 +65,7 @@ tags: [javascript]
             ├── legacy.test.js
             └── new.test.js
     
+```
 
 {{< br >}}
 
@@ -67,6 +73,7 @@ tags: [javascript]
 
 ## `package.json`
 
+```JSON
     {
       "name": "OOXX",
       "version": "1.0.0",
@@ -81,6 +88,7 @@ tags: [javascript]
         "@jest/globals": "^29.3.1"
       }
     }
+```
 
 接下來大致解說一下我選用了哪些套件及其原因。
 
@@ -104,14 +112,17 @@ tags: [javascript]
 
 ## `.babelrc`
 
+```JSON
     {
       "presets": ["@babel/preset-env"]
     }
+```
 
 {{< br >}}
 
 ## `jest.config.js`
 
+```JavaScript
     module.exports = {
         "testEnvironment": "jsdom",
         "setupFilesAfterEnv": ['./jest.setup.js'],
@@ -119,11 +130,13 @@ tags: [javascript]
             "<rootDir>/assets/test/**/*.test.js"
         ]
     };
+```
 
 {{< br >}}
 
 ## `jest.setup.js`
 
+```JavaScript
     import $ from './assets/jquery-3.6.4.min.js';
     
     global.$ = $;
@@ -134,6 +147,7 @@ tags: [javascript]
     global.t = function (app, text, vars) {
         return text;
     }
+```
 1. 注入 `jQuery` 讓我操作前端 dom 的 code 可以正常執行。
 2. 注入 `Settings` 這個是我們產品中一定要引入的 js 會產生的全域變數，在這邊造假掉
 3. 造假掉一個叫做 `t` 的全域 function，這個是我們處理多語系在用的，但是我沒有引入所以造假掉
@@ -144,6 +158,7 @@ tags: [javascript]
 
 ## `legacy.js`
 
+```JavaScript
     Share = {
         statuses: [],
     
@@ -163,6 +178,7 @@ tags: [javascript]
             });
         }
     }
+```
 
 `legacy.js` 會污染全域產生一個 `Share` 的 Object。
 
@@ -172,6 +188,7 @@ tags: [javascript]
 
 ## `legacy.test.js`
 
+```JavaScript
     import '../legacy.js';
     import {expect} from "@jest/globals";
     
@@ -208,6 +225,7 @@ tags: [javascript]
                 .toEqual(`Shared from <span>user001</span>`);
         });
     });
+```
 
 `import '../legacy.js` 就相當於使用 `<script>` 去引入 `javascript`
 
@@ -225,14 +243,17 @@ tags: [javascript]
 
 ## `new.js`
 
+```JavaScript
     export function renderEngineInfo(engineInfo) {
         $('#engine_version').html(engineInfo.engineVersion);
         $('#virus_version').html(engineInfo.virusVersion);
         $('#virus_time').html(engineInfo.virusLastUpdateTime);
     }
+```
 
 ## `new.test.js`
 
+```JavaScript
     import {renderEngineInfo} from "../new";
     import {describe, expect, test} from '@jest/globals';
     
@@ -265,6 +286,7 @@ tags: [javascript]
                 .toEqual(result.replace(/[\r\n]/gm, ''));
         });
     });
+```
 
 這沒什麼好解釋的，就是引入模組進行測試，我們現在的目標就是盡量模組化。
 
@@ -274,19 +296,25 @@ tags: [javascript]
 
 `oc.js`
 
+```JavaScript
     OC = {};
+```
 
 `share.js`
 
+```JavaScript
     OC.Share = {
         doSomeThing: function() { ... }
     };
+```
 
 `foo.js`
 
+```JavaScript
     OC.Foo = {
         doSomeThing: function () { ... }
     }
+```
 
 如此一來就不會有覆蓋的問題，但還是有順序跟污染的問題。
 

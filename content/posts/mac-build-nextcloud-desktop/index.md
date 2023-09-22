@@ -42,7 +42,9 @@ tags: [Nextcloud]
 
 下載之後安裝：
 
+```Bash
     brew install qtkeychain.rb
+```
 
 {{< br >}}
 
@@ -58,11 +60,15 @@ tags: [Nextcloud]
 
 官網的：
 
+```Bash
     export OPENSSL_ROOT_DIR=$(brew --prefix openssl)
+```
 
 要改成：
 
+```Bash
     export OPENSSL_ROOT_DIR=$(brew --prefix openssl@1.1)
+```
 
 {{< br >}}
 
@@ -72,11 +78,15 @@ tags: [Nextcloud]
 
 `cmake` 加上參數
 
+```Bash
     -DOPENSSL_ROOT_DIR=$(brew --prefix openssl@1.1)
+```
 
 完整指令 (在 build 資料夾內下)
 
+```Bash
     cmake -DOPENSSL_ROOT_DIR=$(brew --prefix openssl@1.1) -DCMAKE_PREFIX_PATH=/opt/homebrew/opt/qt@5/lib/cmake -DCMAKE_BUILD_TYPE="Debug" ..
+```
 
 {{< br >}}
 
@@ -93,6 +103,7 @@ tags: [Nextcloud]
 
 ### 錯誤訊息
 
+```Bash
     CMake Error at /opt/homebrew/lib/cmake/Qt5Core/Qt5CoreConfig.cmake:14 (message):
       The imported target "Qt5::Core" references the file
     
@@ -115,7 +126,8 @@ tags: [Nextcloud]
       /opt/homebrew/lib/cmake/Qt5Core/Qt5CoreConfig.cmake:227 (include)
       src/CMakeLists.txt:9 (find_package)
     
-
+```
+```Bash
     CMake Error at /opt/homebrew/lib/cmake/Qt5Network/Qt5NetworkConfig.cmake:14 (message):
       The imported target "Qt5::Network" references the file
     
@@ -139,7 +151,8 @@ tags: [Nextcloud]
       /opt/homebrew/lib/cmake/Qt5Network/Qt5NetworkConfig.cmake:223 (include)
       src/CMakeLists.txt:15 (find_package)
     
-
+```
+```Bash
     CMake Error at /opt/homebrew/lib/cmake/Qt5Gui/Qt5GuiConfig.cmake:14 (message):
       The imported target "Qt5::Gui" references the file
     
@@ -165,6 +178,7 @@ tags: [Nextcloud]
       /opt/homebrew/lib/cmake/Qt5WebEngineCore/Qt5WebEngineCoreConfig.cmake:93 (find_package)
       /opt/homebrew/lib/cmake/Qt5WebEngineWidgets/Qt5WebEngineWidgetsConfig.cmake:93 (find_package)
       src/CMakeLists.txt:33 (find_package)
+```
 
 {{< br >}}
 
@@ -172,11 +186,15 @@ tags: [Nextcloud]
 
 `cmake` 加上參數
 
+```Bash
     -DCMAKE_PREFIX_PATH=$(brew --prefix qt5)/lib/cmake
+```
 
 完整指令 (在 build 資料夾內下)
 
+```Bash
     cmake -DOPENSSL_ROOT_DIR=$(brew --prefix openssl@1.1) -DCMAKE_PREFIX_PATH=/opt/homebrew/opt/qt@5/lib/cmake -DCMAKE_BUILD_TYPE="Debug" ..
+```
 
 {{< br >}}
 
@@ -190,6 +208,7 @@ tags: [Nextcloud]
 
 ### 錯誤訊息
 
+```Bash
     CMake Error at src/gui/CMakeLists.txt:3 (find_package):
       By not providing "FindKF5Archive.cmake" in CMAKE_MODULE_PATH this project
       has asked CMake to find a package configuration file provided by
@@ -205,12 +224,15 @@ tags: [Nextcloud]
       "KF5Archive_DIR" to a directory containing one of the above files.  If
       "KF5Archive" provides a separate development package or SDK, be sure it has
       been installed.
+```
 
 {{< br >}}
 
 ### 解法
 
+```Bash
     brew install karchive
+```
 
 {{< br >}}
 
@@ -218,11 +240,13 @@ tags: [Nextcloud]
 
 ### 錯誤訊息
 
+```Bash
     CMake Error at cmake/modules/GenerateIconsUtils.cmake:6 (find_program):
       Could not find SVG_CONVERTER using the following names: inkscape,
       inkscape.exe, rsvg-convert
     Call Stack (most recent call first):
       src/gui/CMakeLists.txt:366 (include)
+```
 
 {{< br >}}
 
@@ -231,6 +255,8 @@ tags: [Nextcloud]
 我目前是用 `inkscape` 這個軟體處理，但是他會在圖形介面上開啟，轉完後自動關閉。
 在 SSH 登入的情況下能不能動不知道。
 
+```Bash
     brew install inkscape
+```
 
 {{< br >}}

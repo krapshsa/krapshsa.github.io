@@ -63,21 +63,25 @@ T:  表示在 Text Section 找得到這個 symbol
 
 U: 表示這個 symbol 是 undefined
 
+```Bash
     # nm config.o
     0000000000000000 T config_load
                      U fclose
                      U fopen
                      U fseek
-
+```
+```Bash
     # nm foo.o
                      U config_load
     0000000000000000 T foo
-
+```
+```Bash
     # nm main.o
     0000000000000000 T __wrap_config_load
                      U foo
     0000000000000011 T main
                      U puts
+```
 
 {{< br >}}
 
@@ -85,27 +89,32 @@ U: 表示這個 symbol 是 undefined
 
 如果 `config_load` 定義在 `foo.c` 裡面，試著跑看看：
 
+```Bash
     # make main
     gcc -c main.c
     gcc -c foo.c
     gcc -Wl,--wrap=config_load -o main main.o foo.o
     # ./main
     Segmentation fault
+```
 
 結果這樣是不行的，用 nm 查看：
 
+```Bash
     # nm foo.o
     0000000000000011 T config_load
                      U fclose
     0000000000000000 T foo
                      U fopen
                      U fseek
-
+```
+```Bash
     # nm main.o
     0000000000000000 T __wrap_config_load
                      U foo
     0000000000000011 T main
                      U puts
+```
 
 要把 ld 告訴我們的使用方法放在心上：
 
@@ -125,6 +134,7 @@ U: 表示這個 symbol 是 undefined
 
 `foo.c` 
 
+```C
     #include "stdio.h"
     #include "config.h"
     #include "foo.h"
@@ -140,9 +150,11 @@ U: 表示這個 symbol 是 undefined
     void foo() {
         config_load();
     }
+```
 
 `main.c`
 
+```C
     #include "foo.h"
     
     int main() {
@@ -150,9 +162,11 @@ U: 表示這個 symbol 是 undefined
     
         return 0;
     }
+```
 
 `Makefile`
 
+```Makefile
     config.o:
     	gcc -c config.c
     
@@ -167,6 +181,7 @@ U: 表示這個 symbol 是 undefined
     
     clean:
     	rm *.o main
+```
 
 {{< br >}}
 

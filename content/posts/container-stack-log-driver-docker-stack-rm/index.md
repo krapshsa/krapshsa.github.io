@@ -23,22 +23,26 @@ tags: [docker]
 ## 重製步驟
 
 1. 移除 docker stack
-
-        docker stack rm mystack
+```Bash
+    docker stack rm mystack
+```
 2. 檢查 service 都移除掉了
-
-        docker service ls
+```Bash
+    docker service ls
     ID        NAME      MODE      REPLICAS   IMAGE     PORTS
+```
 3. 發現還有 container 沒有正常關閉，且永遠卡在這個狀態
-
-        docker stack ps mystack --no-trunc
+```Bash
+    docker stack ps mystack --no-trunc
     ID                          NAME                          IMAGE                        NODE                    DESIRED STATE   CURRENT STATE                ERROR     PORTS
     5fllkwthpur60gzgeqq4cow48   i1i65yn2b35jqsfqk7gb9y7l8.1   my-clamav:2022-0406-145048   localhost.localdomain   Remove          Running about a minute ago
+```
 
 {{< br >}}
 
 檢查系統的 Log，有出現如下訊息 (我是 CentOS)：
 
+```Bash
     sudo cat /var/log/messages | grep 3c902d2962f7
     Jul 28 10:48:49 localhost dockerd[1265564]: time="2022-07-28T10:48:49.917640954+08:00" level=info msg="Configured log driver does not support reads, enabling local file cache for container logs" container=3c902d2962f7fb6af8ce5a16a965bd2707383dbb18fed9b6942e1687f6419c4b driver=fluentd
     Jul 28 10:48:49 localhost containerd[1161]: time="2022-07-28T10:48:49.936470840+08:00" level=info msg="starting signal loop" namespace=moby path=/run/containerd/io.containerd.runtime.v2.task/moby/3c902d2962f7fb6af8ce5a16a965bd2707383dbb18fed9b6942e1687f6419c4b pid=1269465 runtime=io.containerd.runc.v2
@@ -50,6 +54,7 @@ tags: [docker]
     Jul 28 11:12:19 localhost dockerd[1271313]: time="2022-07-28T11:12:19.902248293+08:00" level=error msg="Error getting service 3c902d2962f7: service 3c902d2962f7 not found"
     Jul 28 11:12:19 localhost dockerd[1271313]: time="2022-07-28T11:12:19.905022331+08:00" level=error msg="Error getting task 3c902d2962f7: task 3c902d2962f7 not found"
     Jul 28 11:12:19 localhost dockerd[1271313]: time="2022-07-28T11:12:19.906474336+08:00" level=error msg="Error getting node 3c902d2962f7: node 3c902d2962f7 not found"
+```
 
 {{< br >}}
 
@@ -58,9 +63,11 @@ tags: [docker]
 一開始懷疑是沒有辦法關掉 process，可能在卡在寫 Log 了。
 照著這個思路，先去查詢查詢 container 相對應的 pid：
 
+```Bash
     docker inspect -f '{{.State.Pid}}' 3c902d2962f7
     1269485
-
+```
+```Bash
     sudo pstree -a -p
     
     ...
@@ -76,6 +83,7 @@ tags: [docker]
     |   |       `-gunicorn,1269562 /usr/bin/gunicorn --workers=2 --threads=2 --bind 0.0.0.0:8000 --daemon wsgi:app
     
     ...
+```
 
 接著移除掉整個 stack。
 
@@ -89,6 +97,7 @@ tags: [docker]
 
 最後寫成腳本：
 
+```Bash
     function get_services() {
       services=$(docker service ls --format "{{.Name}}" | sed -E 's/mystack_//')
       echo "$services"
@@ -135,5 +144,6 @@ tags: [docker]
     }
     
     down
+```
 
 {{< br >}}

@@ -10,6 +10,7 @@ tags: [javascript]
 
 在 Code Review 的時候，同事原本是使用多次字串相接
 
+```JavaScript
     const object1 = {
       a: 'somestring',
       b: 42
@@ -23,6 +24,7 @@ tags: [javascript]
     }
     
     html += `</ul>`;
+```
 
 後來想要表達出 html 的階層結構，想用使用巢狀的方式使用 template literal
 
@@ -32,6 +34,7 @@ tags: [javascript]
 
 要用 function 來做的話可以使用 IIFE
 
+```JavaScript
     const object1 = {
       a: 'somestring',
       b: 42
@@ -51,6 +54,7 @@ tags: [javascript]
       }
     </ul>
     `;
+```
 
 以我簡化的例子來說，使用 IIFE 看起來變得更複雜了，
 
