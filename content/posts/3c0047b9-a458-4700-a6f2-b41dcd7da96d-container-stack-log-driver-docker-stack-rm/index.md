@@ -23,15 +23,18 @@ tags: [docker]
 ## 重製步驟
 
 1. 移除 docker stack
+
     ```Bash
     docker stack rm mystack
     ```
 2. 檢查 service 都移除掉了
+
     ```Bash
     docker service ls
     ID        NAME      MODE      REPLICAS   IMAGE     PORTS
     ```
 3. 發現還有 container 沒有正常關閉，且永遠卡在這個狀態
+
     ```Bash
     docker stack ps mystack --no-trunc
     ID                          NAME                          IMAGE                        NODE                    DESIRED STATE   CURRENT STATE                ERROR     PORTS
@@ -67,6 +70,7 @@ Jul 28 11:12:19 localhost dockerd[1271313]: time="2022-07-28T11:12:19.906474336+
 docker inspect -f '{{.State.Pid}}' 3c902d2962f7
 1269485
 ```
+
 ```Bash
 sudo pstree -a -p
 

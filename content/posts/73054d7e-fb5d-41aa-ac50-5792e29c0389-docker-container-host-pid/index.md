@@ -22,9 +22,11 @@ tags: [docker]
 ### 從 host 的 pid 取得 container 內 pid
 
 1. 要知道是哪一個 container，假設 pid 是 `371817`
+
     ```Bash
     cat /proc/371817/cgroup
     ```
+
     ```Bash
     12:hugetlb:/docker/5796a153bb04dc86dec3348772719d3e7bf44bfa9c327e969f6b72ff878498ed
     11:rdma:/docker/5796a153bb04dc86dec3348772719d3e7bf44bfa9c327e969f6b72ff878498ed
@@ -43,9 +45,11 @@ tags: [docker]
     這樣就知道是 `5796a153bb04dc86dec3348772719d3e7bf44bfa9c327e969f6b72ff878498ed` 這個容器
 
 2. 從  `/proc` 取得 container 內的 pid
+
     ```Bash
     grep -i nspid /proc/371817/status
     ```
+
     ```Bash
     NSpid:	371817	8
     ```
@@ -57,10 +61,12 @@ tags: [docker]
 懶惰一點：
 
 1. 取得容器 id
+
     ```Bash
     pid=371817; cat /proc/$pid/cgroup | grep "docker" | head -n 1 | awk -F'/' '{print $3}'
     ```
 2. 取得容器內 pid
+
     ```Bash
     pid=371817; grep -i nspid /proc/$pid/status | awk '{print $3}'
     ```
@@ -76,6 +82,7 @@ tags: [docker]
 ```Bash
 docker top 5796a153bb04
 ```
+
 ```Bash
 UID                 PID                 PPID                C                   STIME               TTY                 TIME                CMD
 root                371763              371744              0                   Sep20               ?                   00:00:05            php-fpm: master process (/usr/local/etc/php-fpm.conf)
@@ -93,6 +100,7 @@ webmail             371843              371763              0                   
 ```Bash
 docker top 5796a153bb04 | tail -n +2 | awk '{print $2}' | xargs -I {} grep -i nspid /proc/{}/status
 ```
+
 ```Bash
 NSpid:	371763	1
 NSpid:	371816	7

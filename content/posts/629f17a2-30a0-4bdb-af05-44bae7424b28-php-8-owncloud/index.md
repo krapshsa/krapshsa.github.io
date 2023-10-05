@@ -45,11 +45,13 @@ $data = \substr($data, $this->getUnencryptedBlockSize(true));
 ## Profiling
 
 1. 設定環境變數
+
     ```Bash
     export XDEBUG_MODE="profile"
     export XDEBUG_CONFIG="profiler_output_name=cachegrind.out.%r.%p.%R"
     ```
 2. 上傳檔案觸發加密後收集 cachegrind 檔
+
     ```Bash
     cachegrind.out.0ccd29.7._remote_php_webdav__anydesk_dmg-chunking-2132-1-0.gz
     ```
@@ -115,10 +117,12 @@ $data = \substr($data, $this->getUnencryptedBlockSize(true));
 ## 補充資訊 - 測試 `streamWrapper`
 
 1. 先用 `dd` 開出一個測試用的檔案
+
     ```Bash
     dd if=/dev/urandom of=random_data_10.bin bs=1M count=10
     ```
 2. 實作一個 stream wrapper，我在 `stream_write` 有寫 Log 看看讀到多少資料
+
     ```Bash
     <?php
     
@@ -191,9 +195,11 @@ $data = \substr($data, $this->getUnencryptedBlockSize(true));
     fclose($file);
     ```
 3. 測試，這樣寫就可以很快在不同環境切換
+
     ```Bash
     docker run -v .:/var/www/html -it php:8.2.10-fpm-bullseye php test.php
     ```
+
     ```Bash
     docker run -v .:/var/www/html -it php:7.4.33-fpm-bullseye php test.php
     ```

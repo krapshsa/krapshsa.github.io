@@ -127,6 +127,7 @@ Call Stack (most recent call first):
   src/CMakeLists.txt:9 (find_package)
 
 ```
+
 ```Bash
 CMake Error at /opt/homebrew/lib/cmake/Qt5Network/Qt5NetworkConfig.cmake:14 (message):
   The imported target "Qt5::Network" references the file
@@ -152,6 +153,7 @@ Call Stack (most recent call first):
   src/CMakeLists.txt:15 (find_package)
 
 ```
+
 ```Bash
 CMake Error at /opt/homebrew/lib/cmake/Qt5Gui/Qt5GuiConfig.cmake:14 (message):
   The imported target "Qt5::Gui" references the file

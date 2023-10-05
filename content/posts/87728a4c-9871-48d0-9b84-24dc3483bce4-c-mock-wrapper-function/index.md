@@ -70,11 +70,13 @@ U: 表示這個 symbol 是 undefined
                  U fopen
                  U fseek
 ```
+
 ```Bash
 # nm foo.o
                  U config_load
 0000000000000000 T foo
 ```
+
 ```Bash
 # nm main.o
 0000000000000000 T __wrap_config_load
@@ -108,6 +110,7 @@ Segmentation fault
                  U fopen
                  U fseek
 ```
+
 ```Bash
 # nm main.o
 0000000000000000 T __wrap_config_load

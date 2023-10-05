@@ -61,10 +61,12 @@ mysqlcheck --all-databases
 經過多方嘗試，目前有效的做法如下：
 
 1. 開啟一台相同設定的新 DB，為了讓他產生好 DB 基本資料
+
     ```Bash
     docker run -v ${PWD}/data:/bitnami/mariadb/data -p 3306:3306 -e MARIADB_ROOT_PASSWORD=mypassword -d bitnami/mariadb:10.5.15
     ```
 2. 關閉新 DB
+
     ```Bash
     docker stop <db 的 id>
     ```

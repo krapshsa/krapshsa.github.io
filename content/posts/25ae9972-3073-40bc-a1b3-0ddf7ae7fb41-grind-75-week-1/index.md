@@ -197,6 +197,7 @@ func maxSubArray(nums []int) int {
 1. 都在左側 → 左邊那個點是可能的 ancestor，往左找
 2. 都在右側 → 右邊那個點是可能的 ancestor，往右找
 3. 其他：找到了
+
 ```Go
 func lowestCommonAncestor(root, p, q *TreeNode) *TreeNode {
 	lowest := root
