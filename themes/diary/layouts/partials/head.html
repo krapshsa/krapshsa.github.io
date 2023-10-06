@@ -97,15 +97,6 @@
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/contrib/auto-render.min.js" integrity="sha384-vZTG03m+2yp6N6BNi5iM4rW4oIwk5DfcNdFfxkk9ZWpDriOkXX8voJBFrAO7MpVl" crossorigin="anonymous"></script>
 <script>
     document.addEventListener("DOMContentLoaded", function() {
-        document.querySelectorAll('p').forEach(function(p) {
-            let content = p.innerHTML;
-            if (content.startsWith('$$') && content.endsWith('$$')) {
-                p.innerHTML = content
-                    .replace(/<br>/g, '')
-                    .replace(/\\/g, '\\\\');
-            }
-        });
-
         renderMathInElement(document.body, {
           // customised options
           // • auto-render specific keys, e.g.:
