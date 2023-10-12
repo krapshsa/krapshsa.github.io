@@ -8,33 +8,86 @@ tags: [leetcode]
 
 # 快速冪
 
+可以試著用快速冪解這題：
+
 [LeetCode - The World's Leading Online Programming Learning Platform](https://leetcode.com/problems/powx-n/description/)
 
-```Go
-func fPow(x float64, n int) float64 {
-    if n == 1 {
-        return x
+## 方法一：Top-Down
+
+以 $X^{13}$ 為例，我可以：
+
+1. 拆成 $X^6 \times X^6 \times X$
+2. $X^6$ 可以再拆成 $X^3 \times X^3$
+3. $X^3$ 可以再拆成 $X \times X \times X$
+
+用遞迴的方式做，已經拆過的另外半邊就可以被剪枝，來達到降低運算次數。
+
+```C
+double fPow(double x, int64_t n) {
+    if (n == 0) {
+        return 1.0;
+    }
+    if (n == 1) {
+        return x;
     }
 
-    p := fPow(x, n/2)
-
-    if n % 2 == 0 {
-        return p * p
+    double f = fPow(x, n/2);
+    if (n % 2 == 1) {
+        return x * f * f;
     } else {
-        return p * p * x
+        return f * f;
     }
 }
 
-func myPow(x float64, n int) float64 {
-    if n == 0 || x == 1.0 {
-        return 1.0
+double myPow(double x, int n) {
+    if (n == 0) {
+        return 1.0;
+    }
+    if (x == 1.0) {
+        return 1.0;
     }
 
-    if n < 0 {
-        return 1/fPow(x, -1*n)
+    int64_t ln = (int64_t)n;
+    if (ln < 0) {
+        return 1.0/fPow(x, -ln);
+    } else {
+        return fPow(x, ln);
+    }
+}
+```
+
+## 方法二：Bottom-Up
+
+以 $X^{13}$ 為例，我可以：
+
+1. 拆解 $13_{10} = 1101_{2}$ 也就是說 $X^{13}$ 是 $1 \cdot X^{2^3} \times 1 \cdot X^{2^2} \times 0 \cdot X^{2^1} \times 1 \cdot X^{2^0}$
+2. 設定一個變數 base，用來代表迭代過程中的 $X^{2^m}$，初始值為 $X$
+3. 設定 `result` 為 `1` ，接下來我們要用到上面的拆解，決定要不要乘上 base，決定的方法是看該位數是否為 `1` ，接著只要不斷的 shift 就可以取到下一位。
+4. base 為 $X^{2^0}$，`result` 乘以 base
+5. base 翻倍為 $X^{2^1}$，但不需要乘
+6. base 翻倍為 $X^{2^2}$，`result` 乘以 base
+7. base 翻倍為 $X^{2^3}$，`result` 乘以 base
+
+```C
+double myPow(double x, int n) {
+    if (n == 0) {
+        return 1.0;
     }
 
-    return fPow(x, n)
+    int64_t absN = (n < 0) ? -(int64_t)n : n;
+
+    double result = 1.0;
+    double base   = x;
+
+    while (absN > 0) {
+        if (absN & 1) {
+            result *= base;
+        }
+        base *= base;
+        absN >>= 1;
+    }
+
+    return (n < 0) ? 1.0 / result : result;
 }
 ```
 
