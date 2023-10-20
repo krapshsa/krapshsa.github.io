@@ -6,7 +6,7 @@ tags: [javascript,cypress]
 
 # WSL 的 cypress 白畫面
 
-# 起因
+## 起因
 
 `WSL` 裡面 clone 了 source code，包含 cypress 寫的 e2e test，
 
@@ -14,7 +14,7 @@ tags: [javascript,cypress]
 
 {{< br >}}
 
-# 解方
+## 解方
 
 我用的是 ubuntu in WSL，參照官方的教學需要安裝一些額外套件：
 

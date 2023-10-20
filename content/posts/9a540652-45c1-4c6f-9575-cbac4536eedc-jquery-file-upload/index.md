@@ -6,7 +6,7 @@ tags: [javascript]
 
 # jQuery File Upload 支援上傳續傳
 
-# 起因
+## 起因
 
 客戶希望在網路很差的環境使用 web 上傳，所以要可以支援續傳。
 
@@ -14,7 +14,7 @@ tags: [javascript]
 
 {{< br >}}
 
-# 解方
+## 解方
 
 官方文件的註解有如下片段：
 

@@ -6,19 +6,19 @@ tags: [leetcode]
 
 # 用快速冪與矩陣乘法解費氏數列
 
-# 快速冪
+## 快速冪
 
 可以試著用快速冪解這題：
 
 [LeetCode - The World's Leading Online Programming Learning Platform](https://leetcode.com/problems/powx-n/description/)
 
-## 方法一：Top-Down
+### 方法一：Top-Down
 
 以 $X^{13}$ 為例，我可以：
 
-1. 拆成 $X^6 \times X^6 \times X$
-2. $X^6$ 可以再拆成 $X^3 \times X^3$
-3. $X^3$ 可以再拆成 $X \times X \times X$
+1. 拆成 $X^6 \cdot X^6 \cdot X$
+2. $X^6$ 可以再拆成 $X^3 \cdot X^3$
+3. $X^3$ 可以再拆成 $X \cdot X \cdot X$
 
 用遞迴的方式做，已經拆過的另外半邊就可以被剪枝，來達到降低運算次數。
 
@@ -56,11 +56,13 @@ double myPow(double x, int n) {
 }
 ```
 
-## 方法二：Bottom-Up
+{{< br >}}
+
+### 方法二：Bottom-Up
 
 以 $X^{13}$ 為例，我可以：
 
-1. 拆解 $13_{10} = 1101_{2}$ 也就是說 $X^{13}$ 是 $1 \cdot X^{2^3} \times 1 \cdot X^{2^2} \times 0 \cdot X^{2^1} \times 1 \cdot X^{2^0}$
+1. 拆解 $13_{10} = 1101_{2}$ 也就是說 $X^{13}$ 是 $X^{2^3} \cdot X^{2^2} \cdot X^{2^0}$
 2. 設定一個變數 base，用來代表迭代過程中的 $X^{2^m}$，初始值為 $X$
 3. 設定 `result` 為 `1` ，接下來我們要用到上面的拆解，決定要不要乘上 base，決定的方法是看該位數是否為 `1` ，接著只要不斷的 shift 就可以取到下一位。
 4. base 為 $X^{2^0}$，`result` 乘以 base
@@ -93,7 +95,7 @@ double myPow(double x, int n) {
 
 {{< br >}}
 
-# 矩陣解費氏數列
+## 矩陣解費氏數列
 
 首先，我們知道費氏數列的定義是：
 
@@ -121,7 +123,7 @@ $$\\therefore \\begin{bmatrix} 1 & 1 \\\\ 1 & 0 \\\\ \\end{bmatrix} ^{n-1} \\tim
 
 $$\\therefore \\begin{bmatrix} 1 & 1 \\\\ 1 & 0 \\\\ \\end{bmatrix} ^{n} \\times = \\begin{bmatrix} F(n+1) & F(n) \\\\ F(n) & F(n-1) \\\\ \\end{bmatrix} $$
 
-## 矩陣快速冪
+### 矩陣快速冪
 
 ```Go
 type Matrix [2][2]int
@@ -168,6 +170,6 @@ func fib(n int) int {
 
 {{< br >}}
 
-# 參考資料
+## 參考資料
 
 [快速冪 & 矩陣乘法 - HackMD](https://hackmd.io/@fdhscpp110/matix_fast_pow)

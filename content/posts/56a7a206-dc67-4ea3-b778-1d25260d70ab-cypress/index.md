@@ -6,7 +6,7 @@ tags: [javascript,cypress]
 
 # 我瞎了 Cypress 沒瞎
 
-# 起因
+## 起因
 
 頁面上有一個 Radio Button，在錄製操作的時候他幫我寫了這一段：
 
